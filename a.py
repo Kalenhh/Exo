@@ -1,72 +1,88 @@
 #coding:utf-8
 
-#déclaration de variable
+#déclaration de variable ------------------------------------------------------------------------------------------------
 
-programme_ouvert = True
 input_principal = str
 
-#déclaration de fonction
+#déclaration de fonction ---------------------------------------------------------------------------------------------
 
-""" 'convertir_ms_kmh(variable à convertir)' ,Convertis une variable(float/int) de m/s à km/h
-Une variable d'entrée , une de sortie"""
+""" 'convertir_ms_kmh(float/int)' ,Convertis une variable de m/s à km/h
+Une valeur d'entrée , une de sortie"""
 
 def convertir_ms_kmh(v1) :
 	v = v1 * 3.6
 	return v
 
-""" 'convertir_kmh_ms(variable à convertir)' ,Convertis une variable(float/int) de km/h à m/s 
-Une variable d'entrée , une de sortie"""
+""" 'convertir_kmh_ms(float/int)' ,Convertis une variable de km/h à m/s 
+Une valeur d'entrée , une de sortie"""
 
 def convertir_kmh_ms(v1) :
 	v = v1 / 3.6
 	return v
 
-""" 'quit(variable booléenne servant de cadenas a la boucle)' ,permet de break une boucle selon la valeur d'une variable 
-choisi"""
+""" 'comparaison(variable 1,variable 2)' ,Si 1 = 2 ; retourne Vrai , sinon retourne Faux"""
 
-def comparaison(Comparé = "",Comparant = "") :
+def comparaison(Comparé,Comparant) :
 	if Comparé == Comparant :
-		return False
-	else :
 		return True
+	else :
+		return False
 
-""" 'information_menu_conversion_kmh_ms()' Donne des informations sur 'fonction_conversion_kmh_ms()"""
+"""
+def try_float(x) :
+	try :
+		y = float(x)
+		pass
+	except :
+		return "erreur d input"
 
-def information_menu_conversation_kmh_ms() :
+		WIP--------------"""
+
+
+
+
+
+
+
+
+
+""" 'information_conversion_kmh_ms()' ,Donne des informations sur 'conversion_kmh_ms()' """
+
+def information_conversion_kmh_ms() :
 	print("1. de km/h vers m/s\n2. de m/s vers km/h\n")
 
+""" 'conversion_kmh_ms(str)' ,Selon la variable d'entrée , propose un menu à plusieurs sortie possible"""
 
-def fonction_conversion_kmh_ms(Choix,MotClé) :
+def conversion_kmh_ms(Choice) :
 	
-	if Choix == "1" :
+	if Choice == "1" :
 				
-		#convertir Entré en m/s
+		#convertir Vitesse en m/s
 
-		Entré = float(input("Valeur en km/h : "))
-		print(Entré,"km/h équivaut à ",round(convertir_kmh_ms(Entré),3),"m/s.\n")
+		Vitesse = float(input("Valeur en km/h : "))
+		print(Vitesse,"km/h équivaut à ",round(convertir_kmh_ms(Vitesse),3),"m/s.\n")
 
-	if Choix == "2" :
+	if Choice == "2" :
 				
-		#convertir Entré en km/h
+		#convertir Vitesse en km/h
 				
-		Entré = float(input("Valeur en m/s :"))
-		print(Entré,"m/s équivaut à ",round(convertir_ms_kmh(Entré),3),"km/h.\n")
+		Vitesse = input("Valeur en m/s :")
+		print(try_float(Vitesse) or Vitesse,"m/s équivaut à ",round(convertir_ms_kmh(float(Vitesse)),3),"km/h.\n") #WIP--------------
 			
-	elif Choix == "menu" :
-		information_menu_conversation_kmh_ms()
+	elif Choice == "menu" :
+		information_conversion_kmh_ms()
 
-	elif Choix == MotClé :
+	elif Choice == "exit" :
 		pass
 
 	else :
 		print("\nchoisir entre 1 et 2\n") #erreur d'input
 
-#programme principale
+#programme principale ------------------------------------------------------------------------------------------------------------
 
 print("Bienvenue\n")
-information_menu_conversation_kmh_ms()
+information_conversion_kmh_ms()
 
-while comparaison(input_principal,"quit") == True :
-
+while comparaison(input_principal,"exit") == False :
 	input_principal = input("=")
-	fonction_conversion_kmh_ms(input_principal,"quit")
+	conversion_kmh_ms(input_principal)
