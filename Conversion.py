@@ -2,7 +2,7 @@
 
 #déclaration de variable --------------------------------------------------------------------------------------------------------------------
 
-input_principal = str
+input_principal = ""
 
 #déclaration de fonction -------------------------------------------------------------------------------------------------------------------------
 
@@ -19,14 +19,6 @@ Une valeur d'entrée , une de sortie"""
 def convertir_kmh_ms(v1) :
 	v = v1 / 3.6
 	return v
-
-""" 'comparaison(variable 1,variable 2)' ,Si 1 = 2 ; retourne Vrai , sinon retourne Faux"""
-
-def comparaison(Comparé,Comparant) :
-	if Comparé == Comparant :
-		return True
-	else :
-		return False
 
 """ 'try_float(Valeur)' ,Si Valeur peut être converti en float retourne Vrai , sinon retourne Faux"""
 
@@ -78,13 +70,13 @@ def conversion_kmh_ms(Choice) :
 		pass
 
 	else :
-		print("\nchoisir entre 1 et 2\n") #erreur d'input
+		print("\nValeur non-valide , tapez 'menu' pour afficher les options\n") #erreur d'input
 
 #programme principale ------------------------------------------------------------------------------------------------------------
 
 print("Bienvenue\n")
 information_conversion_kmh_ms()
 
-while comparaison(input_principal,"exit") == False :
+while input_principal.lower() != "exit" :
 	input_principal = input("=")
 	conversion_kmh_ms(input_principal)
