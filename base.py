@@ -1,21 +1,49 @@
 #coding:utf-8
 
-print("Hello world")
+#Déclaration de variable---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-def somme() :
-	a= input("a:")
-	b= input("b:")
-	c= a+b
-	return c
+#Fonctions --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-while True :
-	binaire = str(input(":::"))
-	decimal = 0
-	nbits = len(binaire)
-	for i in range(nbits) :
-		decimal = decimal + int(binaire[nbits-1-i])*(2**i)
+"""Transforme une base en decimal"""
 
-	print(decimal)	
+def to10(Valeur,Base) :
+
+	Nbase = str(Valeur)
+	Ndecimal = 0
+	Nbits = len(Nbase)
+	for i in range(Nbits) :
+		Ndecimal = Ndecimal + int(Nbase[Nbits-1-i])*(Base**i)
+	return Ndecimal
+
+def from10(Valeur,Base) :
+	Ndecimal = str(Valeur)
+	Nbase = ""
+	while Ndecimal != 0 :
+		Nbase =  Nbase + str(Ndecimal % Base)
+		Ndecimal = (Ndecimal-(Ndecimal % Base)) / Base 
+
+	return Nbase	
+
+
+
+
+#Programme --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+print("Binevenu\n")
+"""
+while input_principal != "exit" :
+"""
+
+a = from10(13,2)
+
+print(a)
+
+
+
+
+
+
 
 
 
