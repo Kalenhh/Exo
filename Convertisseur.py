@@ -105,10 +105,10 @@ def conversion_vitesse() :
 def lettre(x) :
 	try :
 		x = int(x)
-		return x 
 	except :
 		x = ord(x) -65 + 10
 		return x
+	return x	
 
 
 #UTILISER ORD() ET CHR() ----------------------------------------------------------------
@@ -122,7 +122,7 @@ def vers_base_10(Valeur,Base) :
 	Ndecimal = 0
 	Nbits = len(Nbase)
 	for i in range(Nbits) :
-		Ndecimal = Ndecimal + ord(Nbase[Nbits-1-i])*(int(Base)**i)											#Fonctions conversion de nombre sous différentes bases
+		Ndecimal = Ndecimal + lettre(Nbase[Nbits-1-i])*(int(Base)**i)											#Fonctions conversion de nombre sous différentes bases
 	return Ndecimal
 
 
@@ -133,6 +133,8 @@ def depuis_base_10(Valeur,Base) :
 	Nbase = ""
 	while Ndecimal != 0 :
 		inter = Ndecimal % int(Base)
+		if inter >= 10 :
+			inter = chr(inter -10 +65)
 		Nbase = str(inter) + "." + Nbase
 		Ndecimal = Ndecimal // int(Base)
 	return Nbase
