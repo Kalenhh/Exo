@@ -102,6 +102,18 @@ def conversion_vitesse() :
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+def lettre(x) :
+	try :
+		x = int(x)
+		return x 
+	except :
+		x = ord(x) -65 + 10
+		return x
+
+
+#UTILISER ORD() ET CHR() ----------------------------------------------------------------
+
+
 """Transforme une base en decimal"""
 
 def vers_base_10(Valeur,Base) :
@@ -110,7 +122,7 @@ def vers_base_10(Valeur,Base) :
 	Ndecimal = 0
 	Nbits = len(Nbase)
 	for i in range(Nbits) :
-		Ndecimal = Ndecimal + int(Nbase[Nbits-1-i])*(int(Base)**i)											#Fonctions conversion de nombre sous différentes bases
+		Ndecimal = Ndecimal + ord(Nbase[Nbits-1-i])*(int(Base)**i)											#Fonctions conversion de nombre sous différentes bases
 	return Ndecimal
 
 
@@ -121,7 +133,7 @@ def depuis_base_10(Valeur,Base) :
 	Nbase = ""
 	while Ndecimal != 0 :
 		inter = Ndecimal % int(Base)
-		Nbase = str(inter) + Nbase
+		Nbase = str(inter) + "." + Nbase
 		Ndecimal = Ndecimal // int(Base)
 	return Nbase
 
@@ -134,21 +146,18 @@ def conversion_base() :
 		valeur_entrée = input("Valeur à convertir :")
 		if valeur_entrée.lower() == "exit" :
 			return
-		if try_int(valeur_entrée) == False :
-			print("Rentrez une valeur entière\n")
-			return
 
 		base_entré = input("et sur la base:")
 		if base_entré.lower() == "exit" :
 			return
-		if try_int(base_entré) == False :
+		if try_float(base_entré) == False :
 			print("Rentrez une valeur entière\n")
 			return	
 
 		base_sorti = input("Convertir sur une base:")
 		if base_sorti.lower() == "exit" :
 			return
-		if try_int(base_sorti) == False :
+		if try_float(base_sorti) == False :
 			print("Rentrez une valeur entière\n")
 			return	
 
