@@ -111,7 +111,12 @@ def lettre(x) :
 	return x	
 
 
-#UTILISER ORD() ET CHR() ----------------------------------------------------------------
+def verification(x,y) :
+	for i in x :
+		if ord(i) -65 +10 >= int(y) :
+			return False
+	return True		
+
 
 
 """Transforme une base en decimal"""
@@ -154,7 +159,10 @@ def conversion_base() :
 			return
 		if try_float(base_entré) == False :
 			print("Rentrez une valeur entière\n")
-			return	
+			return
+		if verification(valeur_entrée,base_entré) == False :
+			print("error 1")
+			return
 
 		base_sorti = input("Convertir sur une base:")
 		if base_sorti.lower() == "exit" :
