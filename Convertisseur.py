@@ -92,7 +92,7 @@ def conversion_vitesse() :
 
 
 		elif Choice.lower() == "exit" :
-			pass
+			return
 
 
 		else :
@@ -135,7 +135,7 @@ def depuis_base_10(Valeur,Base) :
 		inter = Ndecimal % int(Base)
 		if inter >= 10 :
 			inter = chr(inter -10 +65)
-		Nbase = str(inter) + "." + Nbase
+		Nbase = str(inter) + Nbase
 		Ndecimal = Ndecimal // int(Base)
 	return Nbase
 
