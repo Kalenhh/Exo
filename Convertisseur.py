@@ -115,9 +115,10 @@ def verification(x,y) :
 	for i in x :
 		if ord(i) -65 +10 >= int(y) :
 			return False
-		if i == int :
-			if int(i) > int(y) :
-				return False	
+		try :
+			i = int(i)
+		except :
+					
 	return True		
 
 
@@ -160,7 +161,7 @@ def conversion_base() :
 		base_entré = input("et sur la base:")
 		if base_entré.lower() == "exit" :
 			return
-		if try_float(base_entré) == False :
+		if try_int(base_entré) == False :
 			print("Rentrez une valeur entière\n")
 			return
 		if verification(valeur_entrée,base_entré) == False :
@@ -170,7 +171,7 @@ def conversion_base() :
 		base_sorti = input("Convertir sur une base:")
 		if base_sorti.lower() == "exit" :
 			return
-		if try_float(base_sorti) == False :
+		if try_int(base_sorti) == False :
 			print("Rentrez une valeur entière\n")
 			return	
 
