@@ -116,9 +116,11 @@ def verification(x,y) :
 		if ord(i) -65 +10 >= int(y) :
 			return False
 		try :
-			i = int(i)
-		except :
-					
+			int(i)
+		except : 
+			continue
+		if int(i) >= int(y) :
+			return False				
 	return True		
 
 
