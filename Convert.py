@@ -7,7 +7,9 @@ Bentré = ""
 Bsortie = ""
 
 #Déclaration de fonction --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
+#__________________________________________________________________
+
 def ConvBinDec(nbin) :
 
 	Nbase = str(n)
@@ -17,7 +19,7 @@ def ConvBinDec(nbin) :
 		Ndecimal = Ndecimal + Nbase[Nbits-1-i]*(2**i)											
 	return Ndecimal
 
-
+																		#Fonctions modèles non-utlisées 
 def ConvDecBin(n) :
 
 	Ndecimal = n
@@ -28,16 +30,24 @@ def ConvDecBin(n) :
 		Ndecimal = Ndecimal // 2
 	return Nbin	
 
+#___________________________________________________________________
 
-def ConvBaseSup(x) :
+
+"""Si value n'est pas un entier , retourne la valeur numérique correspondante à la valeur du caractère value dans la table ASCII ; Sers à convertir 1 valeur (entier/string) 
+	en une valeur uniquement entière
+"""
+
+def ConvBaseSup(value) :
 	try :
-		x = int(x)
+		value = int(value)
 	except :
-		x = ord(x) -65 + 10
-		return x
-	return x
+		value = ord(value) -65 + 10
+		return value
+	return value
 
-"""Transforme une base en decimal"""
+
+"""Convertis un nombre nbase de base b en un nombre de base 10
+"""
 
 def ConvBaseDec(nbase,b) :
 
@@ -45,8 +55,12 @@ def ConvBaseDec(nbase,b) :
 	Ndecimal = 0
 	Nbits = len(Nbase)
 	for i in range(Nbits) :
-		Ndecimal = Ndecimal + ConvBaseSup(Nbase[Nbits-1-i])*(int(b)**i)											#Fonctions conversion de nombre sous différentes bases
+		Ndecimal = Ndecimal + ConvBaseSup(Nbase[Nbits-1-i])*(int(b)**i)
 	return Ndecimal
+
+
+"""Convertis un nombre n de base 10 en un nombre de base b
+"""
 
 def ConvDecBase(n,b) :
 	Ndecimal = n
@@ -59,9 +73,13 @@ def ConvDecBase(n,b) :
 		Ndecimal = Ndecimal // int(b)
 	return Nbase
 
+
+"""Verifie que chaque élément de nombre soit inclus dans la base b , retourne Faux si un des élément ne peut être transcris dans la base b.
+"""
+
 def NombreValide(nombre,b) :
 	for i in nombre :
-		if ord(i) -65 +10 >= int(b) :
+		if ord(i) -65 +10 >= int(b) or ord(i)-65 < 0 :
 			return False
 		try :
 			int(i)
@@ -70,22 +88,31 @@ def NombreValide(nombre,b) :
 		if int(i) >= int(b) :
 			return False					
 	return True	
-	
+
+
+"""Convertis un nombre nbase de base b1 en un nombre de meme valeur de base b2
+"""
+
 def ConvBaseBase(nbase,b1,b2) :
 	valeur = ConvDecBase((ConvBaseDec(nbase,b1)),b2)
 	return valeur
 
+
 #Programme --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-print("Bienvenu\n")
-while entré != "exit" and Bentré != "exit" and Bsortie != "exit" :
+"""Programme-boucle convertisseur universel jusqu'à la base 36 
+
+"""
+
+print("Bienvenue\n")
+while entré.lower() != "exit" and Bentré.lower() != "exit" and Bsortie.lower() != "exit" :
 
 	entré = input("Valeur à convertir: ")
-	if entré == "exit" :
+	if entré.lower() == "exit" :
 		continue
-	Bentré = input("Sur la base :")
 
-	if Bentré == "exit" :
+	Bentré = input("Sur la base :")
+	if Bentré.lower() == "exit" :
 		continue
 	try :
 		int(Bentré)
@@ -93,14 +120,17 @@ while entré != "exit" and Bentré != "exit" and Bsortie != "exit" :
 		print("error 2")
 		continue
 
-
 	if NombreValide(entré,Bentré) == False :
 		print("error 1")
 		continue
 
 	Bsortie = input("Sur une base : ")
-
-	if Bsortie == "exit" :
+	if Bsortie.lower() == "exit" :
 		continue
+	try :
+		int(Bsortie)
+	except :
+		print("error 2")
+		continue		
 		
 	print(ConvBaseBase(entré,Bentré,Bsortie),"\n")
