@@ -163,6 +163,7 @@ def conversion_base() :
 		base_entré = input("et sur la base:")
 		if base_entré.lower() == "exit" :
 			return
+	
 		if try_int(base_entré) == False :
 			print("Rentrez une valeur entière\n")
 			return
@@ -173,6 +174,7 @@ def conversion_base() :
 		base_sorti = input("Convertir sur une base:")
 		if base_sorti.lower() == "exit" :
 			return
+	
 		if try_int(base_sorti) == False :
 			print("Rentrez une valeur entière\n")
 			return	

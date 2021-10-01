@@ -78,7 +78,7 @@ def ConvBaseBase(nbase,b1,b2) :
 #Programme --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 print("Bienvenu\n")
-while entré or Bentré or Bsortie != "exit" :
+while entré != "exit" and Bentré != "exit" and Bsortie != "exit" :
 
 	entré = input("Valeur à convertir: ")
 	if entré == "exit" :
@@ -87,6 +87,13 @@ while entré or Bentré or Bsortie != "exit" :
 
 	if Bentré == "exit" :
 		continue
+	try :
+		int(Bentré)
+	except :	
+		print("error 2")
+		continue
+
+
 	if NombreValide(entré,Bentré) == False :
 		print("error 1")
 		continue
