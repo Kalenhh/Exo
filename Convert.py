@@ -16,7 +16,7 @@ def ConvBinDec(nbin) :
 	Ndecimal = 0
 	Nbits = len(Nbase)
 	for i in range(Nbits) :
-		Ndecimal = Ndecimal + Nbase[Nbits-1-i]*(2**i)											
+		Ndecimal = Ndecimal + Nbase[Nbits-1-i]*(2**i)
 	return Ndecimal
 
 																		#Fonctions modèles non-utlisées 
@@ -28,13 +28,16 @@ def ConvDecBin(n) :
 		quotient = Ndecimal % 2
 		Nbin = str(quotient) + Nbase
 		Ndecimal = Ndecimal // 2
-	return Nbin	
+	return Nbin
 
 #___________________________________________________________________
 
 
-"""Si value n'est pas un entier , retourne la valeur numérique correspondante à la valeur du caractère value dans la table ASCII ; Sers à convertir 1 valeur (entier/string) 
-	en une valeur uniquement entière
+"""Si 'value' n'est pas un entier , retourne la valeur numérique correspondante à la valeur du caractère 'value'
+	dans la table ASCII -65 +10 ; Sers à convertir 1 valeur (entier/string) en une valeur uniquement entière.
+	ex:  value =A   return =10
+				B 			11
+				F 			15
 """
 
 def ConvBaseSup(value) :
@@ -46,7 +49,7 @@ def ConvBaseSup(value) :
 	return value
 
 
-"""Convertis un nombre nbase de base b en un nombre de base 10
+"""Convertis un nombre nbase de base b en un nombre decimal.
 """
 
 def ConvBaseDec(nbase,b) :
@@ -59,7 +62,7 @@ def ConvBaseDec(nbase,b) :
 	return Ndecimal
 
 
-"""Convertis un nombre n de base 10 en un nombre de base b
+"""Convertis un nombre n decimal en un nombre de base b
 """
 
 def ConvDecBase(n,b) :
@@ -74,7 +77,7 @@ def ConvDecBase(n,b) :
 	return Nbase
 
 
-"""Verifie que chaque élément de nombre soit inclus dans la base b , retourne Faux si un des élément ne peut être transcris dans la base b.
+"""Vérifie que chaque élément de nombre soit inclus dans la base b , retourne Faux si un des élément ne peut être transcris dans la base b.
 """
 
 def NombreValide(nombre,b) :
@@ -83,14 +86,14 @@ def NombreValide(nombre,b) :
 			return False
 		try :
 			int(i)
-		except : 
+		except :
 			continue
 		if int(i) >= int(b) :
-			return False					
-	return True	
+			return False
+	return True
 
 
-"""Convertis un nombre nbase de base b1 en un nombre de meme valeur de base b2
+"""Convertis un nombre nbase de base b1 en un nombre de même valeur de base b2.
 """
 
 def ConvBaseBase(nbase,b1,b2) :
@@ -100,8 +103,7 @@ def ConvBaseBase(nbase,b1,b2) :
 
 #Programme --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-"""Programme-boucle convertisseur universel jusqu'à la base 36 
-
+"""Programme-boucle ; convertisseur universel de valeur jusqu'à la base 36
 """
 
 print("Bienvenue\n")
@@ -114,9 +116,10 @@ while entré.lower() != "exit" and Bentré.lower() != "exit" and Bsortie.lower()
 	Bentré = input("Sur la base :")
 	if Bentré.lower() == "exit" :
 		continue
+
 	try :
 		int(Bentré)
-	except :	
+	except :
 		print("error 2")
 		continue
 
@@ -127,10 +130,11 @@ while entré.lower() != "exit" and Bentré.lower() != "exit" and Bsortie.lower()
 	Bsortie = input("Sur une base : ")
 	if Bsortie.lower() == "exit" :
 		continue
+
 	try :
 		int(Bsortie)
 	except :
 		print("error 2")
-		continue		
-		
+		continue
+
 	print(ConvBaseBase(entré,Bentré,Bsortie),"\n")
