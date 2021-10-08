@@ -10,6 +10,9 @@ Bsortie = ""
 
 #__________________________________________________________________
 
+"""Convertis un nombre binaire en décimal
+"""
+
 def ConvBinDec(nbin) :
 
 	Nbase = str(n)
@@ -19,6 +22,9 @@ def ConvBinDec(nbin) :
 		Ndecimal = Ndecimal + Nbase[Nbits-1-i]*(2**i)
 	return Ndecimal
 
+
+"""Convertis un nombre décimal en binaire
+"""
 																		#Fonctions modèles non-utlisées 
 def ConvDecBin(n) :
 
@@ -82,7 +88,7 @@ def ConvDecBase(n,b) :
 
 def NombreValide(nombre,b) :
 	for i in nombre :
-		if ord(i) -65 +10 >= int(b) or ord(i)-65 < 0 :
+		if ord(i) -65 +10 >= int(b) :
 			return False
 		try :
 			int(i)
@@ -120,11 +126,11 @@ while entré.lower() != "exit" and Bentré.lower() != "exit" and Bsortie.lower()
 	try :
 		int(Bentré)
 	except :
-		print("error 2")
+		print("Erreur : entrez une valeur entière\n")
 		continue
 
 	if NombreValide(entré,Bentré) == False :
-		print("error 1")
+		print("Cette valeur n'existe pas.\n")
 		continue
 
 	Bsortie = input("Sur une base : ")
@@ -134,7 +140,7 @@ while entré.lower() != "exit" and Bentré.lower() != "exit" and Bsortie.lower()
 	try :
 		int(Bsortie)
 	except :
-		print("error 2")
+		print("Erreur : entrez une valeur entière\n")
 		continue
 
 	print(ConvBaseBase(entré,Bentré,Bsortie),"\n")
