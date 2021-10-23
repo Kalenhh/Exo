@@ -1,7 +1,8 @@
 #coding:utf-8
 
+"""
 tried = ""
-liste_number = open("C:/Users/Elève/Desktop/number.txt","r")
+liste_number = open("C:/Users/baudo/Desktop/number.txt","r")
 contenu = liste_number.readlines()
 print(contenu)
 
@@ -13,15 +14,26 @@ for un in contenu :
 print(cont)
 print(len(cont))
 
-for element in cont :
-	contsanselement = cont
-	print("test de",element)
-	del(contsanselement[contsanselement.index(element)])
-	for i in contsanselement :
-		if element == i :
-			print("doublon")
-		else :
-			continue
+cont = list(dict.fromkeys(cont))
 
 print(cont)
-print(len(cont))
+print(len(cont))"""
+
+
+with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
+	liste_number_lignes = liste_number.readlines()
+	res = []
+	for element in liste_number_lignes :
+		if element not in res :
+			res.append(element)
+			print("clear")
+			continue
+		print("doublon")
+	print(res)
+	print(len(liste_number_lignes))
+	print(len(res))
+
+with open("C:/Users/baudo/Desktop/number.txt","w") as liste_number :
+	liste_number.writelines(res)
+
+
