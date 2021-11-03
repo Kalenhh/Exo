@@ -31,17 +31,21 @@ def comparer_doublon() :
 		resultat.set("pas dans  liste")
 
 def eliminer_doublon() :
+	global resultat
 	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
 		liste_clear = []
+		nombre_doublon = 0
 		for element in liste_number_lignes :
 			if element not in liste_clear :
 				liste_clear.append(element)
 				continue
-			print("doublon")
+			else :
+				nombre_doublon = nombre_doublon+1
+		resultat.set(str(nombre_doublon) +" sauce en doublon ont été enlevé de l'Archive")
 
-		with open("C:/Users/baudo/Desktop/number.txt","w") as liste_number :
-			liste_number.writelines(liste_clear)
+	with open("C:/Users/baudo/Desktop/number.txt","w") as liste_number :
+		liste_number.writelines(liste_clear)
 
 def quantity() :
 	global quantite
@@ -53,6 +57,15 @@ def random() :
 	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
 		random.set(liste_number_lignes[random.randrange(len(liste_number_lignes))])
+
+def ajouter() :
+	global sauce
+	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
+		liste_number_lignes = liste_number.readlines()
+		liste_number_lignes.append("\n"+sauce.get())
+	with open("C:/Users/baudo/Desktop/number.txt","w") as liste_number :
+		liste_number.writelines(liste_number_lignes)
+		resultat.set("ajouté à l'Archive")
 
 #Fonction Tk.Frame :-------------------------------------------------------------------------------------------------------------
 
@@ -70,6 +83,12 @@ def menu():
 
 def recreate():
 	global frame_affichage
+	global sauce
+	global resultat
+
+	sauce.set("")
+	resultat.set("")
+
 	frame_affichage.destroy()
 	frame_affichage = Frame(main_frame)
 	frame_affichage.pack(side="right",fill=BOTH,expand=1)
@@ -89,11 +108,19 @@ def frame_comparer():
 
 def frame_doublon():
 	recreate()
-	ok = Label(frame_affichage,text="test et voila").pack()
+	elim = Button(frame_affichage,text="clear rrrrr",command=eliminer_doublon).pack()
+	s4 = Label(frame_affichage,textvariable=resultat).pack()
+		
+
+
+
+
 
 def frame_ajout():
 	recreate()
-		
+	entre = Entry(frame_affichage,textvariable=sauce).pack()
+	ajoutereeeeee = Button(frame_affichage,text="Ajouter",command=ajouter).pack()
+
 #Programme :---------------------------------------------------------------------------------------------------------
 
 menu()
