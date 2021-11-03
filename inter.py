@@ -11,6 +11,14 @@ app.minsize(600,400)
 main_frame = Frame(app,bg="yellow")
 main_frame.pack(fill=BOTH,expand=1)
 
+
+#-----------------------------------------------------------------------------------------------------------------
+
+quantite = IntVar()
+resultat = StringVar()
+sauce = StringVar()
+
+
 #Fonction data :----------------------------------------------------------------------------------------------------------
 
 def comparer_doublon() :
@@ -20,7 +28,7 @@ def comparer_doublon() :
 			if int(element) == int(sauce.get()) :
 				resultat.set("deja dans la liste")
 				return
-			resultat.set("pas dans la liste")
+		resultat.set("pas dans  liste")
 
 def eliminer_doublon() :
 	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
@@ -36,9 +44,10 @@ def eliminer_doublon() :
 			liste_number.writelines(liste_clear)
 
 def quantity() :
+	global quantite
 	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
-		quantite.set(len(liste_number_lignes))
+		quantite.set(int(len(liste_number_lignes)))
 
 def random() :
 	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
@@ -51,50 +60,46 @@ def menu():
 	FrameMenu = Frame(main_frame,bg="blue",borderwidth=10)
 	FrameMenu.pack(side="left",fill=BOTH)
 
-	comparer = Button(FrameMenu,text="Comparer",command=frame_comparer)
-	comparer.pack()
+	comparer = Button(FrameMenu,text="Comparer",command=frame_comparer).pack(fill=BOTH)
 
-	doublon = Button(FrameMenu,text="clear",command=frame_doublon)
-	doublon.pack(fill=BOTH)
+	doublon = Button(FrameMenu,text="clear",command=frame_doublon).pack(fill=BOTH)
 
 	stat = Button(FrameMenu,text="stat",command=frame_stat).pack(fill=BOTH)
 
-def frame_stat():
+	ajout = Button(FrameMenu,text="Ajouter",command=frame_ajout).pack(fill=BOTH)
+
+def recreate():
 	global frame_affichage
 	frame_affichage.destroy()
 	frame_affichage = Frame(main_frame)
-	
 	frame_affichage.pack(side="right",fill=BOTH,expand=1)
-	stat = Label(frame_affichage,text="ok stat").pack()
 
+
+def frame_stat():
+	recreate()
+	quantity()
+	stat = Label(frame_affichage,text=("il y a " + str(quantite.get()) + " sauce")).pack()
 
 def frame_comparer():
-	global frame_affichage
-	frame_affichage.destroy()
-	frame_affichage = Frame(main_frame)
-	frame_affichage.pack(side="right",fill=BOTH,expand=1)
-
-	FrameComparer = Frame(frame_affichage,bg="green")
-	FrameComparer.pack(side="right",fill=BOTH,expand=1)
-
+	recreate()
+	entre= Entry(frame_affichage,textvariable=sauce).pack()
+	comparer = Button(frame_affichage,text="comparer",command= comparer_doublon).pack()
+	sortie = Label(frame_affichage,textvariable=resultat).pack()
+	sorti = Label(frame_affichage,textvariable=sauce).pack()
 
 def frame_doublon():
-	global frame_affichage
-	frame_affichage.destroy()
-	frame_affichage = Frame(main_frame)
-	frame_affichage.pack(side="right",fill=BOTH,expand=1)
+	recreate()
+	ok = Label(frame_affichage,text="test et voila").pack()
 
-	FrameDoublon = Frame(frame_affichage,bg="pink")
-	FrameDoublon.pack(side="right",fill=BOTH,expand=1)
-
-
+def frame_ajout():
+	recreate()
+		
 #Programme :---------------------------------------------------------------------------------------------------------
 
 menu()
+
 frame_affichage = Frame(main_frame)
 frame_affichage.pack(side="right",fill=BOTH,expand=1)
-frame_stat()
-frame_doublon()
 
 
 
