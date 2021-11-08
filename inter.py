@@ -14,6 +14,7 @@ main_frame.pack(fill=BOTH,expand=1)
 
 #-----------------------------------------------------------------------------------------------------------------
 
+directory = "C:/Users/baudo/Desktop/number.txt"
 quantite = IntVar()
 resultat = StringVar()
 sauce = StringVar()
@@ -22,7 +23,7 @@ sauce = StringVar()
 #Fonction data :----------------------------------------------------------------------------------------------------------
 
 def comparer_doublon() :
-	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
+	with open(directory,"r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
 		for element in liste_number_lignes :
 			if int(element) == int(sauce.get()) :
@@ -32,7 +33,7 @@ def comparer_doublon() :
 
 def eliminer_doublon() :
 	global resultat
-	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
+	with open(directory,"r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
 		liste_clear = []
 		nombre_doublon = 0
@@ -44,26 +45,26 @@ def eliminer_doublon() :
 				nombre_doublon = nombre_doublon+1
 		resultat.set(str(nombre_doublon) +" sauce en doublon ont été enlevé de l'Archive")
 
-	with open("C:/Users/baudo/Desktop/number.txt","w") as liste_number :
+	with open(directory,"w") as liste_number :
 		liste_number.writelines(liste_clear)
 
 def quantity() :
 	global quantite
-	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
+	with open(directory,"r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
 		quantite.set(int(len(liste_number_lignes)))
 
 def random() :
-	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
+	with open(directory,"r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
 		random.set(liste_number_lignes[random.randrange(len(liste_number_lignes))])
 
 def ajouter() :
 	global sauce
-	with open("C:/Users/baudo/Desktop/number.txt","r") as liste_number :
+	with open(directory,"r") as liste_number :
 		liste_number_lignes = liste_number.readlines()
 		liste_number_lignes.append("\n"+sauce.get())
-	with open("C:/Users/baudo/Desktop/number.txt","w") as liste_number :
+	with open(directory,"w") as liste_number :
 		liste_number.writelines(liste_number_lignes)
 		resultat.set("ajouté à l'Archive")
 
