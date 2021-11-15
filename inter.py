@@ -70,9 +70,114 @@ def quatre() :
 		liste.append(1)
 		liste.append(compteur)
 		compteur = compteur + 1
-	print(liste)	
+	print("1ère methode : ",liste)
+
+	C = 1
+	res = []
+	liste = []
+	while len(liste) < int(n)  :
+		res.append(C)
+		for e in res :
+			liste.append(e)
+		C = C + 1
+
+
+	del liste[int(n):]
+	print("\n2eme methode : ",liste)
+	print(len(liste))
+
 
 make_button("b4","quatre",quatre)
+
+
+def cinq() :
+	print("\nexo n°5")
+	chaine1 = "abc"
+	chaine2 = "de"
+	"""['ad','ae','bd','be','cd','ce']"""
+
+	liste = []
+	for i in chaine1 :
+		for o in chaine2 :
+			liste.append(i+o)
+	print("Par iteration : ",liste)
+	
+	liste = []
+	liste = [i+o for i in chaine1 for o in chaine2]		
+	print("Par comprehension : ",liste)
+
+make_button("b5","cinq",cinq)
+
+
+def six() :
+	print("\nexo n°6")
+
+	def premier(n) :
+		liste = list(range(1,n+1))
+		print(liste)
+		for i in range(n) : #i = tt les nombre a tester pour voir si ils sont premier
+			for o in range(2,i) : # test de tous les diviseur possible
+				if i%o == 0 and o <= i ** 0.5 and i in liste :
+					
+					liste.remove(i)				
+		print(liste)			
+	premier(31)	
+
+make_button("b6","six",six)
+
+
+def sept() :
+	print("\nexo n°7")
+
+	def compte_lettres(mot) :
+		dico = {}
+		for i in mot :
+			dico[i] = mot.count(i)
+		print(dico)	
+
+	mot = input("Mot plz : ")
+	compte_lettres(mot)	
+
+make_button("b7","sept",sept)
+
+
+def huit() :
+	print("\nexo n°8")
+	dico = {"A":1,"E":1,"I":1,"L":1,"N":1,"O":1,"R":1,"S":1,"T":1,"U":1,"D":2,"G":2,"M":2,"B":3,"C":3,"P":3,"F":4,"H":4,"V":4,"J":8,"Q":8,"K":10,"W":10,"X":10,"Y":10,"Z":10}
+
+	def compte_points(mot) :
+		C = 0
+		for i in mot :
+			p = i.upper()
+			C = C + int(dico[p])
+
+		print("voila",C)
+
+	mot = input("mot plz : ")
+	compte_points(mot)
+	
+make_button("b8","huit",huit)
+
+def neuf() :
+	print("\nexo n°9")
+
+"""	Au = ["Te":2970,"Tf":1063,"Z":79,"M":196.967]
+	Ga = ["Te":2237,"Tf":29.8,"Z":31,"M":69.72]"""
+
+	elements = {"Au":[4],"Ga":[2]}
+
+	print(dico)
+
+
+make_button("b9","neuf",neuf)	
+
+
+
+
+
+
+
+
 
 root.mainloop()
 
