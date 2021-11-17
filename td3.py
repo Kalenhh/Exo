@@ -1,19 +1,22 @@
 #coding:utf-8
 
 from tkinter import*
+from random import*
+from time import*
 
+#-------------------------------------------------------------------------------------------------------------
 
 root = Tk()
 root.minsize(400,300)
-main_frame = Frame(root,bg="blue")
+main_frame = Frame(root,bg="blue")			#Menu Graphique
 main_frame.pack(fill=BOTH,expand=1)
-
 
 def make_button(name,text,cmd) :
 
 	name = Button(main_frame,text=text,command=cmd)
 	name.pack(fill=BOTH)
 
+#-------------------------------------------------------------------------------------------------------------
 
 def un() :
 
@@ -44,7 +47,7 @@ def deux() :
 		A = (n**2)-2*n+3
 		return A
 
-	for i in range(11) :
+	for i in range(11) :					#Formule A pour x = [0,10] dans une liste
 		liste.append(formula(i))
 		print(liste)
 
@@ -55,11 +58,12 @@ def trois() :
 	print("\nexo n°3")
 	name = input("nom et prenom plz : ")
 	liste = name.split(" ")
-	ini = (liste[1])[0] + (liste[0])[0]
+	ini = (liste[1])[0] + (liste[0])[0]		#Initiales
 	ini = ini.upper()
 	print(f"Les initiales sont : {ini}")
 
 make_button("b3","trois",trois)
+
 
 def quatre() :
 	print("\nexo n°4")
@@ -70,7 +74,7 @@ def quatre() :
 		liste.append(1)
 		liste.append(compteur)
 		compteur = compteur + 1
-	print("1ère methode : ",liste)
+	print("1ère methode : ",liste)				#Constructions de liste à pattern
 
 	C = 1
 	res = []
@@ -98,7 +102,7 @@ def cinq() :
 
 	liste = []
 	for i in chaine1 :
-		for o in chaine2 :
+		for o in chaine2 :								#Décomposition de caractère de chaines en liste
 			liste.append(i+o)
 	print("Par iteration : ",liste)
 	
@@ -112,7 +116,7 @@ make_button("b5","cinq",cinq)
 def six() :
 	print("\nexo n°6")
 
-	def premier(n) :
+	def premier(n) :										#Trouver tout les premiers en dessous ou egaux à n
 		liste = list(range(1,n+1))
 		print(liste)
 		for i in range(n) : #i = tt les nombre a tester pour voir si ils sont premier
@@ -129,7 +133,7 @@ make_button("b6","six",six)
 def sept() :
 	print("\nexo n°7")
 
-	def compte_lettres(mot) :
+	def compte_lettres(mot) :				#Trouver les occurences de chaques lettres d'un mot
 		dico = {}
 		for i in mot :
 			dico[i] = mot.count(i)
@@ -149,7 +153,7 @@ def huit() :
 		C = 0
 		for i in mot :
 			p = i.upper()
-			C = C + int(dico[p])
+			C = C + int(dico[p])				#Compter la valeur d'un mot à partir d'un dico
 
 		print("voila",C)
 
@@ -158,36 +162,65 @@ def huit() :
 	
 make_button("b8","huit",huit)
 
+
 def neuf() :
 	print("\nexo n°9")
 
-"""	Au = ["Te":2970,"Tf":1063,"Z":79,"M":196.967]
-	Ga = ["Te":2237,"Tf":29.8,"Z":31,"M":69.72]"""
+	elements = {"Au":{"Te":2970,"Tf":1063,"Z":79,"M":196.967},"Ga":{"Te":2237,"Tf":29.8,"Z":31,"M":69.72}}
 
-	elements = {"Au":[4],"Ga":[2]}
+	print(elements)
+	print(elements["Au"]["Z"])					#Construire un dico contenant des dicos
 
-	print(dico)
-
-
-make_button("b9","neuf",neuf)	
+make_button("b9","neuf",neuf)
 
 
+def dix() :
+	print("\nexo n°10")
+
+	dico = {(48.85358,2.30149):"Paris",
+			(11.61135,43.14775):"Djibouti",
+			(37.02311,-8.99660):"Fortaleza",
+			(7.67798,-5.02538):"Bouaké"}		#Utilisation de coordonnées GPS 
+
+	def ville_pos(pos1,pos2) :
+		print(dico[(pos1,pos2)])
+
+	ville_pos(37.02311,-8.99660)
+
+make_button("b10","dix",dix)	
 
 
+def onze() :
+	print("\nexo n°11")					#Comparer la rapidité de recherche entre une liste et un dico
+
+	def recherche_liste(liste,k) :
+		for i in liste :		
+			if i[0] == k :
+				return i[1]
+
+	def recherche_dico(dico,k) :
+		return dico[k]
+
+	liste = [[i,i] for i in range(0,10**6-1)]
+	shuffle(liste)
+	dico = dict(liste)
+
+	sec_dep = time()
+	for i in range(0,50) :
+		print(recherche_liste(liste,i))
+	sec_fin = time()
+	print("temps dans la liste : ",sec_fin-sec_dep)	
 
 
+	sec_dep = time()
+	for i in range(0,50) :
+		print(recherche_dico(dico,i))
+	sec_fin = time()
+	print("temps dans le dico : ",sec_fin-sec_dep)	
+
+make_button("b11","onze",onze)
 
 
+#-------------------------------------------------------------------------------------------------------------
 
 root.mainloop()
-
-
-
-"""
-nom = input("nom >")
-prenom = input("prenom >")
-initiales = prenom[0] + nom[0]
-initiales = initiales.upper()
-
-print(f"Votre nom est {nom}\nVotre prénom est {prenom}\nVos initiales sont {initiales}")
-"""
