@@ -16,9 +16,8 @@ t1 = 0 					#Variable temporelle de départ
 t2 = 0 					#Variable temporelle de fin
 
 ResponseTime = 0 		#Flottant sommes des délais de réponse de l'utilisateur
-Score = 0 				#Entier  : Score = temps de réponse * le nombre de coup d'une partie
+Score = 0 				#Entier  : Score = temps de réponse * le nombre de coup d'une partie : proche de 0 = bon score
 Player = ""				#Nom de la sauvegarde du score
-
 
 # Programme :____________________________________________________________________________________________________________________
 
@@ -53,7 +52,7 @@ while Lock == True :
 
 			if valeur == nombre :
 
-				Score = round(ResponseTime * n,0)
+				Score = int(round(ResponseTime * n,0))
 				print("Gagné en ",n," tours !\nVotre score est de ",Score)
 				Player = input("Enregistrez le score sous le nom : ")
 
@@ -73,7 +72,7 @@ while Lock == True :
 		else :
 			continue	
 
-	if valeur == "s" :	#-------------------------Afficher les best scores----------------------------------------------------------------------------
+	if valeur == "s" :	#Afficher les best scores
 		
 		print("\nListe des meilleurs scores :\n")
 		with open("game_log.txt","r") as file :
