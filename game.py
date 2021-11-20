@@ -48,12 +48,16 @@ while Lock == True :
 			t2 = time.time()
 			ResponseTime = ResponseTime + t2-t1
 
+			if valeur.isnumeric() == False :
+				print("Ca Doit être un nombre")
+				continue
+
 			valeur = int(valeur)
 
 			if valeur == nombre :
 
 				Score = int(round(ResponseTime * n,0))
-				print("Gagné en ",n," tours !\nVotre score est de ",Score)
+				print("Gagné en ",n," tours !\nVotre score est de ",Score,"\n")
 				Player = input("Enregistrez le score sous le nom : ")
 
 				with open("game_log.txt","a") as file :
