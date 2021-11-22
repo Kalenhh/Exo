@@ -6,18 +6,19 @@ import time
 
 # Variables :______________________________________________________________________________________________________________
 
-valeur = ""				#Input de l'utilisateur
-nombre = 0				#Valeur randomisée par l'ordinateur
-n = 0 					#Compteur à incrémenter
+valeur = ""					#Input de l'utilisateur
+nombre = 0					#Valeur randomisée par l'ordinateur
+n = 0 						#Compteur à incrémenter
+	
+Lock = True					#Booléen Lock
 
-Lock = True				#Booléen Lock
+t1 = 0 						#Variable temporelle de départ
+t2 = 0 						#Variable temporelle de fin
 
-t1 = 0 					#Variable temporelle de départ
-t2 = 0 					#Variable temporelle de fin
-
-ResponseTime = 0 		#Flottant sommes des délais de réponse de l'utilisateur
-Score = 0 				#Entier  : Score = temps de réponse * le nombre de coup d'une partie : proche de 0 = bon score
-Player = ""				#Nom de la sauvegarde du score
+ResponseTime = 0 			#Flottant sommes des délais de réponse de l'utilisateur
+Score = 0 					#Entier  : Score = temps de réponse * le nombre de coup d'une partie : proche de 0 = bon score
+Player = ""					#Nom de la sauvegarde du score
+directory="game_score.txt"	#Chemin du fichier de sauvegarde
 
 # Programme :____________________________________________________________________________________________________________________
 
@@ -61,7 +62,7 @@ while Lock == True :
 				print("Gagné en ",n," tours !\nVotre score est de ",Score,"\n")
 				Player = input("Enregistrez le score sous le nom : ")
 
-				with open("game_score.txt","a") as file :
+				with open(directory,"a") as file :
 					file.write(Player+";"+str(Score)+"\n")
 				n = 15
 
@@ -79,11 +80,11 @@ while Lock == True :
 
 	if valeur == "s" :	#Afficher les best scores
 
-		with open("game_score.txt","a") as verif :
+		with open(directory,"x") as verif :
 			pass
 
 		print("\nListe des meilleurs scores :\n")
-		with open("game_score.txt","r") as file :
+		with open(directory,"r") as file :
 			res = file.readlines()    #liste des couples nom;score
 
 			norm = ("Player;999999999999999999999999")
