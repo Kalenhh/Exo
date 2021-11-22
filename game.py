@@ -22,6 +22,7 @@ Player = ""				#Nom de la sauvegarde du score
 # Programme :____________________________________________________________________________________________________________________
 
 print("Jeu du +/-")
+
 while Lock == True :
 	valeur = input("\nFaire une partie ? y/n/s :")
 
@@ -35,7 +36,7 @@ while Lock == True :
 		time.sleep(1)
 		print("Commence dans 2")
 		time.sleep(1)
-		print("Commence dans 1")
+		print("Commence dans 1\n")
 		time.sleep(1)
 
 		n = 0
@@ -49,7 +50,7 @@ while Lock == True :
 			ResponseTime = ResponseTime + t2-t1
 
 			if valeur.isnumeric() == False :
-				print("Ca Doit être un nombre")
+				print("\nCa Doit être un nombre\n")
 				continue
 
 			valeur = int(valeur)
@@ -60,15 +61,15 @@ while Lock == True :
 				print("Gagné en ",n," tours !\nVotre score est de ",Score,"\n")
 				Player = input("Enregistrez le score sous le nom : ")
 
-				with open("game_log.txt","a") as file :
+				with open("game_score.txt","a") as file :
 					file.write(Player+";"+str(Score)+"\n")
 				n = 15
 
 			if valeur <  nombre :
-				print("Trop petit")
+				print("Trop petit -----")
 
 			if valeur > nombre :
-				print("Trop grand")
+				print("Trop grand ----------------------------------------------")
 
 		if valeur != nombre :
 			print("Nombre de tours dépassé !\nLa valeur recherchée était ",nombre,"\n")
@@ -77,9 +78,12 @@ while Lock == True :
 			continue	
 
 	if valeur == "s" :	#Afficher les best scores
-		
+
+		with open("game_score.txt","a") as verif :
+			pass
+
 		print("\nListe des meilleurs scores :\n")
-		with open("game_log.txt","r") as file :
+		with open("game_score.txt","r") as file :
 			res = file.readlines()    #liste des couples nom;score
 
 			norm = ("Player;999999999999999999999999")
@@ -100,4 +104,4 @@ while Lock == True :
 				else :
 					print(norm)				
 	else :
-		print("Entrez 'y' ou 'n'")
+		print("Entrez 'y' , 'n' ou 's'")
