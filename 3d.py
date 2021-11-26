@@ -1,6 +1,5 @@
 #coding:utf-8
 
-from vpython import *
+from visual import *
 
 box()
-sphere(pos=(10,10,3))
