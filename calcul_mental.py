@@ -38,30 +38,31 @@ while Lock == True :   #Boucle principal
 			Valeur = input("=")
 			T2 = time() - T1			#Temps de réponse de l'utilisateur
 
-			if Valeur[0] == "-" :
+			if Valeur[0] == "-" :			#----------------------------------
 				if Valeur[1:].isdigit() == False  :
 					print("Entrez une valeur numérique ! aaaaaaaaaa")
-					continue
+					continue											#Vérifie que l'utilisateur a entrer une valeur valide : entier positif/négatif 
 			if Valeur[0] != "-" :	
 				if Valeur.isdigit() == False  :
 						print("Entrez une valeur numérique !")
-						continue	
+						continue	  	#------------------------------------
 
-			if int(Valeur) == Calcul :
+			if int(Valeur) == Calcul :  #Compare la valeur donné avec le résultat attendu
 				print("Exact !")
 
 				if T2 <= 3 :
 					Score = Score + 3
 				if T2 > 3 and T2 <= 5 :
-					Score = Score + 2
+					Score = Score + T2		#Assigne le score obtenu à la question
 				if T2 > 5 :
 					Score = Score + 1
 
 				continue
 
 			else :
-				print("Faux , la réponse était",Calcul)				
-		print("Votre score est de :",Score)		
+				print("Faux , la réponse était",Calcul)	#Si la réponse n'est pas égale à la réponse attendu
+
+		print("Votre score est de :",Score)		#Fin de la série de question
 
 	else :
 		print("Entrez 'y' pour oui ou 'n' pour non")	
