@@ -38,7 +38,7 @@ while Lock == True :
 			Valeur = input("=")
 			T2 = time() - T1
 
-			if Valeur.isnumeric() == False :
+			if Valeur[1:].isdigit() == False  :
 				print("Entrez une valeur numérique !")
 				continue
 
