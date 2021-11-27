@@ -20,27 +20,32 @@ T2 = 0
 
 # Programme :--------------------------------
 
-while Lock == True :
+while Lock == True :   #Boucle principal
 	Valeur = input("\nFaire une partie ? y/n :")
 
-	if Valeur == "n" :
+	if Valeur == "n" :		#Quitter le jeu
 		Lock = False
 		continue
 
-	if Valeur == "y" :
+	if Valeur == "y" :		#Lancer une série de questions
 		Score = 0
-		for i in range(10) :
-			Calcul = str(randint(0,10)) + Calcul_component[randint(0,2)] + str(randint(1,10))
+		for i in range(10) :		#Boucle de 10 fois 1 question
+			Calcul = str(randint(0,10)) + Calcul_component[randint(0,2)] + str(randint(1,10))	#Défini le calcul mental , format : (entier entre 0 et 10) + (* ou + ou -) + (entier entre 0 et 10)
 			print(Calcul)
 			Calcul = eval(Calcul)
 
-			T1 = time()
+			T1 = time()			
 			Valeur = input("=")
-			T2 = time() - T1
+			T2 = time() - T1			#Temps de réponse de l'utilisateur
 
-			if Valeur[1:].isdigit() == False  :
-				print("Entrez une valeur numérique !")
-				continue
+			if Valeur[0] == "-" :
+				if Valeur[1:].isdigit() == False  :
+					print("Entrez une valeur numérique ! aaaaaaaaaa")
+					continue
+			if Valeur[0] != "-" :	
+				if Valeur.isdigit() == False  :
+						print("Entrez une valeur numérique !")
+						continue	
 
 			if int(Valeur) == Calcul :
 				print("Exact !")
