@@ -1,82 +1,42 @@
-#coding:utf-8
+#!/usr/bin/env python
+# -- coding: utf-8 --
 
-#déclaration de variable --------------------------------------------------------------------------------------------------------------------
+from random import*
+from math import*
 
-input_principal = ""
+#Variables.
 
-#déclaration de fonction -------------------------------------------------------------------------------------------------------------------------
+Lock = True                                                             # Booléen qui est Lock.
+Valeur = ""                                                             #Valeur choisit par l'utilisateur.
+Calcul_component = ["+","-","*"]										#Composants de calcul soit l'addition, la soustraction et la multiplication.
 
-""" 'convertir_ms_kmh(float)' ,Convertis une variable de m/s à km/h
-Une valeur d'entrée , une de sortie"""
+#Début.
 
-def convertir_ms_kmh(v1) :
-	v = v1 * 3.6
-	return v
+#Programme.
 
-""" 'convertir_kmh_ms(float)' ,Convertis une variable de km/h à m/s 
-Une valeur d'entrée , une de sortie"""
+while Lock == True :                                                    #Boucle générale.
+    Valeur = input("\nVoulez-vous faire une partie ? O/N : ")			#Demande à l'utilisateur si il veut faire une partie ou non. (O = Oui, N = Non)
 
-def convertir_kmh_ms(v1) :
-	v = v1 / 3.6
-	return v
+    if Valeur == "N" :                                                	#Quitter alors le jeu.
+        Lock = False
+        continue
 
-""" 'try_float(Valeur)' ,Si Valeur peut être converti en float retourne Vrai , sinon retourne Faux"""
+    if Valeur == "O" :                                                	#Lancer alors le jeu.
+        Score = 0														#Le score est donc de 0 pour le moment car l'utilisateur n'a pas encore joué.
+        for i in range(10) :                                            #Boucle de 10 questions.
+            Calcul = str(randint(0,10)) + Calcul_component[randint(0,2)] + str(randint(1,10))    #Définition du calcul mental et son format soit (entier entre 0 et 10) + ( ou + ou -) + (entier entre 0 et 10) dans l'ordre respectif.
+            print(Calcul)
+            Calcul = eval(Calcul)
 
-def try_float(x) :
-	try :
-		x = float(x)
-		return True
-	except :
-		return False	
+            Valeur = input()
+            if int(Valeur) == Calcul :                                  #Comparation entre la valeur donnée et le résultat voulu.
+                print("Le compte est bon.")
+                continue                                                #Continuer le programme.
 
-""" 'information_conversion_kmh_ms()' ,Donne des informations sur 'conversion_kmh_ms()' """
+            else :                                                      #Si le résultat est faux alors :
+                print("Réponse érronée, le résultat attendu était",Calcul)   #Réponse érronée.
 
-def information_conversion_kmh_ms() :
-	print("1. De km/h vers m/s \n2. De m/s vers km/h \nmenu. Afficher le menu \nexit. Quitter le programme \n")
+        print("Votre score est de :",Score)                             #Le jeu est terminé, fin de la série des questions.
 
-""" 'conversion_kmh_ms(str)' ,Selon la variable d'entrée , propose un menu à plusieurs sortie possible"""
-
-def conversion_kmh_ms(Choice) :
-	
-	if Choice == "1" :
-				
-		#convertir Vitesse en m/s
-
-		Vitesse = input("Valeur en km/h : ")
-		if try_float(Vitesse) == True :
-			print(Vitesse,"km/h équivaut à ",round(convertir_kmh_ms(float(Vitesse)),3),"m/s.\n")
-			return
-		else :
-			print("Rentrez une valeur numérique:\n")
-			return
-	
-	if Choice == "2" :
-				
-		#convertir Vitesse en km/h
-				
-		Vitesse = input("Valeur en m/s :")
-		if try_float(Vitesse) == True :
-			print(Vitesse,"m/s équivaut à ",round(convertir_ms_kmh(float(Vitesse)),3),"km/h.\n")
-			return
-		else :
-			print("Rentrez une valeur numérique:\n")
-			return
-
-	elif Choice.lower() == "menu" :
-		information_conversion_kmh_ms()
-
-	elif Choice.lower() == "exit" :
-		print("-"*150)
-		pass
-
-	else :
-		print("\nValeur non-valide , tapez 'menu' pour afficher les options\n") #erreur d'input
-
-#programme principale ------------------------------------------------------------------------------------------------------------
-
-print("Bienvenue\n")
-information_conversion_kmh_ms()
-
-while input_principal.lower() != "exit" :
-	input_principal = input("=")
-	conversion_kmh_ms(input_principal)
+    else :
+        print("Entrez 'O' pour oui ou 'N' pour non")
