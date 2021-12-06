@@ -53,7 +53,7 @@ while Lock == True :   #Boucle principal
 				if T2 <= 3 :
 					Score = Score + 3
 				if T2 > 3 and T2 <= 5 :
-					Score = Score + T2		#Assigne le score obtenu à la question
+					Score = Score + 2		#Assigne le score obtenu à la question
 				if T2 > 5 :
 					Score = Score + 1
 
@@ -61,6 +61,7 @@ while Lock == True :   #Boucle principal
 
 			else :
 				print("Faux , la réponse était",Calcul)	#Si la réponse n'est pas égale à la réponse attendu
+				Score = Score - 1
 
 		print("Votre score est de :",Score)		#Fin de la série de question
 
