@@ -3,54 +3,57 @@
 #Projet : Lecture et traitement de fichier CSV 
 
 from csv import*
-from tkinter import*
-from time import*
-
-root = Tk()
-root.minsize(600,400)
-frame = Frame(root)
-frame.pack()
-
-sss = StringVar()
 
 
 def ouverture(fichier) :
-	global progress
-	global bar
 
 	with open(fichier,"r",encoding="utf-8") as donné :
 		aaa = reader(donné,delimiter=";")
-		table = ["1","A","2020","0"]
-		letter = "A"
-		progress = 0 
+		table = []
 		for i in aaa :
-			if i[1][0] != letter:
-				letter = i[1][0]
-				progress = progress + 1
-				bar = progress *100/434
-				print(int(round(bar,0)))
-				sss.set(bar)
-
-
 			table.append(i)
 
 		return table
 
 vued = ouverture("nat2020.csv")
-print(len(vued))
+print(len(vued),"c good")
 
 
 
 def requete1(donné,prenom,année) :
 	trouvé = False
+	i=0
 	while trouvé == False :
-		for i in donné :
-			if prenom == i[1] and année == i[2] :
-				trouvé = True
-				return i[3]
-				continue
 
-lab = Label(frame,textvariable=sss).pack()
+		if i == len(donné) :
+			trouvé = True 
+			return None
+			continue
+
+		if prenom == donné[i][1] and année == donné[i][2] :
+			trouvé = True
+			return donné[i][3]
+			continue
+
+		i = i + 1
+
+def requete2(donné,année) :
+	
+	donnéG = [i for i in donné if i[0]=="1" if i[2]==année]
+	donnéF = [i for i in donné if i[0]=="2" if i[2]==année]
+	
+	garcon =
 
 
-root.mainloop()
+
+	for i in donné :
+		if i == 1
+			if i2 == année
+				if i > best :
+					best = i
+
+requete2(vued,"2005")
+
+
+	
+
