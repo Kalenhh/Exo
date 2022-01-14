@@ -31,7 +31,7 @@ def ouverture(root) :
 #retourner table
 
 
-def requete1(donné,prenom,genre,année) :
+def requete1(donné,prenom,année) :
 #fonction requete 1 
 
     trouvé = False
@@ -193,7 +193,7 @@ print("Hello world")
 source = ouverture("nat2020.csv")
 print("Fichier chargé :",len(source),"ligne.\n")
 
-menu()
+pavé()
 
 Lock = True
 while Lock == True :    #Boucle principal
@@ -205,7 +205,7 @@ while Lock == True :    #Boucle principal
         continue
 
     if choix == "4" :       #Afficher le menu
-        menu()
+        pavé()
         continue    
 
     if choix == "1" :
