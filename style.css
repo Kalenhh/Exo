@@ -1,0 +1,28 @@
+h1
+{
+	color: blue;
+	text-align: center;
+	font-size: 50px;
+}
+
+body
+{
+	background-color:rgb(37, 150, 190);
+}
+
+table , tr , td
+{
+	border-style: solid;
+	border-width: 2px;
+	border-color: darkgrey;
+}
+
+table
+{
+	border-collapse: collapse;
+}
+
+div
+{
+	text-align: center;
+}
