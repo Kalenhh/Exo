@@ -8,10 +8,13 @@
 	<title>Site NSI</title>
 	<meta name="generator" content="Sublime Text"/>
 	<link rel="stylesheet" href="style.css" />
+
+	<script type="text/javascript" src="script.js"></script>
+
 </head>
 
-<body>
-	<h1>NSI</h1>
+<body id="body">
+	<h1 id="titre">NSI</h1>
 	<h2>NSI = Numérique et sciences Informatiques</h2>
 	<h3>Mots clés</h3>
 	<ul>
@@ -49,18 +52,59 @@
 	<h4>Cours disponible sur moodle <a href="https://www.monbureaunumerique.fr">Mon bureau Numérique Boutet de Monvel</a> </h4>
 
 	<form>
+		<span class="ok">
+
 		<label for="login">login :</label>
-		<input type="text" name="login">
+		<input type="text" name="login" id="login">
+		<br>
+
 		<label for="password">mot de passe :</label>
-		<input type="password" name="password">
-		<input type="checkbox" name="tipe">
+		<input type="password" name="password" id="password">
+		<br>
+
+		<input type="checkbox" name="tipe" id="tipe">
 		<label for="tipe">je suis élève</label>
-		<input type="submit" value="envoyer" />
+		<br>
+
+		<button type="button" onclick="document.getElementById('body').style.backgroundColor = 'red'">click</button>
+
+		</span>
 	</form>
+		
+
 	<br>
 	<div>
 		<img src="naga.png">
-	</div>	
+	</div>
+
+
+
+
+	<h1>
+		Convertisseur
+	</h1>
+
+	<form name="formulaire">
+
+		<div>
+		<label for="kmh">vitesse en km/h :</label>
+		<input type="number" name="kmh" id="kmh" step="0.001"/>
+		</div>
+		<div>
+		<label for="ms">vitesse en m/s :</label>
+		<input type="number" name="ms" id="ms" step="0.001"/>
+		</div>
+	    <div>
+		<input type="radio" name="conv" id="conv1" value="kmhms" > km/h vers m/s
+		<input type="radio" name="conv" id="conv2" value="mskmh"> m/s vers km/h
+		</div>
+		<div>
+		<input type="submit" value="convertir" onClick="javascript:convertir(formulaire)"/>
+		</div>
+
+	</form>
+
+
 
 </body>
 
