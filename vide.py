@@ -1,5 +1,12 @@
 #vide.py
 
+from random import*
+from time import*
+
+#----------------------------------------------------------------------------------------------------------------------------
+# Activité 10 : Assertion et prototypage
+
+
 def est_entier(n):
 	if abs(n-int(n))>0.5:	# cas si n=x.99999999
 		decimal=abs(n-int(n+1))*100000	# partie decimal
@@ -19,69 +26,134 @@ def verifier(op,a,b) :
 	assert op in ["+","-","*","/","**"]
 	assert type(a + b) == int
 
-	res = eval(str(a)+op+str(b))
+	Calcul = eval(str(a)+op+str(b))
 
-	if est_entier(res) == True and abs(res) == res : #Verifie que res est entier + positif
+	if est_entier(Calcul) == True and abs(Calcul) == Calcul : #Verifie que Calcul est entier + positif
 		return True
 	else:
 		return False
 
 
 def test():
-	paquet = [("-",8,7),("/",4,3),("*",8,9),("**",-4,9)]
+	"""
+	Fonction de test pour verifier()
+	"""
+	paquet = [("-",8,7),("*",8,9),("**",-4,9)]
 	for i in paquet :
-		print(i)
-		print(verifier(i[0],i[1],i[2]))
+
+		assert verifier(i[0],i[1],i[2]) == True
+	assert verifier("/",4,3) == False
 
 
-def occurence(valeur,liste) :
+
+#------------------------------------------------------------------------------------------------------------------------
+# Activité 11 : Parcours sequentiel de tableau de valeurs
+
+
+def rechercher(table,valeur) :
 	"""
 	Trouve les occurences d'une valeur dans une liste
 	"""
 
-	assert len(liste) > 0
+	assert len(table) > 0
 
 	position = []
 
-	for i in range(len(liste)) :
-		if valeur == liste[i] :
+	for i in range(len(table)) :
+		if valeur == table[i] :
 			position.append(i)
 	return position
 
-port = [3,4,5,6,7,8,9,4,3,1]
-print(occurence(3,port))
 
-
-def extremum(liste) :
+def maximum(table) :
 	"""
-	Trouve les extremes dans une liste et leurs occurences
+	Retourne la valeur maximale dans la liste table
+	"""
+
+	assert len(table) > 0
+
+	maxi = table[0]
+	for i in range(len(table)) :
+		
+		if table[i] > maxi :
+			maxi = table[i]
+
+
+def minimum(table) :
+	"""
+	Retourne la valeur minimale de la liste table
+	"""			
+
+	assert len(table) > 0
+
+	mini = table[0]
+	for i in range(len(table)) :
+
+		if table[i] < mini :
+			mini = table[i]
+
+
+def extremum(table) :
+	"""
+	Trouve les extremes dans une liste
 	"""
 
 	assert len(liste) > 0
 
-	maxi = liste[0]
-	position_maxi = []
+	return maximum(table) , minimum(table)
 
-	mini = liste[0]
-	position_mini = []
 
-	for i in range(len(liste)) :
+def moyenne(table) :
+	"""
+	Retourne la moyenne des valeurs de la liste table
+	"""
 
-		if liste[i] == mini :		#Occurence de mini		
-			position_mini.append(i)
+	moyenne = 0
 
-		if liste[i] == maxi :		#Occurence de maxi
-			position_maxi.append(i)
+	for i in table :
+		moyenne = moyenne + i
 
-		if liste[i] > maxi : 		#Trouver le maximum
-			maxi = liste[i]
-			position_maxi = [i]
+	moyenne = moyenne / len(table)
+	return moyenne	
 
-		if liste[i] < mini :		#Trouver le minimum
-			mini = liste[i]
-			position_mini = [i]
 
-	return (maxi,position_maxi) , (mini,position_mini)
+#----------------------------------------------------------------------------------------------------------------------------
 
-port = [i*o for i in range(-10,20) for o in range(-10,20)]
-print(extremum(port),len(port),port)
+def creer_donnees(n,max):
+	"""
+	Créer une liste de taille n de valeur aléatoire entre 1 et max
+	"""
+
+	donnees=[]
+	for i in range(n):
+		donnees.append(randint(1,max))	# choix aleatoire entier entre 1 et max
+	return donnees
+
+
+def complexite(fonction,valeur_base,facteur,n) :
+
+	valeur = valeur_base
+	temps_base = []
+	temps_facteur = []
+
+	for i in range(n) :
+		t1 = time()
+		eval(fonction)
+		t2 = time()
+		temps = t2 - t1
+
+		temps_base.append(temps)
+
+	valeur = valeur_base * facteur
+	
+	for i in range(n) :
+		t1 = time()
+		eval(fonction)
+		t2 = time()
+		temps = t2 - t1
+
+		temps_facteur.append(temps)
+
+	return moyenne(temps_facteur)/moyenne(temps_base)
+
+print(round(complexite("rechercher(creer_donnees(valeur,100),9)",10000,2,10),2))
