@@ -171,7 +171,3 @@ def complexite(fonction,valeur_base,facteur,n) :
 fonction = "rechercher(creer_donnees(valeur,100),9)"
 
 print(round(complexite(fonction,10000,5,20),2))
-
-import matplotlib.pyplot as plt
-import numpy as np
-
