@@ -171,3 +171,14 @@ def complexite(fonction,valeur_base,facteur,n) :
 fonction = "rechercher(creer_donnees(valeur,100),9)"
 
 print(round(complexite(fonction,10000,5,20),2))
+
+def calcul() :
+	u = 65
+	n = 0 
+	while u <= 85 :
+		n=n+1
+		u=0.8*u+18
+	print(n)
+	
+calcul()
+print(90-25*0.8**8)
