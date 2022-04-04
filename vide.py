@@ -170,4 +170,10 @@ def complexite(fonction,valeur_base,facteur,n) :
 
 fonction = "rechercher(creer_donnees(valeur,100),9)"
 
+<<<<<<< Updated upstream
 print(round(complexite(fonction,10000,5,20),2))
+=======
+print(round(complexite(fonction,1000000000,5,20),2))
+
+
+>>>>>>> Stashed changes
