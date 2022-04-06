@@ -81,6 +81,8 @@ def maximum(table) :
 		if i > maxi :
 			maxi = i
 
+	return maxi		
+
 
 def minimum(table) :
 	"""
@@ -94,6 +96,8 @@ def minimum(table) :
 
 		if i < mini :
 			mini = i
+
+	return mini		
 
 
 def extremum(table) :
@@ -121,7 +125,15 @@ def moyenne(table) :
 	moyenne = moyenne / len(table)
 	return moyenne
 
+def verification() :
 
+	table = [i*o for i in range(20) for o in range(20)]
+	assert rechercher(table,10) == [30, 45, 102, 201] #pour rechercher
+	assert maximum(table) == 361 #pour max
+	assert minimum(table) == 0 # pour min
+	assert extremum(table) == (361,0) # pour extr
+	assert moyenne(table) == 90.25 # pour moy
+verification()
 #----------------------------------------------------------------------------------------------------------------------------
 
 def creer_donnees(n,max):
