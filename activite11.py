@@ -127,12 +127,10 @@ def moyenne(table) :
 
 def verification() :
 
-	table = [i*o for i in range(20) for o in range(20)]
-	assert rechercher(table,10) == [30, 45, 102, 201] #pour rechercher
-	assert maximum(table) == 361 #pour max
-	assert minimum(table) == 0 # pour min
-	assert extremum(table) == (361,0) # pour extr
-	assert moyenne(table) == 90.25 # pour moy
+	table = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9]
+	assert rechercher(table,5) == [4,13]
+	assert extremum(table) == (9,1)
+	assert moyenne(table) == 5.0
 verification()
 #----------------------------------------------------------------------------------------------------------------------------
 
@@ -182,7 +180,4 @@ def complexite(fonction,valeur_base,facteur,n) :
 
 fonction = "rechercher(creer_donnees(valeur,100),9)"
 
-
-print(round(complexite(fonction,10000,5,20),2))
-
-print(round(complexite(fonction,1000000000,5,20),2))
+print("La complexité est de",round(complexite(fonction,10000,5,20),2),"et le facteur est 5")
