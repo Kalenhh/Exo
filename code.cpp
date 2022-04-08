@@ -48,7 +48,7 @@ void loop(){
 
   if (joystick_position = 701){         //(des)activer la sécurité
     security = !security;
-    delay(1)
+    delay(1000)
 }
 
 
