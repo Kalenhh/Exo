@@ -6,8 +6,8 @@ from math import*
 
 app = Tk()
 app.title("Calculatrice")
-app.minsize(600,100)
-app.maxsize(600,100)
+app.minsize(600,120)
+app.maxsize(600,120)
 
 main_frame = Frame(app,bg="yellow")
 main_frame.pack(fill=BOTH,expand=1)
@@ -27,7 +27,7 @@ def calculer(e=0) :
 		resultat.set("Calcul incorrecte")
 		return
 
-	resultat.set(str(eval(calcul.get())))
+	resultat.set(str(round(  eval(calcul.get()),4   )))
 
 	if historique_liste.get(0) != resultat.get() :
 		historique_liste.insert(0,resultat.get())
@@ -38,15 +38,23 @@ def calculer(e=0) :
 	if ecriture.get() == 2 :	
 		resultat.set(str(  format(float(eval(calcul.get())),".1E")  ))
 
+	if len(resultat.get()) > 10 :
+		R2.invoke()
+
 def effacer(e=0) :
 	calcul.set("")
-
-def fermer() :
-	app.destroy()	
 
 def repliquer(e=0) :
 	calcul.set(calcul.get()+str(historique_liste.get(   historique_liste.curselection() or 0    )))
 	entre_calcul.icursor(END)
+
+# ----------------------------------------------------------------------
+
+app.bind("<Return>",calculer)
+app.bind("<Alt_R>",effacer)
+app.bind("<Control_R>",repliquer)
+app.bind("<Up>",lambda x:R1.invoke())
+app.bind("<Down>",lambda x:R2.invoke())	
 
 # ----------------------------------------------------------------------
 
@@ -65,7 +73,8 @@ frame_calcul.pack(side="left",fill=BOTH,expand=1)
 
 entre_calcul = Entry(frame_calcul,textvariable=calcul)
 entre_calcul.pack()
-resultat_calcul = Label(frame_calcul,textvariable=resultat).pack()
+
+resultat_calcul = Label(frame_calcul,textvariable=resultat,font=(None,20)).pack()
 
 R1 = Radiobutton(frame_calcul,text="écriture normal",variable=ecriture,value=1,command=calculer)
 R1.select()
@@ -79,13 +88,9 @@ R1.select()
 
 rep = Button(frame_calcul,text="Rep",command=repliquer)
 rep.place(x=10,y=10)
-# ----------------------------------------------------------------------
 
-app.bind("<Return>",calculer)
-app.bind("<Alt_R>",effacer)
-app.bind("<Control_R>",repliquer)
-app.bind("<Up>",lambda x:R1.invoke())
-app.bind("<Down>",lambda x:R2.invoke())
+suppr = Button(frame_calcul,text="Suppr",command=lambda:historique_liste.delete(0,END))
+suppr.place(x=10,y=40)
 
 # ----------------------------------------------------------------------
 
@@ -94,6 +99,6 @@ frame_bouton.pack(side="right",fill=BOTH,expand=1)
 
 bouton_calcul = Button(frame_bouton,text="=",command=calculer,bg="light green").pack(fill=BOTH)
 bouton_effacer = Button(frame_bouton,text="Effacer",command=effacer,bg="light green").pack(fill=BOTH)
-bouton_fermer = Button(frame_bouton,text="fermer",command=fermer,bg="red").pack(fill=BOTH,side="bottom")
+bouton_fermer = Button(frame_bouton,text="fermer",command=lambda:app.destroy(),bg="red").pack(fill=BOTH,side="bottom")
 
 app.mainloop()
