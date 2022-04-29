@@ -77,7 +77,7 @@ def recherche_dicho(liste,valeur) :
 
 	return position
 
-print("On cherche 8 dans la liste , position = ",recherche_dicho(donne,8),"\n")
+print("On cherche 8 par dichotomie dans la liste , position = ",recherche_dicho(donne,8),"\n")
 
 def recherche_normal(liste,valeur) :
 
@@ -92,8 +92,6 @@ donne = [i for i in range(100**3*10)]
 t1 = time()
 recherche_dicho(donne,100**3)
 t2 = time()
-print(t1)
-print(t2)
 
 print("temps pour recherche_dicho :",t2-t1)
 
