@@ -1,0 +1,8 @@
+index temps
+
+1 = avant 8 heure
+2 = pdt les cours
+3 = interclasse
+4 = recré
+5 = pause midi
+6 = sortie
