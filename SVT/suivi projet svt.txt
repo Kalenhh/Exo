@@ -69,3 +69,10 @@ lieu_profs = [(288,170)]
 
 
 On divise le plan en unité de hauteur et largeur x et on calcul son intensité sonore grace au calcul de distance avec tous les points de sources sonores
+
+
+Association des donnés :
+
+fonction appairage
+
+
