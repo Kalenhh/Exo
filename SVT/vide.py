@@ -36,7 +36,7 @@ red = "#ff0000"
 blue = "#66ccff"
 green = "#66B266"
 
-chart = list(Color("red").range_to(Color("green"),100))
+chart = list(Color("green").range_to(Color("red"),100))
 
 # Fonctions :-------------------------------------------------------------------------------------------
 
@@ -197,13 +197,21 @@ frame_dessin.pack(side="left")
 can = Canvas(frame_dessin,height=1000,width=700,bg=green)
 can.pack()
 
+repliste = []
+
+def mmove(event):
+	global repliste
+	print(event.x, event.y)
+	repliste.append((event.x,event.y))
+	print(repliste)
+
+
+root.bind('<Button-1>', mmove)
 
 
 
 
-
-
-draw_data(mesure_all,6,4)
+draw_data(mesure_all,6,2)
 
 print(point_total_value(appairage(mesure_all,1,4),(287,241)))
 

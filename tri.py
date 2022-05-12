@@ -1,9 +1,10 @@
-#lm.py
+#tri.py
 #coding:utf-8
 
 # Activité Algo de tri
 
-#Import
+#Import :-------------------------------------------------------------------------------------------------------
+
 from random import*
 from time import*
 from copy import*
@@ -84,7 +85,7 @@ def recherche_dicho(liste,valeur) :
 	else :
 		position = None			# None si la valeur n'est pas présente
 
-	return position	
+	return position
 
 def recherche_normal(liste,valeur) :
 	"""
@@ -101,7 +102,7 @@ def test_recherche() :
 	On test l'efficacité de la recherche dichotomique par rapport à la recherche normal
 	"""
 
-	donne = [i for i in range(100**3*10)]
+	donne = [i for i in range(100**3*10)] # liste triée avec beaucoup de valeurs 
 
 	t1 = time()
 	recherche_dicho(donne,100**3)
@@ -123,19 +124,18 @@ def test() :
 	On test les fonctions avec des assertions
 	"""
 
-	liste = [o for o in range(11)]		# Liste de valeur de 0 à 100
+	liste = [o for o in range(11)]		# Liste de valeur de 0 à 10
+	shuffle(liste)
 
-	liste_s = deepcopy(liste)
-	shuffle(liste_s)
-	liste_insert = tri_insert(liste_s)	# Liste trié par insertion
-	liste_select = tri_select(liste_s)	# Liste trié par selection
+	liste_insert = tri_insert(deepcopy(liste))	# Liste trié par insertion
+	liste_select = tri_select(deepcopy(liste))	# Liste trié par selection
 
 	for i in range(len(liste)) :
 		assert liste_insert[i] == i 		# Si chaque valeur est égale à son index (donc trié sans erreur)
 		assert liste_select[i] == i
 
-		assert recherche_normal(liste,i) == i 	
-		assert recherche_dicho(liste,i) == i
+		assert recherche_normal([o for o in range(11)],i) == i 	
+		assert recherche_dicho([o for o in range(11)],i) == i
 test()
 
 
@@ -145,90 +145,9 @@ print("liste trié par insert :",tri_insert(deepcopy(donne)),"\n")
 
 print("liste trié par selection :",tri_select(deepcopy(donne)),"\n")
 
-print("On cherche 8 par dichotomie dans la liste , position = ",recherche_dicho(tri_insert(donne),8),"\n")
+print("On cherche 8 par dichotomie dans la liste , index = ",recherche_dicho(tri_insert(donne),8),"\n")
 
 test_recherche()
 
 
 #-----------------------------------------------------------------------------------------------------------------
-
-from tkinter import*
-from time import*
-from copy import*
-from random import*
-
-
-root = Tk()
-
-def tri_insert() :
-	"""
-	On prend chaque item et on l'insere juste avant la valeur plus grande que lui en partant du debut de la liste
-	"""
-	liste = [o for o in range(100)]
-	shuffle(liste)
-
-	for i in range(len(liste)) : 	# i est l'index de l'item selectionné
-		j = 0 						# j est l'index ou l'item sera inseré
-
-		actu(deepcopy(liste),i)
-
-		while liste[i] > liste[j] :		# Si la valeur à i est plus grande que la valeur à j 
-			j = j+1 					# On incrémente j
-
-		liste.insert(j,liste[i])	# On insere la valeur i à l'index j
-		liste.pop(i+1)				# On supprime la valeur i donc i+1
-
-		actu(deepcopy(liste),j)
-
-
-def tri_select() :
-	"""
-	On prend la 1ère valeur puis on cherche le minimum dans le reste de la liste pour l'inserer à la suite puis on ré-itère.
-	"""
-	liste = [o for o in range(100)]
-	shuffle(liste)
-
-	for i in range(len(liste)-1) : 	# i est l'index de l'item selectionné
-		minimum = liste[i]
-		position = i
-
-		actu(deepcopy(liste),position-1)
-
-		for j in range(i,len(liste)) :	# j est l'index des items comparé avec la valeur i
-			if liste[j] < minimum :		# On cherche la plus petite valeur
-				minimum = liste[j]
-				position = j
-
-		actu(deepcopy(liste),position)
-
-		liste.insert(i,minimum)		# On insere la plus petite valeur trouvé à l'index i
-		liste.pop(position+1)		# On supprime la valeur i donc i+1
-	
-	actu(deepcopy(liste),position)
-
-
-def actu(liste,val) :
-	sleep(0.05)
-	global can
-	can.delete(ALL)
-
-	pla = 10
-	for i in range(len(liste)) :
-		if i == val :
-			can.create_line(pla,200,pla,200-liste[i]*2,fill="blue",width=5,tags="ligne")
-		else :
-			can.create_line(pla,200,pla,200-liste[i]*2,fill="red",width=5,tags="ligne")
-		pla = pla+10
-
-	root.update()	
-
-can = Canvas(root,bg="yellow",width=1030, height=200)
-can.pack()
-
-la = Button(root,text="insertion",command=tri_insert)
-la.pack(side="right")
-
-select = Button(root,text="selection",command=tri_select)
-select.pack(side="right")
-
-root.mainloop()
