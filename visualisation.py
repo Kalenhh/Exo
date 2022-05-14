@@ -1,13 +1,15 @@
 #visualisation
 #coding:utf-8
 
+# Import :--------------------------------------------------------------------------------------------
+
 from tkinter import*
 from time import*
 from copy import*
 from random import*
 
 
-root = Tk()
+# Fonction :------------------------------------------------------------------------------------------------------
 
 def tri_insert() :
 	"""
@@ -57,21 +59,34 @@ def tri_select() :
 
 
 def actu(liste,val) :
-	sleep(0.05)
+	"""
+	On actualise le graph
+	liste = liste de valeur
+	val = une valeur a mettre en surbrillance
+	"""
+
 	global can
+
+	sleep(0.05)
 	can.delete(ALL)
 
 	pla = 10
 	for i in range(len(liste)) :
 		if i == val :
-			can.create_line(pla,200,pla,200-liste[i]*2,fill="blue",width=5,tags="ligne")
+			can.create_line(pla,200,pla,200-liste[i]*2,fill="blue",width=5)
 		else :
-			can.create_line(pla,200,pla,200-liste[i]*2,fill="red",width=5,tags="ligne")
+			can.create_line(pla,200,pla,200-liste[i]*2,fill="red",width=5)
 		pla = pla+10
 
-	root.update()	
+	root.update()
 
-can = Canvas(root,bg="yellow",width=1030, height=200)
+
+# Fenetre :-----------------------------------------------------------------------------------------------
+
+root = Tk()
+root.title("Visualisation Tri")
+
+can = Canvas(root,bg="yellow",width=1030, height=200)			# Zone de dessin
 can.pack()
 
 insert = Button(root,text="insertion",command=tri_insert)
