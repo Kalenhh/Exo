@@ -79,3 +79,23 @@ fonction appairage
 pour les comparaisons :
 
 utilisation du knn avec k = 1 et n = chaque groupe de points representant la surface d une zone
+
+pour determiner 
+
+
+
+
+
+
+pour la reduction materielle du aux murs :
+
+on prend une sous image plan_mur 
+
+les murs sont en noir l air en blanc
+
+1 calculer l equation de 1er degré du points a determiner et du points de source
+
+sur l intervalle x point 1 et x point 2 calculer les pixels noir sur plan_mur sur la ligne d équation
+
+selon le nombre de point noir sur la trajectoire , les dB sont atténué
+

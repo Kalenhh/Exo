@@ -11,20 +11,30 @@ from colour import*
 
 # Set Variables :--------------------------------------------------------------------------------------------------
 
-lieu_cdi = [[(287,241)],0]
-lieu_ateliers = [[(445,366),(405,629),(619,710)],0]
-lieu_cantine = [[(339,896)],0]
-lieu_perm = [[(356,303)],0]
-lieu_vie_sco = [[(300,306)],0]
-lieu_gymnase = [[(105,489)],0]
-lieu_recre = [[(344,408),(358,197)],0]
-lieu_muscu = [[(453,584)],0]
-lieu_internat = [[(187,69)],0]
-lieu_classe = [[(430,546),(378,246)],0]
-lieu_labo = [[(378,107)],0]
-lieu_couloirs = [[(421,565),(468,432)],0]
-lieu_admin = [[(543,798),(549,931)],0]
-lieu_profs = [[(288,170)],0]
+def zone(a,b) :
+
+	return [(o,i) for o in range(a[0],b[0],5) for i in range(a[1],b[1],5)]
+
+lieu_cdi = 		[zone((280, 205), (295, 271))	,0]
+lieu_ateliers = [zone((417, 309), (523, 414)) +
+				 zone((350, 573), (428, 676)) 	,0]
+lieu_cantine = 	[zone((288, 860), (397, 938))	,0]
+lieu_perm = 	[zone((366, 285), (390, 320))	,0]
+lieu_vie_sco = 	[zone((280, 282), (310, 306))	,0]
+lieu_gymnase = 	[zone(( 12, 427), (173, 546))	,0]
+lieu_recre = 	[zone((313, 332), (379, 484)) 	,0]
+lieu_muscu = 	[zone((431, 575), (476, 612)) 	,0]
+lieu_internat = [zone((149,   9), (232, 109))	,0]
+lieu_classe = 	[zone((351, 523), (506, 556)) + 
+				 zone((393, 439), (540, 471)) +
+				 zone((368, 123), (388, 271)) 	,0]
+lieu_labo = 	[zone((367,  96), (387, 111)) 	,0]
+lieu_couloirs = [zone((350, 558), (503, 570)) +
+				 zone((394, 415), (537, 436)) +
+				 zone((313, 270), (363, 286)) 	,0]
+lieu_admin = 	[zone((515, 887), (581, 969)) +
+				 zone((516, 778), (565, 810)) 	,0]
+lieu_profs = 	[zone((280, 140), (297, 196))	,0]
 
 lieu_all_0 = [lieu_cdi,lieu_ateliers,lieu_cantine,lieu_perm,lieu_vie_sco,lieu_gymnase,lieu_recre,lieu_muscu,
 lieu_internat,lieu_classe,lieu_labo,lieu_couloirs,lieu_admin,lieu_profs]
@@ -37,6 +47,13 @@ blue = "#66ccff"
 green = "#66B266"
 
 chart = list(Color("green").range_to(Color("red"),100))
+
+root = Tk()
+root.minsize(1000,1000)
+root.maxsize(1000,1000)
+
+source = PhotoImage(file="plan.PNG")
+source_mur = PhotoImage(file="plan_mur.png")
 
 # Fonctions :-------------------------------------------------------------------------------------------
 
@@ -62,6 +79,38 @@ def distance(x1,y1,x2,y2) :
 
 	delta = delta * 130 / 580
 	return int(round(delta,0))
+
+def attenuation(x1,y1,x2,y2) :
+
+	"""
+	equation affine mx+p
+	"""
+	global source_mur
+	global can
+
+	if x2 < x1 :
+		repx , repy = x1 , y1
+		x1 ,y1 = x2 , y2
+		x2 , y2 = repx , repy
+
+	if x2 - x1 == 0 :
+		x1 = x1+1
+
+	m = (y2-y1)/(x2-x1) # la pente
+	p = y1 - m * x1		# le plus
+	y = 0 				# y image de x sur la droite mx+p
+	rep = 0 			# le nombre de pixel pas blanc sur la droite
+
+
+
+	for x in range(x1,x2) :
+		y = m*x + p
+		y = int(round(y,0))
+
+
+		if source_mur.get(x,int(y)) < (200,200,200) :
+			rep = rep + 1
+	return rep
 
 
 def point_value(source,distance) :
@@ -94,31 +143,45 @@ def point_total_value(liste,coord) :
 		if i[1] == "None" :
 			continue
 
+
+		maxi = sqrt(1000**2+700**2)
 		for o in i[0] : # pour tt les tuples,o =tuple
 
-			rep = point_value(int(i[1]),  distance(coord[0],coord[1],o[0],o[1])  )
+			# KNN on determine le point le plus proche
+			test_distance = distance(coord[0],coord[1],o[0],o[1])
+			if test_distance < maxi :
+				maxi = test_distance
+				voisin = o
 
-			value = 10*log((10**(value/10))+(10**(rep/10)),10)
+		atten = attenuation
+
+		rep = point_value(int(i[1]),  distance(coord[0],coord[1],voisin[0],voisin[1])  ) - attenuation(coord[0],coord[1],voisin[0],voisin[1])
+
+		value = 10*log((10**(value/10))+(10**(rep/10)),10)
 
 	return int(round(value,0)) 		
 
 
-def draw_data(liste,heure,donne) :
+def draw_data() :
 
 	global chart
 	global can
-	rep = appairage(liste,heure,donne)
-	print(rep)
+	global mesure_all
+
+	can.delete(ALL)
+
+	rep = appairage(mesure_all,temps.curselection()[0]+1 ,mode.curselection()[0]+2)
+
 
 	for i in range(70) : # x du point 
 		for o in range(100) : # y du point 
 
 			value = point_total_value(rep,(i*10,o*10))
-			print(value)
 
 			can.create_line(i*10,o*10,10+i*10,10+o*10,width=10,fill=chart[value])
 			root.update()
-			
+
+	can.create_image(0,0,anchor=NW,image=source)
 
 def appairage(liste,heure,donne) :
 	"""
@@ -178,6 +241,8 @@ def appairage(liste,heure,donne) :
 	return lieu_all_0
 
 
+def rgb_to_hex(rgb):
+    return '%02x%02x%02x' % rgb
 
 # Main root :----------------------------------------------------------------------------------------------
 
@@ -186,10 +251,6 @@ def appairage(liste,heure,donne) :
 
 mesure_all = ouverture("mesure.csv")
 mesure_all.pop(0)
-
-root = Tk()
-root.minsize(1000,1000)
-root.maxsize(1000,1000)
 
 frame_dessin = Frame(root,height=1000,width=700)
 frame_dessin.pack(side="left")
@@ -205,29 +266,51 @@ def mmove(event):
 	repliste.append((event.x,event.y))
 	print(repliste)
 
+	color.configure(bg="#"+rgb_to_hex(source_mur.get(event.x,event.y)))
+	print(source_mur.get(event.x,event.y))
+
 
 root.bind('<Button-1>', mmove)
 
 
 
+can.create_image(0,0,anchor=NW,image=source_mur)
 
-draw_data(mesure_all,6,2)
-
-print(point_total_value(appairage(mesure_all,1,4),(287,241)))
-
-
-
-source = PhotoImage(file="plan.PNG")
-can.create_image(0,0,anchor=NW,image=source)
 
 for i in lieu_all :
 	can.create_line(i[0]-1,i[1]-1,i[0]+1,i[1]+1,width=5,fill=green)
 
 
 
-
 frame_config = Frame(root,height=1000,width=300,bg="yellow")
 frame_config.pack(side="right",fill=BOTH)
+
+color = Canvas(frame_config,height=20,width=20)
+color.pack()
+
+temps  = Listbox(frame_config,selectmode="single",exportselection=False)
+temps.pack()
+
+temps.insert(0,"1")
+temps.insert(1,"2")
+temps.insert(2,"3")
+temps.insert(3,"4")  # mettre les noms propres
+temps.insert(4,"5")
+temps.insert(5,"6")
+temps.selection_set(0)
+
+
+mode = Listbox(frame_config,selectmode="single",exportselection=False)
+mode.pack()
+
+mode.insert(0,"Minimum")
+mode.insert(1,"Maximum")
+mode.insert(2,"Moyenne")
+mode.selection_set(2)
+
+
+draw_button = Button(frame_config,text="Draw",command=draw_data)
+draw_button.pack()
 
 
 root.mainloop()
