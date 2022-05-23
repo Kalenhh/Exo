@@ -15,26 +15,26 @@ def zone(a,b) :
 
 	return [(o,i) for o in range(a[0],b[0],5) for i in range(a[1],b[1],5)]
 
-lieu_cdi = 		[zone((280, 205), (295, 271))	,0]
-lieu_ateliers = [zone((417, 309), (523, 414)) +
-				 zone((350, 573), (428, 676)) 	,0]
-lieu_cantine = 	[zone((288, 860), (397, 938))	,0]
-lieu_perm = 	[zone((366, 285), (390, 320))	,0]
-lieu_vie_sco = 	[zone((280, 282), (310, 306))	,0]
-lieu_gymnase = 	[zone(( 12, 427), (173, 546))	,0]
-lieu_recre = 	[zone((313, 332), (379, 484)) 	,0]
-lieu_muscu = 	[zone((431, 575), (476, 612)) 	,0]
-lieu_internat = [zone((149,   9), (232, 109))	,0]
-lieu_classe = 	[zone((351, 523), (506, 556)) + 
-				 zone((393, 439), (540, 471)) +
-				 zone((368, 123), (388, 271)) 	,0]
-lieu_labo = 	[zone((367,  96), (387, 111)) 	,0]
-lieu_couloirs = [zone((350, 558), (503, 570)) +
-				 zone((394, 415), (537, 436)) +
-				 zone((313, 270), (363, 286)) 	,0]
-lieu_admin = 	[zone((515, 887), (581, 969)) +
-				 zone((516, 778), (565, 810)) 	,0]
-lieu_profs = 	[zone((280, 140), (297, 196))	,0]
+lieu_cdi 		=	[zone((280, 205), (295, 271))	,0]
+lieu_ateliers 	= 	[zone((417, 309), (523, 414)) +
+				 	 zone((350, 573), (428, 676)) 	,0]
+lieu_cantine 	= 	[zone((288, 860), (397, 938))	,0]
+lieu_perm 		= 	[zone((366, 285), (390, 320))	,0]
+lieu_vie_sco 	= 	[zone((280, 282), (310, 306))	,0]
+lieu_gymnase 	= 	[zone(( 12, 427), (173, 546))	,0]
+lieu_recre 		= 	[zone((313, 332), (379, 484)) 	,0]
+lieu_muscu 		= 	[zone((431, 575), (476, 612)) 	,0]
+lieu_internat 	= 	[zone((149,   9), (232, 109))	,0]
+lieu_classe 	= 	[zone((351, 523), (506, 556)) + 
+				 	 zone((393, 439), (540, 471)) +
+					 zone((368, 123), (388, 271)) 	,0]
+lieu_labo 		= 	[zone((367,  96), (387, 111)) 	,0]
+lieu_couloirs 	= 	[zone((350, 558), (503, 570)) +
+					 zone((394, 415), (537, 436)) +
+					 zone((313, 270), (363, 286)) 	,0]
+lieu_admin 		= 	[zone((515, 887), (581, 969)) +
+					 zone((516, 778), (565, 810)) 	,0]
+lieu_profs 		= 	[zone((280, 140), (297, 196))	,0]
 
 lieu_all_0 = [lieu_cdi,lieu_ateliers,lieu_cantine,lieu_perm,lieu_vie_sco,lieu_gymnase,lieu_recre,lieu_muscu,
 lieu_internat,lieu_classe,lieu_labo,lieu_couloirs,lieu_admin,lieu_profs]
@@ -54,6 +54,9 @@ root.maxsize(1000,1000)
 
 source = PhotoImage(file="plan.PNG")
 source_mur = PhotoImage(file="plan_mur.png")
+
+decibel = StringVar()
+
 
 # Fonctions :-------------------------------------------------------------------------------------------
 
@@ -86,7 +89,6 @@ def attenuation(x1,y1,x2,y2) :
 	equation affine mx+p
 	"""
 	global source_mur
-	global can
 
 	if x2 < x1 :
 		repx , repy = x1 , y1
@@ -108,7 +110,7 @@ def attenuation(x1,y1,x2,y2) :
 		y = int(round(y,0))
 
 
-		if source_mur.get(x,int(y)) < (200,200,200) :
+		if source_mur.get(x,y) < (100,100,100) :
 			rep = rep + 1
 	return rep
 
@@ -153,8 +155,6 @@ def point_total_value(liste,coord) :
 				maxi = test_distance
 				voisin = o
 
-		atten = attenuation
-
 		rep = point_value(int(i[1]),  distance(coord[0],coord[1],voisin[0],voisin[1])  ) - attenuation(coord[0],coord[1],voisin[0],voisin[1])
 
 		value = 10*log((10**(value/10))+(10**(rep/10)),10)
@@ -178,7 +178,7 @@ def draw_data() :
 
 			value = point_total_value(rep,(i*10,o*10))
 
-			can.create_line(i*10,o*10,10+i*10,10+o*10,width=10,fill=chart[value])
+			can.create_line(i*10,o*10,10+i*10,10+o*10,width=10,fill=chart[value],tags=str(i)+str("")+str(o))
 			root.update()
 
 	can.create_image(0,0,anchor=NW,image=source)
@@ -258,16 +258,21 @@ frame_dessin.pack(side="left")
 can = Canvas(frame_dessin,height=1000,width=700,bg=green)
 can.pack()
 
-repliste = []
+
 
 def mmove(event):
-	global repliste
-	print(event.x, event.y)
-	repliste.append((event.x,event.y))
-	print(repliste)
+	global chart
+	global mesure_all
 
-	color.configure(bg="#"+rgb_to_hex(source_mur.get(event.x,event.y)))
-	print(source_mur.get(event.x,event.y))
+	#print(event.x, event.y)
+
+	rep = appairage(mesure_all,temps.curselection()[0]+1 ,mode.curselection()[0]+2)
+
+	decibel.set(point_total_value(rep,(event.x,event.y)))
+
+	"""couleur = "#"+rgb_to_hex()
+	color.configure(bg=couleur)
+"""
 
 
 root.bind('<Button-1>', mmove)
@@ -287,6 +292,9 @@ frame_config.pack(side="right",fill=BOTH)
 
 color = Canvas(frame_config,height=20,width=20)
 color.pack()
+
+color_label = Label(frame_config,textvariable=decibel)
+color_label.pack()
 
 temps  = Listbox(frame_config,selectmode="single",exportselection=False)
 temps.pack()

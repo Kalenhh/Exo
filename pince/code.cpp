@@ -34,21 +34,24 @@ void loop(){
   
   Serial.println(servo_position) ;
 
+  servo_position = Serial.read() ;
+
   if (joystick_position > 500){         //La pince s'ouvre
-    if (force_capteur < max_capacity and servo_position < 170 or force_capteur => max_capacity and security == false){
-      servo_position = servo_position + 0.1*sensibility;
+    if (force_capteur < max_capacity and servo_position < 170 or force_capteur >= max_capacity and security == false){
+      servo_position = servo_position + 0.2*sensibility;
     }
 
   }
   if (joystick_position < 200){         //La pince ferme
     if (servo_position >10){
-      servo_position = servo_position - 0.1*sensibility;
+      servo_position = servo_position - 0.2*sensibility;
     }
   }
 
   if (joystick_position = 701){         //(des)activer la sécurité
     security = !security;
     delay(1000)
+  }
 }
 
 
@@ -56,6 +59,19 @@ void loop(){
 
 """
 
+
+
+char switchstate;
+
+void setup() {//Here the code only runs once.
+Serial.begin(9600);
+}
+void loop() {//This code repeats. This is our main code.
+while(Serial.available()>0){
+switchstate = Serial.read();
+Serial.println(switchstate);
+delay(15);
+}}
 
 void setup(){
   pinMode(0,INPUT) ;   // analog
