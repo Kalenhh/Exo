@@ -49,8 +49,7 @@ green = "#66B266"
 chart = list(Color("green").range_to(Color("red"),100))
 
 root = Tk()
-root.minsize(1000,1000)
-root.maxsize(1000,1000)
+root.title("Cartographie Sonore BDM")
 
 source = PhotoImage(file="plan.PNG")
 source_mur = PhotoImage(file="plan_mur.png")
@@ -255,9 +254,14 @@ mesure_all.pop(0)
 frame_dessin = Frame(root,height=1000,width=700)
 frame_dessin.pack(side="left")
 
-can = Canvas(frame_dessin,height=1000,width=700,bg=green)
+
+can_vertical_scroll = Scrollbar(frame_dessin)
+can_vertical_scroll.pack(side="left",fill=BOTH)
+
+can = Canvas(frame_dessin,height=1000,width=700,bg=green,scrollregion=(0,0,700,1000),yscrollcommand=can_vertical_scroll.set)
 can.pack()
 
+can_vertical_scroll.config(command = can.yview)
 
 
 def mmove(event):
@@ -288,7 +292,7 @@ for i in lieu_all :
 
 
 frame_config = Frame(root,height=1000,width=300,bg="yellow")
-frame_config.pack(side="right",fill=BOTH)
+frame_config.pack(side="right",fill=BOTH,expand=1)
 
 color = Canvas(frame_config,height=20,width=20)
 color.pack()
