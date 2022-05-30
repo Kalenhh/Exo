@@ -1,7 +1,15 @@
 #lm.py
+from copy import*
 
 
-"""
+
+
+
+
+
+
+
+
 
 def tri(t) :
 	for i in range(len(t)-1) :
@@ -16,7 +24,7 @@ liste = [16 for o in range(10)]
 print(liste)
 print(tri(liste))
 
-"""
+
 
 def rendu_monnaie(piece,somme) :
 	"""
@@ -47,25 +55,41 @@ print("pièces rendu pour 2.46 :",rendu_monnaie(liste,2.46),"\n")
 
 def sacados(objets,poids_max) :
 	"""
-	objets = liste des objets ordonné par valeur DECROISSANT
+	liste = liste des liste ordonné par valeur DECROISSANT
 	poids_max = maximum du sac
 	"""
 
-	sac = [] # liste des objets dans le sac
-	poids = 0 # poids du sac avec les objets
+	liste = deepcopy(objets)
+	sac = [] # liste des liste dans le sac
+	poids = 0 # poids du sac avec les liste
 
-	for i in range(len(objets)) :
-		if objets[i][1] + poids <= poids_max :
-			sac.append(objets[i][0])
-			poids = poids + objets[i][1]
+	ratio = 0
+	while poids <= poids_max and len(liste) > 0:
 
-	return sac
-	
-liste = [(i,[2,7,5,9,5,4,2,1,9,8,6,5,4,3][i]) for i in range(10)]
+		ratio=-0.1
+		for i in range(len(liste)) :
+
+			if liste[i][3] > ratio and poids + liste[i][1] < poids_max :
+				rep = liste[i]
+				index = i
+				ratio = rep[3]
+
+		poids = poids + rep[1]
+		liste.remove(liste[index])
+		sac.append(rep)
+		print(liste)
+
+	sac.pop(rep)
+	return sac , poids
+
+nom = ["montre","ordi","smartphone","appareil","imprimante","tablette","agenda","livres","cahiers","outils","lampe","gps"]
+poids = [53,1900,220,1500,5800,480,220,2200,780,3450,570,154]
+valeur = [150,949,399,1250,125,89,4,53,5.6,245,23,129]
+
+liste = [[nom[i],poids[i],valeur[i],round(valeur[i]/poids[i],1)] for i in range(len(nom))]
 
 print("Liste des objets dispo :",liste)
-print("1er element = le nom de l objet et 2eme element = poids , liste trié par ratio valeur/poids decroissant")
-print("Objets pris :",sacados(liste,20),"\n")
-
+print("1er element = le nom de l objet et 2eme element = poids 3eme = valeur , 4eme = ratio")
+print("objets pris :",sacados(liste,4000),"\n")
 
 

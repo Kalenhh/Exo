@@ -109,7 +109,7 @@ def attenuation(x1,y1,x2,y2) :
 		y = int(round(y,0))
 
 
-		if source_mur.get(x,y) < (100,100,100) :
+		if source_mur.get(x,y) < (150,150,150) :
 			rep = rep + 1
 	return rep
 
@@ -154,7 +154,7 @@ def point_total_value(liste,coord) :
 				maxi = test_distance
 				voisin = o
 
-		rep = point_value(int(i[1]),  distance(coord[0],coord[1],voisin[0],voisin[1])  ) - attenuation(coord[0],coord[1],voisin[0],voisin[1])
+		rep = point_value(	int(i[1]),  distance(coord[0],coord[1],voisin[0],voisin[1])  ) - attenuation(coord[0],coord[1],voisin[0],voisin[1])
 
 		value = 10*log((10**(value/10))+(10**(rep/10)),10)
 
@@ -272,11 +272,10 @@ def mmove(event):
 
 	rep = appairage(mesure_all,temps.curselection()[0]+1 ,mode.curselection()[0]+2)
 
-	decibel.set(point_total_value(rep,(event.x,event.y)))
+	val = point_total_value(rep,(event.x,event.y))
+	decibel.set(val)
 
-	"""couleur = "#"+rgb_to_hex()
-	color.configure(bg=couleur)
-"""
+	color.configure(bg= chart[val])
 
 
 root.bind('<Button-1>', mmove)
@@ -295,25 +294,25 @@ frame_config = Frame(root,height=1000,width=300,bg="yellow")
 frame_config.pack(side="right",fill=BOTH,expand=1)
 
 color = Canvas(frame_config,height=20,width=20)
-color.pack()
+color.pack(anchor="nw")
 
 color_label = Label(frame_config,textvariable=decibel)
-color_label.pack()
+color_label.pack(anchor="nw")
 
 temps  = Listbox(frame_config,selectmode="single",exportselection=False)
-temps.pack()
+temps.pack(anchor="ne")
 
-temps.insert(0,"1")
-temps.insert(1,"2")
-temps.insert(2,"3")
-temps.insert(3,"4")  # mettre les noms propres
-temps.insert(4,"5")
-temps.insert(5,"6")
+temps.insert(0,"Avant les cours")
+temps.insert(1,"Pendant les cours")
+temps.insert(2,"Interclasse")
+temps.insert(3,"Recréation")  # mettre les noms propres
+temps.insert(4,"Pause méridienne")
+temps.insert(5,"Sortie des cours")
 temps.selection_set(0)
 
 
 mode = Listbox(frame_config,selectmode="single",exportselection=False)
-mode.pack()
+mode.pack(anchor="ne")
 
 mode.insert(0,"Minimum")
 mode.insert(1,"Maximum")
@@ -321,8 +320,8 @@ mode.insert(2,"Moyenne")
 mode.selection_set(2)
 
 
-draw_button = Button(frame_config,text="Draw",command=draw_data)
-draw_button.pack()
+draw_button = Button(frame_config,text="Dessiner",command=draw_data)
+draw_button.pack(anchor="center")
 
 
 root.mainloop()
