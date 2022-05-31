@@ -71,25 +71,26 @@ lieu_profs = [(288,170)]
 On divise le plan en unité de hauteur et largeur x et on calcul son intensité sonore grace au calcul de distance avec tous les points de sources sonores
 
 
-Association des donnés :
+Association des donnés : fait 
 
 fonction appairage
 
 
-pour les comparaisons :
+pour les comparaisons : fait
 
-utilisation du knn avec k = 1 et n = chaque groupe de points representant la surface d une zone
+utilisation du knn avec k = 1 et n = chaque groupe de points representant la surface d une zone : fait
 
-pour determiner 
-
-
+faire les zones : fait
 
 
 
 
-pour la reduction materielle du aux murs :
 
-on prend une sous image plan_mur 
+
+
+pour la reduction materielle du aux murs : 
+
+on prend une sous image plan_mur : fait 
 
 les murs sont en noir l air en blanc
 
