@@ -1,5 +1,8 @@
 #lm.py
 from copy import*
+import diapo.hello
+
+diapo.hello.hellofunc()
 
 
 
@@ -7,8 +10,7 @@ from copy import*
 
 
 
-
-
+"""
 
 
 def tri(t) :
@@ -27,10 +29,10 @@ print(tri(liste))
 
 
 def rendu_monnaie(piece,somme) :
-	"""
+	
 	piece = liste des pieces dispo pour le rendu en euro
 	somme = valeur a rendre
-	"""
+	
 
 	rendu = [] 		# liste des pieces qui seront rendu
 
@@ -54,10 +56,10 @@ print("pièces rendu pour 2.46 :",rendu_monnaie(liste,2.46),"\n")
 
 
 def sacados(objets,poids_max) :
-	"""
+	
 	liste = liste des liste ordonné par valeur DECROISSANT
 	poids_max = maximum du sac
-	"""
+	
 
 	liste = deepcopy(objets)
 	sac = [] # liste des liste dans le sac
@@ -93,3 +95,4 @@ print("1er element = le nom de l objet et 2eme element = poids 3eme = valeur , 4
 print("objets pris :",sacados(liste,4000),"\n")
 
 
+"""
