@@ -109,7 +109,7 @@ def attenuation(x1,y1,x2,y2) :
 		y = int(round(y,0))
 
 
-		if source_mur.get(x,y) < (150,150,150) :
+		if source_mur.get(x,y) < (200,200,200) :
 			rep = rep + 1
 	return rep
 
