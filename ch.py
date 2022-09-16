@@ -2,35 +2,42 @@
 # Liste chainée
 
 A = [14,[12,[9,None]]]
-B = [None,None]
+B = [None,None]				# Liste 
 C = [3,None]
-print(f"Liste :\t{A}\t{B}\t{C}")
+
+def printl() :
+	# Affiche les listes
+	print(f"Liste :\n{A}\n{B}\n{C}")
+
+printl()	
 
 
 def longueur(chain) :
+	# Retourne la longueur de la liste chainée 'chain'
 
-	if chain == [] :
+	if chain == [] :	# Liste vide
 		return "Empty List E0"
 
 	longueur = 0
-	while chain != None and chain[0] is not None :
-		longueur += 1
+	while chain != None and chain[0] is not None : 	# Incrémente tant que chain est une 
+		longueur += 1 								# liste de la forme [valeur,liste]
 		chain = chain[1]
 
 	return longueur
 
-print(f"len\t{longueur(A)}\t{longueur(B)}\t{longueur(C)}")
+print(f"longueur : \t{longueur(A)}\t{longueur(B)}\t{longueur(C)}")
 
 
 def acceder(chain,i) :
+	# Retourne la valeur à l'index i dans la liste chainée 'chain'
 
-	if chain == [] :
+	if chain == [] :	# Liste vide
 		return "Empty List E1"
 
-	if i >= longueur(chain):
+	if i >= longueur(chain):	# Index trop grand
 		return "Index I1"	
 
-	for o in range(i) :
+	for o in range(i) :		# On cherche la valeur d'index i
 		chain = chain[1]
 
 	return chain[0]
@@ -43,19 +50,21 @@ print(f"Liste :\t{A}\t{B}\t{C}")
 
 
 def ajouter(chain,element) :
+	# Ajoute 'element' à la fin de la liste chainée 'chain'
 
-	if len(chain) == 0 :
+	if chain == [] :	# Liste vide
 		print("Empty list E2")
 		return
 
+	if chain[0] is None :		# Si chain est chainée et vide [None,None]
+		seg[:] = [element,None]
+
 	seg = chain
-	while seg[1] != None :
+	while seg[1] is not None :	# On parcourt la liste jusqu'à la fin
 		seg = seg[1]
 
 	seg[:] = [seg[0],[element,None]]
 
-	if chain[0] is None :
-		seg[:] = [element,None]
 
 print("\nFonction ajouter :")
 ajouter(A,"ajouter")
@@ -69,6 +78,7 @@ print(f"Liste :\n{A}\n{B}\n{C}")
 
 
 def inserer(chain,i,element) :
+	# Insérer 'element' à l'index i dans la liste chainée 'chain'
 
 	if longueur(chain) <= i :
 		return "Index I3"
@@ -99,13 +109,13 @@ def supprimer_val(chain,element) :
 		print("Empty List E4")
 
 	seg = chain
-	while seg[0]!=element :
+	while seg[0]!= element :
 		seg = seg[1]
 
-	if seg[1] is None :
-		seg[:] = (None,)
-		seg[:] =
-		return
+		if seg[1][1] is None and seg[0] != element :
+			seg[1] = None
+			return
+
 	seg[:] = seg[1]
 
 
@@ -120,24 +130,43 @@ supprimer_val(C,"ajouter1")
 print(f"Liste :\n{A}\n{B}\n{C}")
 
 
-
-"""
-
 def supprimer_ind(chain,i) :
 	if len(chain) == 0 :
-		print("vide")
+		print("Empty List E5")
+		return
+
+	if longueur(chain) <= i :
+		print("Index I5")
+		return
 
 	seg = chain
 	for i in range(i) :
+		
+
+		if seg[1][1] is None :
+			seg[1] = None
+			return
+
 		seg = seg[1]
 
+
 	seg[0:] = seg[1]
-	return chain
+
+print("\nFonction supprimer_ind : ")
+supprimer_ind(A,3)
+supprimer_ind(B,3)
+supprimer_ind(C,3)
+
+print(f"Liste :\n{A}\n{B}\n{C}")
 
 
 def modifier(chain,i,element) :
 	if len(chain) == 0:
 		print("vide")
+
+	if longueur(chain) <= i :
+		print("Index I6")
+		return
 
 	seg = chain
 	for i in range(i) :
@@ -146,12 +175,28 @@ def modifier(chain,i,element) :
 	seg[0:] = [element,seg[1]]
 	return chain
 
+print("\nFonction modifier : ")
+modifier(A,0,"modif")
+modifier(B,1,"modif")
+modifier(C,2,"modif")
+
+print(f"Liste :\n{A}\n{B}\n{C}")
+
 
 def vider(A) :
-	A = [None,None]
-	return A
+	A[:] = [None,None]
+	return
+
+print("\nFonction vider : ")
+vider(A)
+vider(B)
+vider(C)
+
+print(f"Liste :\n{A}\n{B}\n{C}")
 
 
+
+"""
 
 from random import*
 cara = ["a","z","e","r","t","y","u","i","o","p","q","s","d","f","g",
@@ -159,4 +204,82 @@ cara = ["a","z","e","r","t","y","u","i","o","p","q","s","d","f","g",
 def rec() :
 	global cara
 	print( 	cara[randint(0,len(cara))]   )
-	rec()"""
+	rec()
+
+
+def fonction(n) :
+	u = 2
+
+	for i in range(n) :
+		u = 0.5*u+3
+
+	return u
+
+print(f"f(1) : {fonction(1)}\tf(2) : {fonction(2)}")
+
+def somme(n) :
+	u = 2
+	s = 0
+
+	for i in range(n+1) :
+		s += u
+		u = 0.5*u+3
+
+	return s	
+
+print(f"s(1) : {somme(1)}\ts(2) : {somme(2)}")
+
+def cal(n,o,r,c) :
+	# n = rang
+	# o = U0
+	# r = raison
+	# c = constante
+
+	u = o
+
+	for i in range(n) :
+		u = u*r+c
+
+	return u
+
+print(cal(20,3,0.1,-1))
+
+def somme(n,o,r,c) :
+	t = 0
+
+	for i in range(n) :
+		t += cal(i,o,r,c)
+
+	return t	
+
+print(somme(10,0.5,2,2))
+
+def somme_borne(n1,n2,o,r,c) :
+	s1 = somme(n1,o,r,c)
+	s2 = somme(n2,o,r,c)
+
+	return s2 - s1
+
+print(somme_borne(12,20,3,0.4,1))
+
+def deter(e,o,r,c) :
+	# e = element a rechercher
+
+	u = 0
+	n = 0
+	while u <= e :
+
+		u = cal(n,o,r,c)
+		n += 1 
+
+	return n-1,u
+
+print(deter(50,1,1.1,2),cal(13,1,1.1,2))
+
+for i in range(50) :
+	print(i)
+
+
+def u(n) :
+	return 1000*1.2**n-100*n	
+	"""
