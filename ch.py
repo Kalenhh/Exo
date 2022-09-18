@@ -1,16 +1,5 @@
 #coding:utf-8
-# Liste chainée
-
-A = [14,[12,[9,None]]]
-B = [None,None]				# Liste 
-C = [3,None]
-
-def printl() :
-	# Affiche les listes
-	print(f"Liste :\n{A}\n{B}\n{C}")
-
-printl()	
-
+# Liste chainée	
 
 def longueur(chain) :
 	# Retourne la longueur de la liste chainée 'chain'
@@ -24,8 +13,6 @@ def longueur(chain) :
 		chain = chain[1]
 
 	return longueur
-
-print(f"longueur : \t{longueur(A)}\t{longueur(B)}\t{longueur(C)}")
 
 
 def acceder(chain,i) :
@@ -42,12 +29,6 @@ def acceder(chain,i) :
 
 	return chain[0]
 
-print(f"access\t{acceder(A,0)}\t{acceder(B,0)}\t{acceder(C,0)}")
-print(f"access\t{acceder(A,1)}\t{acceder(B,1)}\t{acceder(C,1)}")
-print(f"access\t{acceder(A,2)}\t{acceder(B,2)}\t{acceder(C,2)}")
-
-print(f"Liste :\t{A}\t{B}\t{C}")
-
 
 def ajouter(chain,element) :
 	# Ajoute 'element' à la fin de la liste chainée 'chain'
@@ -56,145 +37,182 @@ def ajouter(chain,element) :
 		print("Empty list E2")
 		return
 
+	seg = chain
 	if chain[0] is None :		# Si chain est chainée et vide [None,None]
 		seg[:] = [element,None]
-
-	seg = chain
+		return
+	
 	while seg[1] is not None :	# On parcourt la liste jusqu'à la fin
 		seg = seg[1]
 
 	seg[:] = [seg[0],[element,None]]
 
 
-print("\nFonction ajouter :")
-ajouter(A,"ajouter")
-ajouter(B,"ajouter")
-ajouter(C,"ajouter")
-ajouter(A,"ajouter1")
-ajouter(B,"ajouter1")
-ajouter(C,"ajouter1")
-
-print(f"Liste :\n{A}\n{B}\n{C}")
-
-
 def inserer(chain,i,element) :
 	# Insérer 'element' à l'index i dans la liste chainée 'chain'
 
-	if longueur(chain) <= i :
+	if longueur(chain) <= i :	# l'index est trop grand
 		return "Index I3"
 
 	seg = chain
-	for o in range(i) :
+	for o in range(i) :			# On parcourt jusque l'index i
 		seg=seg[1]
 
-	seg[:] = [element,[seg[0],seg[1]]]
-
-print("\nFonction inserer :")
-inserer(A,0,"inser0")
-inserer(B,0,"inser0")
-inserer(C,0,"inser0")
-inserer(A,2,"inser2")
-inserer(B,2,"inser2")
-inserer(C,2,"inser2")
-inserer(A,4,"inser4")
-inserer(B,4,"inser4")
-inserer(C,4,"inser4")
-
-print(f"Liste :\n{A}\n{B}\n{C}")
+	seg[:] = [element,[seg[0],seg[1]]]  # on insère 'element'
 
 
 def supprimer_val(chain,element) :
+	# Supprimer la premiere occurence de 'element' dans la liste chainée 'chain'
 
-	if chain == [] :
+	if chain == [] :		# liste vide
 		print("Empty List E4")
 
 	seg = chain
-	while seg[0]!= element :
+	while seg[0]!= element : # On parcourt jusque 'element'
 		seg = seg[1]
 
-		if seg[1][1] is None and seg[0] != element :
+		if seg[1][1] is None and seg[0] != element and seg[1][0] == element :  # Si element est le dernier element de la chaine
 			seg[1] = None
 			return
 
-	seg[:] = seg[1]
+		if seg is None :			# Si 'element' n'est pas present dans la liste
+			print("Element non present P4")
+			return
 
-
-print("\nFonction supprimer_val :")
-supprimer_val(A,"inser0")
-supprimer_val(B,"inser0")
-supprimer_val(C,"inser0")
-supprimer_val(A,"ajouter1")
-supprimer_val(B,"ajouter1")
-supprimer_val(C,"ajouter1")
-
-print(f"Liste :\n{A}\n{B}\n{C}")
+	seg[:] = seg[1]		# On supprimer 'element' et on raccorde la liste chainée
 
 
 def supprimer_ind(chain,i) :
-	if len(chain) == 0 :
+	# Supprimer l'element d'index i dans la liste chainée 'chain'
+
+	if chain == [] :		# liste vide
 		print("Empty List E5")
 		return
 
-	if longueur(chain) <= i :
+	if longueur(chain) <= i :	# L'index est trop grand
 		print("Index I5")
 		return
 
 	seg = chain
-	for i in range(i) :
+	for o in range(i) :
 		
-
-		if seg[1][1] is None :
+		if seg[1][1] is None : # Si l'index i designe le dernier element de la liste chainée
 			seg[1] = None
 			return
 
 		seg = seg[1]
 
-
-	seg[0:] = seg[1]
-
-print("\nFonction supprimer_ind : ")
-supprimer_ind(A,3)
-supprimer_ind(B,3)
-supprimer_ind(C,3)
-
-print(f"Liste :\n{A}\n{B}\n{C}")
+	seg[:] = seg[1]
 
 
 def modifier(chain,i,element) :
-	if len(chain) == 0:
-		print("vide")
+	# Modifier la valeur de l'element a l'index i par 'element' dans la liste chainée 'chain'
 
-	if longueur(chain) <= i :
+	if chain == [] :		 # Liste vide
+		print("Empty Liste E6")
+
+	if longueur(chain) <= i :	# L'index est trop grand
 		print("Index I6")
 		return
 
 	seg = chain
-	for i in range(i) :
+	for i in range(i) : # On parcourt 'chain' jusqu'a l'index i
 		seg=seg[1]
 
-	seg[0:] = [element,seg[1]]
-	return chain
-
-print("\nFonction modifier : ")
-modifier(A,0,"modif")
-modifier(B,1,"modif")
-modifier(C,2,"modif")
-
-print(f"Liste :\n{A}\n{B}\n{C}")
+	seg[0:] = [element,seg[1]] # On change la valeur de l'element d'index i
 
 
-def vider(A) :
+def vider(A) : 
+	# Reinitialiser la liste chainée
 	A[:] = [None,None]
 	return
 
-print("\nFonction vider : ")
-vider(A)
-vider(B)
-vider(C)
+def verif(show=False) :
+	A = [1,[2,[3,[4,None]]]]
+	assert longueur(A) == 4
+	assert acceder(A,0) == 1
+	assert acceder(A,longueur(A)-1) == 4
+	assert ajouter(A,'ajout') == None
+	assert A == [1,[2,[3,[4,['ajout',None]]]]]
+	assert inserer(A,0,"inser0") == None
+	assert A == ['inser0',[1,[2,[3,[4,['ajout',None]]]]]]
+	assert supprimer_val(A,'inser0') == None
+	assert A == [1,[2,[3,[4,['ajout',None]]]]]
+	assert supprimer_ind(A,4) == None
+	assert A == [1,[2,[3,[4,None]]]]
+	assert modifier(A,0,7) == None
+	assert A == [7,[2,[3,[4,None]]]]
+	assert vider(A) == None
+	assert A == [None,None]
 
-print(f"Liste :\n{A}\n{B}\n{C}")
+	if show is True :
+		A = [14,[12,[9,None]]]
+		B = [None,None]				# Liste 
+		C = [3,None]
 
+		print(f"longueur : \t{longueur(A)}\t{longueur(B)}\t{longueur(C)}")
 
+		print(f"access\t{acceder(A,0)}\t{acceder(B,0)}\t{acceder(C,0)}")
+		print(f"access\t{acceder(A,1)}\t{acceder(B,1)}\t{acceder(C,1)}")
+		print(f"access\t{acceder(A,2)}\t{acceder(B,2)}\t{acceder(C,2)}")
+
+		print(f"Liste :\t{A}\t{B}\t{C}")
+
+		print("\nFonction ajouter :")
+		ajouter(A,"ajouter")
+		ajouter(B,"ajouter")
+		ajouter(C,"ajouter")
+		ajouter(A,"ajouter1")
+		ajouter(B,"ajouter1")
+		ajouter(C,"ajouter1")
+
+		print(f"Liste :\n{A}\n{B}\n{C}")
+
+		print("\nFonction inserer :")
+		inserer(A,0,"inser0")
+		inserer(B,0,"inser0")
+		inserer(C,0,"inser0")
+		inserer(A,2,"inser2")
+		inserer(B,2,"inser2")
+		inserer(C,2,"inser2")
+		inserer(A,4,"inser4")
+		inserer(B,4,"inser4")
+		inserer(C,4,"inser4")
+
+		print(f"Liste :\n{A}\n{B}\n{C}")
+
+		print("\nFonction supprimer_val :")
+		supprimer_val(A,"inser0")
+		supprimer_val(B,"inser0")
+		supprimer_val(C,"inser0")
+		supprimer_val(A,"ajouter1")
+		supprimer_val(B,"ajouter1")
+		supprimer_val(C,"ajouter1")
+
+		print(f"Liste :\n{A}\n{B}\n{C}")
+
+		print("\nFonction supprimer_ind : ")
+		supprimer_ind(A,3)
+		supprimer_ind(B,3)
+		supprimer_ind(C,3)
+
+		print(f"Liste :\n{A}\n{B}\n{C}")
+
+		print("\nFonction modifier : ")
+		modifier(A,0,"modif")
+		modifier(B,1,"modif")
+		modifier(C,2,"modif")
+
+		print(f"Liste :\n{A}\n{B}\n{C}")
+
+		print("\nFonction vider : ")
+		vider(A)
+		vider(B)
+		vider(C)
+		print(f"Liste :\n{A}\n{B}\n{C}")
+
+verif(True)
+	
 
 """
 

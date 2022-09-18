@@ -1,25 +1,46 @@
 #coding:utf-8
-# Fonction intervalle de confiance
 
-from math import sqrt
+Liste = [5,6,52,1,5,654,65]
+print(Liste,len(Liste))
 
-def inter(cara,n) :
-	# cara 	= nombre d'échantillon possédant le caractère
-	# n 	= taille total de l'échantillon
+def destockage(A) :
 
-	freq = cara/n 	# Calcul de la fréquence
-	print("La fréquence vaut : ",freq,"",freq*100,"%")
+	fin = []
+	for i in range(len(A)) :
+		if i %3 == 0 and (i+3) <= len(A) :
+			print("     ",i)
+			mini = A[i]
 
-	### Partie calcul compliqué
+			for o in A[i:i+3] :
+				print(o)
 
-	mid = sqrt(freq*(1-freq)/n)
-	cal = (round(freq-1.96*mid,4),round(freq+1.96*mid,4))
+				if o < mini :
+					mini = o
 
-	###
+				fin.append(o)
+			fin.remove(mini)
+		
+		elif i %3 == 0 and (i+3) > len(A) :
+			fin.append(A[i])	
 
-	print("Borne inférieur : ",cal[0],"\nBorne supérieur : ",cal[1])
-	return cal
+	return fin
 
-# Exemple
-print("Fréquence et Intervalle de confiance pour 135 caractère sur un échantillon de 400 :\n")
-print(inter(135,400))
+# Pour avoir le meilleur prix -> avoir des trio haut et trio bas -> trier par valeur -> rangement
+
+
+def trier(liste) :
+	# Tri par insertion
+
+	for i in range(len(liste)) : 	# i : index de debut
+		inser = 0 					# inser : index ou l'on insere l'element d'index i
+
+		while liste[i] > liste[inser] :	
+			inser = inser+1 					
+
+		liste.insert(inser,liste[i])	
+		liste.pop(i+1)	
+	return liste
+
+
+print(destockage(trier(Liste)))
+
