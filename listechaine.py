@@ -145,7 +145,7 @@ def verif(show=False) :
 	assert vider(A) == None
 	assert A == [None,None]
 
-	if show is True :
+	if show is True :				# Verification visuelle
 		A = [14,[12,[9,None]]]
 		B = [None,None]				# Liste 
 		C = [3,None]
