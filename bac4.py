@@ -99,38 +99,167 @@ def ou_aller(user_pos) :
 
 class ListeChainée() :
 
-	def __init__(self,valeur=None,suivant=None) :
-		self.valeur = valeur 
-		self.suivant = suivant
+	def __init__(self,element=None,suivant1=None) :
+		self.valeur = element 
+		self.suivant = suivant1
 
-	def ajouter(self,valeur) :
-		if self.suivant is None :
-			self.suivant = ListeChainée(valeur)
+	def ajouter(self,element) :
+
+		if self.valeur is None :
+			self.valeur = element
 			return
-		else :
-			self.suivant.ajouter(valeur)
 
-	def longueur(self,compteur=0) :
+		elif self.suivant is None :
+			self.suivant = ListeChainée(element)
+			return
+
+		else :
+			self.suivant.ajouter(element)
+
+	def longueur(self,i=0) :
 		if self.valeur is None :
 			return 0
 
-		compteur += 1
+		i += 1
 		if self.suivant is None :	
-			return compteur
+			return i
 
 		else :
-			return self.suivant.longueur(compteur)
+			return self.suivant.longueur(i)
+
+	def acceder(self,i) :
+
+		if i == 0 :
+			return self.valeur
+
+		elif self.suivant is None and i != 0 :
+			return "Index big fonction acceder"
+
+		else :
+			return self.suivant.acceder(i-1)
+
+	def inserer(self,element,i) :
+
+		if i == 0 :
+			self.suivant = ListeChainée(self.valeur,self.suivant)
+			self.valeur = element
+			return
+
+		elif i > 0 and self.suivant is None :
+			return "Index big fonction inserer"
+
+		else :
+			self.suivant.inserer(element,i-1)
 
 
+	def supprimer_val(self,element) :
 
-a = ListeChainée(2)
+		if self.valeur == element :
+			self.valeur = self.suivant.valeur
+			self.suivant = self.suivant.suivant
 
-print(a.valeur)
+		elif self.suivant is None and self.valeur != element :
+			print("Not In List fonction supprimer_val")
+			return
 
-a.ajouter(3)
+		else :
+			self.suivant.supprimer_val(element)
 
-print(a.suivant.valeur)
 
-print(a.longueur())
+	def supprimer_ind(self,i) :
 
+		if i == 0 :
+			self.valeur = self.suivant.valeur
+			self.suivant = self.suivant.suivant
+
+		elif self.suivant == None and i > 0 :
+			print("Index Big fonction supprimer_ind")
+			return 
+
+		else :
+			self.suivant.supprimer_ind(i-1)
+
+
+	def modifier(self,element,i) :
+
+		if i == 0 :
+			self.valeur = element
+			return
+
+		elif self.suivant == None and i > 0 :
+			print("Index Big fonction modifier")
+			return 
+
+		else :
+			self.suivant.modifier(element,i-1)
 			
+
+	def vider(self) :
+		self.valeur,self.suivant = None,None
+		return
+
+	def __str__(self) :
+		
+		s = ""
+		for i in range(self.longueur()) :
+			s += str(self.acceder(i))
+		return s
+
+	def copy(self) :
+		new = ListeChainée()
+		
+		for i in range(self.longueur()) :
+			new.ajouter(self.acceder(i))
+
+		return new	
+
+		
+
+
+						
+
+
+
+def aff() :
+	for i in range(10) :
+		print(a.acceder(i),i)
+	print("\n")
+
+
+a = ListeChainée(0)
+
+for i in range(1,11) :
+	a.ajouter(i)
+
+a.inserer("lol",3)
+
+aff()
+
+a.supprimer_ind(3)
+
+aff()
+
+a.modifier(45,3)
+
+aff()
+
+print(a)
+
+a.vider()
+print(a.valeur,a.suivant)
+
+
+
+
+# -------------------------------------------------------------------------
+
+"""
+def fonc(a,b) :
+	fonc = 3
+	return a+b
+
+fonc = fonc(3,3)
+
+print(fonc)
+
+"""
