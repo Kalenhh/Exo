@@ -1,5 +1,7 @@
 #coding:utf-8
-# Liste chainée	
+# Liste chainée
+
+"""
 
 def longueur(chain) :
 	# Retourne la longueur de la liste chainée 'chain'
@@ -214,7 +216,7 @@ def verif(show=False) :
 verif(True)
 	
 
-"""
+
 
 from random import*
 cara = ["a","z","e","r","t","y","u","i","o","p","q","s","d","f","g",
@@ -224,7 +226,7 @@ def rec() :
 	print( 	cara[randint(0,len(cara))]   )
 	rec()
 
-
+"""
 def fonction(n) :
 	u = 2
 
@@ -232,6 +234,8 @@ def fonction(n) :
 		u = 0.5*u+3
 
 	return u
+
+
 
 print(f"f(1) : {fonction(1)}\tf(2) : {fonction(2)}")
 
@@ -294,10 +298,18 @@ def deter(e,o,r,c) :
 
 print(deter(50,1,1.1,2),cal(13,1,1.1,2))
 
-for i in range(50) :
-	print(i)
 
 
-def u(n) :
-	return 1000*1.2**n-100*n	
-	"""
+# Uo = 1000
+# U(n+1) = U(n)*1.2-100
+
+# 1000*1.2-100
+
+def yui() :
+	n = 0
+	while cal(n,1000,1.2,-100) <= 30000 :
+		n += 1
+	print(n)	
+	print(cal(n,1000,1.2,-100))
+
+yui()	

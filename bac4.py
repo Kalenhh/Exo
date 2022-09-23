@@ -202,7 +202,7 @@ class ListeChainée() :
 		
 		s = ""
 		for i in range(self.longueur()) :
-			s += str(self.acceder(i))
+			s += str(self.acceder(i)) + ";"
 		return s
 
 	def copy(self) :
@@ -213,10 +213,15 @@ class ListeChainée() :
 
 		return new	
 
-		
+	def __add__(self,a) :
 
+		try :
+			for i in range(a.longueur()) :
+				self.ajouter(a.acceder(i))
+			return self
 
-						
+		except :
+			raise ValueError("doit ajouter une liste chainée.")
 
 
 
@@ -243,11 +248,19 @@ a.modifier(45,3)
 
 aff()
 
-print(a)
+a = a + a
+
+print(a,"laaaaaaaaaaaaaaa")
 
 a.vider()
 print(a.valeur,a.suivant)
 
+
+
+tyu = 45
+pd = 4567
+
+print(f"du texte{tyu} et encore du texte{pd}")
 
 
 
