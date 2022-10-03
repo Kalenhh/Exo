@@ -1,278 +1,250 @@
 #coding:utf-8
-# Exo 4 (type Bac)
-"""
-def destockage(A) :
-
-	fin = []
-	for i in range(len(A)) :
-		if i %3 == 0 and (i+3) <= len(A) :  # On verifie que l'on peut faire des groupe de 3 et qui i est un multiple de 3
-			mini = A[i] 
-
-			for o in A[i:i+3] :
-
-				if o < mini : # Le minimum du trio
-					mini = o
-
-				fin.append(o)
-			fin.remove(mini)
-		
-		elif i %3 == 0 and (i+3) > len(A) : # Si il reste 2 ou 1 element
-			fin.append(A[i])
-
-	return fin
-
-# Pour avoir le meilleur prix -> avoir des trio haut et trio bas -> trier par valeur -> rangement
-
-
-def trier(liste) :
-	# Tri par insertion
-
-	for i in range(len(liste)) : 	# i : index de debut
-		inser = 0 					# inser : index ou l'on insere l'element d'index i
-
-		while liste[i] > liste[inser] :
-			inser = inser+1
-
-		liste.insert(inser,liste[i])
-		liste.pop(i+1)
-
-	liste.reverse() # On transforme la liste en decroissante pour mettre les produits cher en premier
-	return liste
-
-from copy import deepcopy
-
-Liste = [5,6,52,1,5,654,65]
-print(f"Liste:{Liste} , longueur :{len(Liste)}")
-print("Prix sans tri :",sum(destockage(deepcopy(Liste))))
-print("Prix avec tri :",sum(destockage(trier(deepcopy(Liste)))))
-
-
-
-
-
-
-
-# ---------------------------------------------------------------------
-# Exo Bac 
-
-flotte = {
-	12 : {"type" : "electrique", "etat" : 1,"station" : "Prefecture"},
-	80 : {"type" : "classique", "etat" : 0,"station" : "Saint-Leu"},
-	45 : {"type" : "classique", "etat" : 1,"station" : "Baraban"},
-	41 : {"type" : "classique", "etat" : -1,"station" : "Citadelle"},
-	26 : {"type" : "classique", "etat" : 1,"station" : "Coliseum"},
-	28 : {"type" : "electrique", "etat" : 0,"station" : "Coliseum"},
-	74 : {"type" : "electrique", "etat" : 1,"station" : "Jacobins"},
-	13 : {"type" : "classique", "etat" : 0,"station" : "Citadelle"},
-	83 : {"type" : "classique", "etat" : -1,"station" : "Saint-Leu"},
-	22 : {"type" : "electrique", "etat" : -1,"station" : "Joffre"}
-}
-
-
-def velosdispo(station) :
-	liste = []
-	for v in flotte :
-		if flotte[v]["station"] == station :
-			liste.append(v)
-
-	return liste		
-
-
-def velo_pas_pt() :
-	for v in flotte :
-		if flotte[v]["etat"] != -1 :
-			print(v,flotte[v]["station"])
-
-def ou_aller(user_pos) :
-
-	for i in station_pos :
-		dis = distance(station_pos[i],user_pos)
-		dispo = velosdispo(station_pos[i])
-		if dis <= 800 :
-			print(station_pos[i],distance,dispo)
-
-
-"""
-
-
 # Liste chainée POO
 
 class ListeChainée() :
+	"""
+	Interface pour des listes chainées
+	"""
 
 	def __init__(self,element=None,suivant1=None) :
+		"""
+		Initialisation des valeurs de l'objet
+		'element' : objet
+		'suivant' : 'ListeChainée'
+		"""
 		self.valeur = element 
 		self.suivant = suivant1
 
-	def ajouter(self,element) :
 
-		if self.valeur is None :
-			self.valeur = element
+	def ajouter(self,element) :
+		"""
+		Ajouter une valeur à la fin de la liste chainée
+		'element' : objet à ajouter à la chaine
+		"""
+
+		if self.valeur is None :		# Si l'objet 'ListeChainée' actuel n'as pas de valeur
+			self.valeur = element		# On lui attribue 'element'
 			return
 
-		elif self.suivant is None :
-			self.suivant = ListeChainée(element)
+		elif self.suivant is None :		# Si l'objet 'ListeChainée' actuel n'as pas pointeur valide et est donc le dernier chainon
+			self.suivant = ListeChainée(element)	# On lui attribue un objet 'ListeChainée' de valeur = 'element'
 			return
 
 		else :
-			self.suivant.ajouter(element)
+			self.suivant.ajouter(element)	# On passe la commande au prochain pointeur
+
 
 	def longueur(self,i=0) :
-		if self.valeur is None :
-			return 0
+		"""
+		Retourne la longueur de la liste chainée
+		i : nombre de chainon de la liste chainée
+		"""
+
+		if self.valeur is None :	# Si l'objet 'ListeChainée' actuel n'as pas de valeur
+			return i
 
 		i += 1
-		if self.suivant is None :	
+		if self.suivant is None :	# Si l'objet 'ListeChainée' actuel n'as pas pointeur valide et est donc le dernier chainon
 			return i
 
 		else :
-			return self.suivant.longueur(i)
+			return self.suivant.longueur(i)	# On passe la commande au prochain pointeur
+
 
 	def acceder(self,i) :
+		"""
+		Retourne la valeur du chainon d'index i dans la liste chainée
+		i : index du chainon recherché
+		"""
 
-		if i == 0 :
+		if i == 0 :					# Si l'objet 'ListeChainée' actuel est celui recherché
 			return self.valeur
 
-		elif self.suivant is None and i != 0 :
-			return "Index big fonction acceder"
+		elif self.suivant is None and i != 0 :		# Si l'index i est trop grand
+			print("Index big fonction acceder")
+			return 
 
 		else :
-			return self.suivant.acceder(i-1)
+			return self.suivant.acceder(i-1)	# On passe la commande au prochain pointeur
+
 
 	def inserer(self,element,i) :
+		"""
+		Inserer un objet 'ListeChainée' dans la liste chainée à l'index 'i' avec pour valeur 'element'
+		'element' 	: valeur du chainon
+		'i' 		: index où l'inserer 
+		"""
 
-		if i == 0 :
+		if i == 0 :					# Si l'objet 'ListeChainée' actuel est celui recherché
 			self.suivant = ListeChainée(self.valeur,self.suivant)
 			self.valeur = element
 			return
 
-		elif i > 0 and self.suivant is None :
-			return "Index big fonction inserer"
+		elif i > 0 and self.suivant is None :	# Si l'index i est trop grand
+			print("Index big fonction inserer")
+			return 
 
 		else :
-			self.suivant.inserer(element,i-1)
+			self.suivant.inserer(element,i-1)	# On passe la commande au prochain pointeur
 
 
 	def supprimer_val(self,element) :
+		"""
+		Supprimer la premiere occurence de 'element' dans la liste chainée
+		'element' : valeur à supprimer
+		"""
 
-		if self.valeur == element :
+		if self.valeur == element :		# Si la valeur de l'objet correspond à 'element'
 			self.valeur = self.suivant.valeur
 			self.suivant = self.suivant.suivant
 
-		elif self.suivant is None and self.valeur != element :
+		elif self.suivant is None and self.valeur != element : # Si 'element' n'est pas dans la liste chainée
 			print("Not In List fonction supprimer_val")
 			return
 
 		else :
-			self.suivant.supprimer_val(element)
+			self.suivant.supprimer_val(element)		# On passe la commande au prochain pointeur
 
 
 	def supprimer_ind(self,i) :
+		"""
+		Supprimer le chainon d'index i
+		i : index du chainon à supprimer
+		"""
 
-		if i == 0 :
+		if i == 0 :				# Si l'objet 'ListeChainée' actuel est celui recherché
 			self.valeur = self.suivant.valeur
 			self.suivant = self.suivant.suivant
 
-		elif self.suivant == None and i > 0 :
+		elif self.suivant == None and i > 0 :		# Si l'index i est trop grand
 			print("Index Big fonction supprimer_ind")
 			return 
 
 		else :
-			self.suivant.supprimer_ind(i-1)
+			self.suivant.supprimer_ind(i-1)		# On passe la commande au prochain pointeur
 
 
 	def modifier(self,element,i) :
+		"""
+		Remplacer la valeur du chainon d'index i par 'element'
+		'element' 	: futur valeur du chainon
+		'i' 		: index du chainon à modifier
+		"""
 
-		if i == 0 :
+		if i == 0 :				# Si l'objet 'ListeChainée' actuel est celui recherché
 			self.valeur = element
 			return
 
-		elif self.suivant == None and i > 0 :
+		elif self.suivant == None :					# Si l'index i est trop grand
 			print("Index Big fonction modifier")
-			return 
+			return
 
 		else :
-			self.suivant.modifier(element,i-1)
-			
+			self.suivant.modifier(element,i-1)		# On passe la commande au prochain pointeur
+
 
 	def vider(self) :
+		"""
+		Vider totalement la liste chainée
+		"""
+
 		self.valeur,self.suivant = None,None
 		return
 
 	def __str__(self) :
+		"""
+		Redéfinition de la fonction 'print()'
+		"""
 		
-		s = ""
-		for i in range(self.longueur()) :
-			s += str(self.acceder(i)) + ";"
-		return s
+		s = "("							# Chaine de caractère
+		mid = self.longueur()
 
+		for i in range(mid) :			# On parcourt tout les chainons de la liste chainée
+			s += str(self.acceder(i))	# On incrémente la chaine de caractère avec la valeur des chainons
+
+			if (mid-i-1) != 0 :			# Si i n'est pas le dernier de la boucle
+				s += ","				# On ajoute une virgule de séparation
+
+		return s + ")"
+
+	
 	def copy(self) :
+		"""
+		Créer une copie profonde de la liste
+		"""
+
 		new = ListeChainée()
 		
-		for i in range(self.longueur()) :
-			new.ajouter(self.acceder(i))
+		for i in range(self.longueur()) :		# On parcourt toute la liste chainée
+			new.ajouter(self.acceder(i))		# On ajoute chaque valeur de chaque chainon à la nouvelle liste chainée
 
 		return new	
 
+
 	def __add__(self,a) :
+		"""
+		Redéfinition de l'opération '+'
+		a : objet que l'on ajoute , doit etre un objet 'ListeChainée'
+		"""
 
 		try :
-			for i in range(a.longueur()) :
-				self.ajouter(a.acceder(i))
+			for i in range(a.longueur()) :		# On parcourt toute la liste chainée
+				self.ajouter(a.acceder(i))		# On ajoute chaque valeur de chaque chainon à la liste chainée
 			return self
 
 		except :
-			raise ValueError("doit ajouter une liste chainée.")
+			raise ValueError("doit ajouter une liste chainée.")		# Erreur , l'objet ajouté n'est pas une liste chainée
 
 
 
-def aff() :
-	for i in range(10) :
-		print(a.acceder(i),i)
-	print("\n")
+def verif(show=False) :
+	"""
+	Fonction de verification du bon fonctionnement de la classe 'ListeChainée'
+	'show' 	: False > vérification par assertion , True > vérification par assertion avec retour visuel
+	"""
 
+	def aff(a) :
+		"""
+		Affiche les 10 premiere valeur de l'objet 'ListeChainée' a
+		a : objet 'ListeChainée'
+		"""
+		for i in range(a.longueur()) :
+			print(i,a.acceder(i))
+		print("\n")
 
-a = ListeChainée(0)
+	chain = ListeChainée()
+	for i in range(10) :		# On crée une liste chainée
+		chain.ajouter(i)
 
-for i in range(1,11) :
-	a.ajouter(i)
+	assert chain.acceder(0) == 0 
+	assert chain.acceder(9) == 9		# Fonction acceder et longueur
+	assert chain.longueur() == 10
+	if show : aff(chain)
 
-a.inserer("lol",3)
+	chain.inserer("test",3)
+	assert chain.acceder(3) == "test"	# Fonction acceder
+	if show : aff(chain)
 
-aff()
+	chain.supprimer_ind(3)
+	assert chain.acceder(3) == 3		# Fonction supprimer_ind
+	if show : aff(chain)
 
-a.supprimer_ind(3)
+	chain.modifier(45,3)
+	assert chain.acceder(3) == 45		# Fonction modifier
+	if show : aff(chain)
 
-aff()
+	chain += chain
+	assert chain.longueur() == 20		# Opération +
+	if show : aff(chain), print(chain)
 
-a.modifier(45,3)
+	chain2 = chain.copy()
+	chain2.modifier("chain2",0)
+	assert chain.acceder(0) == 0 		# Fonction copy
+	assert chain2.acceder(0) == "chain2"
+	if show : aff(chain),aff(chain2) 
 
-aff()
+	chain.vider()						# Fonction vider
+	assert (chain.valeur,chain.suivant) == (None , None)
+	if show : print(chain.valeur,chain.suivant)
 
-a = a + a
-
-print(a,"laaaaaaaaaaaaaaa")
-
-a.vider()
-print(a.valeur,a.suivant)
-
-
-
-tyu = 45
-pd = 4567
-
-print(f"du texte{tyu} et encore du texte{pd}")
-
-
-
-# -------------------------------------------------------------------------
-
-"""
-def fonc(a,b) :
-	fonc = 3
-	return a+b
-
-fonc = fonc(3,3)
-
-print(fonc)
-
-"""
+verif(True)
