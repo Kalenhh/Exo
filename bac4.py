@@ -248,3 +248,60 @@ def verif(show=False) :
 	if show : print(chain.valeur,chain.suivant)
 
 verif(True)
+
+
+
+
+
+def taille_file(fil) :
+	cache = File()
+	i = 0
+	while not est_vide(fil) :
+		enfiler(cache,defiler(fil))
+		i += 1
+	fil = cache
+
+	return i
+
+def former_pil(fil) :
+
+	for i in range(taille_file(fil)) :
+		enfiler(cache,defiler(fil))
+
+	mid = Pile()
+	for i in range(taille_file(cache)) :
+		empiler(mid,defiler(cache)) :
+
+	return mid 
+
+def nb_elt(f,elt) :
+	i = 0
+	for i in range(taille_file(f)) :
+		mid = defiler(f)
+		if mid == elt :
+			i += 1
+		enfiler(f,mid)
+
+	return i
+
+def verifier_contenu(f,rouge,vert,jaune) :
+
+	rou = 0
+	ver = 0
+	jau = 0
+	for i in range(taille_file(f)) :
+		mid = defiler(f)
+
+		if mid == "rouge" :
+			rou += 1
+		if mid == "vert" :
+			ver += 1
+		if mid == "jaune" :
+			jau += 1
+
+		enfiler(f,mid)
+
+	if rou > rouge or ver > vert or jau > jaune :
+		return False
+	else :
+		return True	
