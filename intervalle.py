@@ -23,8 +23,7 @@ def inter(cara,n) :
 	return cal
 
 # Exemple
-print("Fréquence et Intervalle de confiance pour 135 caractère sur un échantillon de 400 :\n")
-print(inter(180,900))
+print(inter(25,145))
 
 def pop(m,c,r) :
 	# m : effectif de la population marqué lors de la 1ere capture
@@ -35,8 +34,29 @@ def pop(m,c,r) :
 
 	echantillon = sqrt(		(proportion*(1-proportion))		/c)	# Sech
 
-	cal = ( 	m/(proportion + 1,96*echantillon) , m/(proportion - 1,96*echantillon)	)
+	cal = ( 	m/(proportion + 1.96*echantillon) , m/(proportion - 1.96*echantillon)	)
 
 	return cal 
 
-print(pop())
+#print(pop(232,400,116))
+
+
+"""
+
+
+def premier(n) :
+
+	P = []
+	for i in range(2,n+1) :
+		if len(P) == 0 :
+			P.append(i)
+		else :
+			prem = True 
+			for k in P :
+				if i % k == 0 :
+					prem = False
+			if prem == True :
+				P.append(i)
+	return P	
+	
+print(premier(100))			"""		
