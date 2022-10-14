@@ -30,24 +30,27 @@ class MyApp(ShowBase):
         # Loop its animation.
         self.pandaActor.loop("walk")
 
-        # Create the four lerp intervals needed for the panda to
-        # walk back and forth.
+        
+        def avancerz(e=0) :
+            self.pandaActor.posInterval(1,)
 
-        hprInterval2 = self.pandaActor.hprInterval(0.5,
-                                                    Point3(10, 0, 0),
-                                                    startHpr=Point3(0, 0, 0))
-        posInterval = self.pandaActor.posInterval(0.5,
-                                                    Point3(10,0,0),
-                                                    startPos=Point3(0,0,0))
+            self.pandaActor.setX(self.pandaActor.getX()+1)
+        def avancers(e=0) :
+            self.pandaActor.setX(self.pandaActor.getX()-1)
+        def avancerq(e=0) :
+            self.pandaActor.setY(self.pandaActor.getY()+1)
+        def avancerd(e=0) :
+            self.pandaActor.setY(self.pandaActor.getY()-1) 
+
+            self.scene.base.cam.setY(self.base.camera.getY()-1)
 
 
-        # Create and play the sequence that coordinates the intervals.
-        self.pandaPace = Sequence(  hprInterval2,
-                                    posInterval,
-                                    name="pandaPace")
-        self.pandaPace.loop()
 
-    # Define a procedure to move the camera.
+        self.accept('z',avancerz)
+        self.accept('s',avancers)
+        self.accept('q',avancerq)
+        self.accept('d',avancerd)
+
 
 
 app = MyApp()

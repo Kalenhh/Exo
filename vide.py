@@ -1,5 +1,9 @@
 #coding:utf-8
 # Vide
+from graphviz import*
+
+
+# triplet = (value,left,right)
 
 class Node() :
 
@@ -8,47 +12,74 @@ class Node() :
 		self.left = gauche
 		self.right = droit
 
-class Arbre() :
+def new_node(valeur,gauche=None,droit=None) :
+	return Node(valeur,gauche,droit)
 
-	def __init__(self,element) :
-		self = Node(element)
+def valeur(node) :
+	return node.value
 
+def fils_gauche(node) :
+	return node.left
 
-	def modif(self,element,path) :
-		"""
-		modifier la valeur d'un node
-		"""
-
-		for i in path :
-			if i isinstance(Node) is False or (i != self.left and i != self.right) :
-				print("incorrect path")
-				return
-
-			self = i
-
-		self.value = element
-
-	def add(self,element,pos,path) :
-		"""
-		True : droit
-		False : gauche
-		"""
-
-		for i in path :
-			self = i 
-		if pos :
-			self.right = Node(element)
-		if not pos :
-			self.left = Node(element)
-
-	def node_value(self,path) :
-		for i in path :
-			self = i 
-
-		return self.value
+def fils_droit(node) :
+	return node.right
 
 
 
+
+def taille(root) :
+	n = 0 
+	nodes = []
+	nodes.append(root)
+	while len(nodes) > 0 :
+		explore = nodes[len(nodes)-1]
+		nodes.pop()
+
+		n += 1
+
+		if explore.left is not None :
+			nodes.append(explore.left)
+		if explore.right is not None :
+			nodes.append(explore.right)
+
+	return n
+
+
+def tracer(root) :
+
+	graphe=Digraph(filename='arbre',format='png')
+
+	nodes = []
+	nodes.append(root)
+	while(len(nodes) > 0) :
+		explore = nodes[0]
+		nodes.pop(0)
+
+		if explore.left is not None :
+			graphe.edge(str(explore.value),str(explore.left.value))
+			nodes.append(explore.left)
+
+		if explore.right is not None :
+			graphe.edge(str(explore.value),str(explore.right.value))
+			nodes.append(explore.right)
+
+	return graphe.view()
+
+
+
+
+f = new_node("f")
+g = new_node("g")
+e = new_node("e",f,g)
+d = new_node("d")
+b = new_node("b",d,e)
+h = new_node("h")
+i = new_node("i")
+c = new_node("c",h,i)
+arbre = new_node("a",b,c)
+
+print(taille(arbre))
+tracer(arbre)
 
 
 
