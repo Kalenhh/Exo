@@ -15,6 +15,7 @@ def inter(cara,n) :
 	### Partie calcul compliqué
 
 	mid = sqrt(freq*(1-freq)/n)
+	print(1.96*mid,"regtqerg")
 	cal = (round(freq-1.96*mid,4),round(freq+1.96*mid,4))
 
 	###
@@ -23,7 +24,7 @@ def inter(cara,n) :
 	return cal
 
 # Exemple
-print(inter(25,145))
+print(inter(100,200),"\n")
 
 def pop(m,c,r) :
 	# m : effectif de la population marqué lors de la 1ere capture
@@ -38,7 +39,7 @@ def pop(m,c,r) :
 
 	return cal 
 
-#print(pop(232,400,116))
+print(pop(34,52,26))
 
 
 """
