@@ -14,6 +14,8 @@ class MyApp(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
 
+        base.disableMouse()
+
         # Load the environment model.
         self.scene = self.loader.loadModel("models/environment")
         # Reparent the model to render.
@@ -30,27 +32,40 @@ class MyApp(ShowBase):
         # Loop its animation.
         self.pandaActor.loop("walk")
 
-        
-        def avancerz(e=0) :
-            self.pandaActor.posInterval(1,)
+        self.taskMgr.add(self.move,'move')
 
-            self.pandaActor.setX(self.pandaActor.getX()+1)
-        def avancers(e=0) :
-            self.pandaActor.setX(self.pandaActor.getX()-1)
-        def avancerq(e=0) :
-            self.pandaActor.setY(self.pandaActor.getY()+1)
-        def avancerd(e=0) :
-            self.pandaActor.setY(self.pandaActor.getY()-1) 
+    def move(self,task) :
 
-            self.scene.base.cam.setY(self.base.camera.getY()-1)
+        speed = 1
+        turn_speed = 1
+
+        is_down = base.mouseWatcherNode.is_button_down
+
+        if is_down('z') :
+
+            self.camera.setX(   self.camera.getX()+( cos(360-self.camera.getH())*speed  )  )
+            self.camera.setY(   self.camera.getY()+( sin(360-self.camera.getH())*speed  )  )
+
+        if is_down('d') :
+            self.camera.setH(   self.camera.getH()+ turn_speed)
+
+        if is_down('q') :
+            self.camera.setH(   self.camera.getH()- turn_speed)
+
+
+        return Task.cont
 
 
 
-        self.accept('z',avancerz)
-        self.accept('s',avancers)
-        self.accept('q',avancerq)
-        self.accept('d',avancerd)
-
+    def avancers(self,e=0) :
+        self.camera.setX(self.camera.getX()-1)
+    def avancerq(self) :
+        self.camera.setY(self.camera.getY()+1)
+    def avancerd(self) :
+        self.camera.setY(self.camera.getY()-1)
+    def avancerz(self) :
+        self.camera.setX(self.camera.getX()+1)
+      
 
 
 app = MyApp()
