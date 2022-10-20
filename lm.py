@@ -1,13 +1,14 @@
 #coding:utf-8
 # Test file
 
-from math import pi, sin, cos
+from math import pi, sin, cos , radians
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
 from panda3d.core import Point3
+from direct.gui.DirectGui import *
 
 
 class MyApp(ShowBase):
@@ -30,27 +31,58 @@ class MyApp(ShowBase):
 		self.pandaActor.reparentTo(self.render)
 		# Loop its animation.
 		self.pandaActor.loop("walk")
+
 		self.taskMgr.add(self.move,'move')
-		self.camera.setH(90)
+		self.taskMgr.add(self.pause_menu,'pause_menu')
+
+		self.camLens.setFov(60)
 
 	def move(self,task) :
-		speed = 1
-		turn_speed = 1
+		speed = 0.1
+		turn_speed = 2
 
 		is_down = base.mouseWatcherNode.is_button_down
 
 		if is_down('z') :
 
-			self.pandaActor.setX(   self.pandaActor.getX()+( cos(self.pandaActor.getH())*speed  )  )
-			self.pandaActor.setY(   self.pandaActor.getY()+( sin(self.pandaActor.getH())*speed  )  )
+			self.pandaActor.setX(   self.pandaActor.getX()+( cos(radians(self.pandaActor.getH()-90))*speed  )  )
+			self.pandaActor.setY(   self.pandaActor.getY()+( sin(radians(self.pandaActor.getH()-90))*speed  )  )
 
 		if is_down('d') :
 			self.pandaActor.setH(   self.pandaActor.getH()- turn_speed)
 
 		if is_down('q') :
 			self.pandaActor.setH(   self.pandaActor.getH()+ turn_speed)
-			print(self.pandaActor.getH())
+			print(self.pandaActor.getH(),self.pandaActor.getPos())
+
+		if is_down('p') :
+			self.pandaActor.setH(0)
+			self.pandaActor.setPos(0,0,0)
+
+		self.camera.setPos(self.pandaActor.getX(),self.pandaActor.getY(),3.5)
+		self.camera.setH(self.pandaActor.getH()-180)
+		self.camera.setP(-20)
+
 		return Task.cont
+
+	def pause_menu(self,task) :
+
+		def close() :
+			bouton.destroy
+
+
+		is_down = base.mouseWatcherNode.is_button_down
+
+		if is_down('p') :
+
+			bouton = DirectButton(lambda : bouton.destroy() ,text="ok")
+
+		return Task.cont
+
+
+
+
+
 
 	def avancers(self,e=0) :
 		self.camera.setX(self.camera.getX()-1)
@@ -60,8 +92,6 @@ class MyApp(ShowBase):
 		self.camera.setY(self.camera.getY()-1)
 	def avancerz(self) :
 		self.camera.setX(self.camera.getX()+1)
-	  
-
 
 app = MyApp()
 app.run()

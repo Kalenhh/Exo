@@ -1,8 +1,10 @@
 #coding:utf-8
 # Vide
 from graphviz import*
+from notebook import*
+from jupyter import*
 
-
+"""
 # triplet = (value,left,right)
 
 class Node() :
@@ -82,5 +84,5 @@ print(taille(arbre))
 tracer(arbre)
 
 
-
+"""
 

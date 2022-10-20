@@ -91,32 +91,32 @@ class Calculatrice() :
 		self.op = 	["+","-","*","/","**",						# Liste des opérations
 					 "sin","cos","tan","exp","log","log10"]
 
-	def loop(self) :
-		active = True
+	def loop(self) :					# Fonction principale
+		active = True 					# Variable de bloquage
 		while active :
-			cmd = input('>')
+			cmd = input('>')			# Entré de l'utilisateur
 			cmd = cmd.lower()
 
-			for i in self.op :
+			for i in self.op :			# Si l'entré est une opération valable
 				if cmd == i :
-					self.memory = operation(self.memory,cmd)	
+					self.memory = operation(self.memory,cmd)	# On effectue l'opération
 					cmd = self.memory.depiler()
 
-			if cmd == 'q' :
+			if cmd == 'q' :				# Fermer la calculatrice
 				active = False
 
-			elif cmd == 's' :
+			elif cmd == 's' :			# Supprimer la valeur du dessus de la pile
 				self.memory.depiler()
 
-			else :
-				if cmd is not None :
+			else :						# L'entré est un nombre ou une erreur
+				if cmd is not None :	
 					try : int(cmd)
-					except : print("L'entrée n'est pas valide") ; continue
-					self.memory.empiler(cmd)
+					except : print("L'entrée n'est pas valide") ; continue  # Si l'entrée n'est pas un nombre
+					self.memory.empiler(cmd)		# On ajoute le nombre sur le dessus de la pile
 			
-			print(self.memory)
+			print(self.memory)		# On affiche la pile
 
-app = Calculatrice()
-app.loop()
+app = Calculatrice()	
+app.loop()				# On lance la calculatrice
 
 
