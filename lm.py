@@ -9,12 +9,19 @@ from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
 from panda3d.core import Point3
 from direct.gui.DirectGui import *
+from pandac.PandaModules import WindowProperties
+
 
 
 class MyApp(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 
+		base.disableMouse()
+		props = WindowProperties()
+		props.setCursorHidden(False)
+		props.setMouseMode(WindowProperties.M_relative)
+		base.win.requestProperties(props)
 
 		# Load the environment model.
 		self.scene = self.loader.loadModel("models/environment")
@@ -31,15 +38,17 @@ class MyApp(ShowBase):
 		self.pandaActor.reparentTo(self.render)
 		# Loop its animation.
 		self.pandaActor.loop("walk")
+		self.pandaActor.inerti = -10
 
 		self.taskMgr.add(self.move,'move')
 		self.taskMgr.add(self.pause_menu,'pause_menu')
 
-		self.camLens.setFov(60)
+		self.camLens.setFov(80)
 
 	def move(self,task) :
-		speed = 0.1
-		turn_speed = 2
+		speed = 0.3
+		camera_sensi = 25
+		jump = 2
 
 		is_down = base.mouseWatcherNode.is_button_down
 
@@ -47,21 +56,57 @@ class MyApp(ShowBase):
 
 			self.pandaActor.setX(   self.pandaActor.getX()+( cos(radians(self.pandaActor.getH()-90))*speed  )  )
 			self.pandaActor.setY(   self.pandaActor.getY()+( sin(radians(self.pandaActor.getH()-90))*speed  )  )
+		
+		if is_down('s') :
 
-		if is_down('d') :
-			self.pandaActor.setH(   self.pandaActor.getH()- turn_speed)
+			self.pandaActor.setX(   self.pandaActor.getX()-( cos(radians(self.pandaActor.getH()-90))*speed  )  )
+			self.pandaActor.setY(   self.pandaActor.getY()-( sin(radians(self.pandaActor.getH()-90))*speed  )  )
 
 		if is_down('q') :
-			self.pandaActor.setH(   self.pandaActor.getH()+ turn_speed)
-			print(self.pandaActor.getH(),self.pandaActor.getPos())
+			self.pandaActor.setX(   self.pandaActor.getX()+( cos(radians(self.pandaActor.getH()))*speed  )  )
+			self.pandaActor.setY(   self.pandaActor.getY()+( sin(radians(self.pandaActor.getH()))*speed  )  )
+
+		if is_down('d') :
+			self.pandaActor.setX(   self.pandaActor.getX()-( cos(radians(self.pandaActor.getH()))*speed  )  )
+			self.pandaActor.setY(   self.pandaActor.getY()-( sin(radians(self.pandaActor.getH()))*speed  )  )
+
+		if is_down('space') and self.pandaActor.inerti <= -10 :
+			self.pandaActor.inerti = jump
+
 
 		if is_down('p') :
-			self.pandaActor.setH(0)
-			self.pandaActor.setPos(0,0,0)
+			self.pandaActor.setZ(0)
+		
+		if self.pandaActor.inerti > -10 :
+			self.pandaActor.inerti -= 0.1
 
-		self.camera.setPos(self.pandaActor.getX(),self.pandaActor.getY(),3.5)
-		self.camera.setH(self.pandaActor.getH()-180)
-		self.camera.setP(-20)
+		self.pandaActor.setZ(self.pandaActor.getZ()+self.pandaActor.inerti)
+		
+		if self.pandaActor.getZ() < 0 :
+			self.pandaActor.setZ(0)
+			self.pandaActor.inerti = -10
+
+
+		print(self.pandaActor.getZ(),self.pandaActor.inerti)
+
+
+
+
+		x,y = 0,0
+		if base.mouseWatcherNode.hasMouse():
+			x = round(base.mouseWatcherNode.getMouseX() , 2 )
+			y = round(base.mouseWatcherNode.getMouseY() , 2 )
+			props = base.win.getProperties()
+			base.win.movePointer(0,props.getXSize() // 2,props.getYSize() // 2)
+		
+		x,y = x*camera_sensi,y*camera_sensi
+
+		self.camera.setPos(self.pandaActor.getX(),self.pandaActor.getY(),self.pandaActor.getZ()+3.5)
+		
+		self.camera.setH(self.camera.getH()-x)
+		self.pandaActor.setH(self.camera.getH()-180)
+
+		self.camera.setP(self.camera.getP()+y)
 
 		return Task.cont
 
@@ -73,25 +118,7 @@ class MyApp(ShowBase):
 
 		is_down = base.mouseWatcherNode.is_button_down
 
-		if is_down('p') :
-
-			bouton = DirectButton(lambda : bouton.destroy() ,text="ok")
-
 		return Task.cont
-
-
-
-
-
-
-	def avancers(self,e=0) :
-		self.camera.setX(self.camera.getX()-1)
-	def avancerq(self) :
-		self.camera.setY(self.camera.getY()+1)
-	def avancerd(self) :
-		self.camera.setY(self.camera.getY()-1)
-	def avancerz(self) :
-		self.camera.setX(self.camera.getX()+1)
 
 app = MyApp()
 app.run()
