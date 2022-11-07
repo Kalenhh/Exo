@@ -85,6 +85,3 @@ tracer(arbre)
 
 
 """
-
-for i in range(1000) :
-	print(11*i)

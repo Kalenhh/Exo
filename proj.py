@@ -92,6 +92,7 @@ class Calculatrice() :
 					 "sin","cos","tan","exp","log","log10"]
 
 	def loop(self) :					# Fonction principale
+		print('Calculette HP\n<q> : quitter\n<s> : supprimer la valeur du dessus\n')
 		active = True 					# Variable de bloquage
 		while active :
 			cmd = input('>')			# Entré de l'utilisateur

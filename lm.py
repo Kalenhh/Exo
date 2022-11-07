@@ -20,7 +20,6 @@ class MyApp(ShowBase):
 		base.disableMouse()
 		props = WindowProperties()
 		props.setCursorHidden(False)
-		props.setMouseMode(WindowProperties.M_relative)
 		base.win.requestProperties(props)
 
 		# Load the environment model.
@@ -87,11 +86,6 @@ class MyApp(ShowBase):
 			self.pandaActor.inerti = -10
 
 
-		print(self.pandaActor.getZ(),self.pandaActor.inerti)
-
-
-
-
 		x,y = 0,0
 		if base.mouseWatcherNode.hasMouse():
 			x = round(base.mouseWatcherNode.getMouseX() , 2 )
@@ -110,13 +104,33 @@ class MyApp(ShowBase):
 
 		return Task.cont
 
+	def closer(self) :
+		self.b.destroy()
+		self.taskMgr.add(self.move,'move')
+		self.taskMgr.add(self.pause_menu,'pause_menu')
+		return
+
+	def destruire(self) :
+		self.destroy()
+
+
 	def pause_menu(self,task) :
 
-		def close() :
-			bouton.destroy
-
-
 		is_down = base.mouseWatcherNode.is_button_down
+
+		if is_down('p') :
+			taskMgr.remove('move')
+			props = WindowProperties()
+			props.setCursorHidden(False)
+			base.win.requestProperties(props)	
+
+			self.b = DirectButton(text='return',command=self.closer,scale=0.1)
+
+			self.bert = DirectButton(text='destroy',command=self.destruire,scale=0.1,pos=(0.5,0.5,0.2))
+			print(self.bert['text_pos'])
+
+			self.taskMgr.remove('pause_menu')
+			return Task.cont
 
 		return Task.cont
 
