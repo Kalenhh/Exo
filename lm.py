@@ -7,9 +7,9 @@ from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
-from panda3d.core import Point3
+from panda3d.core import Point3 ,WindowProperties, CollisionRay , CollisionNode , CollisionHandlerFloor , CollisionTraverser , NodePath
 from direct.gui.DirectGui import *
-from pandac.PandaModules import WindowProperties
+from pandac.PandaModules import BitMask32
 
 
 
@@ -19,30 +19,54 @@ class MyApp(ShowBase):
 
 		base.disableMouse()
 		props = WindowProperties()
-		props.setCursorHidden(False)
+		props.setCursorHidden(True)
 		base.win.requestProperties(props)
 
-		# Load the environment model.
 		self.scene = self.loader.loadModel("models/environment")
-		# Reparent the model to render.
 		self.scene.reparentTo(self.render)
-		# Apply scale and position transforms on the model.
+
 		self.scene.setScale(0.25, 0.25, 0.25)
 		self.scene.setPos(-8, 42, 0)
 
-		# Load and transform the panda actor.
+
 		self.pandaActor = Actor("models/panda-model",
 								{"walk": "models/panda-walk4"})
-		self.pandaActor.setScale(0.005, 0.005, 0.005)
+
 		self.pandaActor.reparentTo(self.render)
-		# Loop its animation.
+		self.pandaActor.setScale(0.005, 0.005, 0.005)
+		self.pandaActor.setZ(2)
+
+
 		self.pandaActor.loop("walk")
-		self.pandaActor.inerti = -10
 
 		self.taskMgr.add(self.move,'move')
 		self.taskMgr.add(self.pause_menu,'pause_menu')
 
 		self.camLens.setFov(80)
+
+		# COLLISION ----------------------------------
+
+		base.cTrav = CollisionTraverser()
+
+		self.footRay = CollisionRay(0, 0, 0, 0, 0, -1)
+		self.playerFootRay = self.pandaActor.attachNewNode(CollisionNode("playerFootCollision"))
+		self.playerFootRay.node().addSolid(self.footRay)
+		self.playerFootRay.node().setIntoCollideMask(0)
+		self.lifter = CollisionHandlerFloor()
+		self.lifter.addCollider(self.playerFootRay, self.pandaActor)
+		self.lifter.setMaxVelocity(5)
+		self.lifter.
+		base.cTrav.addCollider(self.playerFootRay, self.lifter)
+
+
+		#-----------------------------------------------------------------------------------------------
+
+
+		#####
+
+
+		# -------------------------------------------------
+
 
 	def move(self,task) :
 		speed = 0.3
@@ -69,23 +93,6 @@ class MyApp(ShowBase):
 			self.pandaActor.setX(   self.pandaActor.getX()-( cos(radians(self.pandaActor.getH()))*speed  )  )
 			self.pandaActor.setY(   self.pandaActor.getY()-( sin(radians(self.pandaActor.getH()))*speed  )  )
 
-		if is_down('space') and self.pandaActor.inerti <= -10 :
-			self.pandaActor.inerti = jump
-
-
-		if is_down('p') :
-			self.pandaActor.setZ(0)
-		
-		if self.pandaActor.inerti > -10 :
-			self.pandaActor.inerti -= 0.1
-
-		self.pandaActor.setZ(self.pandaActor.getZ()+self.pandaActor.inerti)
-		
-		if self.pandaActor.getZ() < 0 :
-			self.pandaActor.setZ(0)
-			self.pandaActor.inerti = -10
-
-
 		x,y = 0,0
 		if base.mouseWatcherNode.hasMouse():
 			x = round(base.mouseWatcherNode.getMouseX() , 2 )
@@ -106,12 +113,16 @@ class MyApp(ShowBase):
 
 	def closer(self) :
 		self.b.destroy()
+		self.bert.destroy()
 		self.taskMgr.add(self.move,'move')
 		self.taskMgr.add(self.pause_menu,'pause_menu')
+		props = WindowProperties()
+		props.setCursorHidden(True)
+		base.win.requestProperties(props)
 		return
 
 	def destruire(self) :
-		self.destroy()
+		self.finalizeExit()
 
 
 	def pause_menu(self,task) :
@@ -126,8 +137,7 @@ class MyApp(ShowBase):
 
 			self.b = DirectButton(text='return',command=self.closer,scale=0.1)
 
-			self.bert = DirectButton(text='destroy',command=self.destruire,scale=0.1,pos=(0.5,0.5,0.2))
-			print(self.bert['text_pos'])
+			self.bert = DirectButton(text='destroy',command=self.destruire,scale=0.1,pos=(0,0,-0.2))
 
 			self.taskMgr.remove('pause_menu')
 			return Task.cont

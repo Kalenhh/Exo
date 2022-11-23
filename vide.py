@@ -1,87 +1,188 @@
 #coding:utf-8
-# Vide
-from graphviz import*
-from notebook import*
-from jupyter import*
 
-"""
-# triplet = (value,left,right)
+from graphviz import *
+
+
 
 class Node() :
 
-	def __init__(self,element,gauche=None,droit=None) :
-		self.value = element
-		self.left = gauche
-		self.right = droit
+	def __init__(self,nom) :
+		self.name = nom 		# ID du node
+		self.connexion = {}		# {'NOM du patelin direction':la distance jusque laba en entier }
 
-def new_node(valeur,gauche=None,droit=None) :
-	return Node(valeur,gauche,droit)
-
-def valeur(node) :
-	return node.value
-
-def fils_gauche(node) :
-	return node.left
-
-def fils_droit(node) :
-	return node.right
+	def add_connexion(self,co,dis) :
+		"""
+		co : nom du patelin 
+		dis : distance
+		"""
+		if co not in self.connexion.keys() :  # CHECK
+			self.connexion[co] = dis
 
 
+class Graphique() :
+	"""
+	Graph avec des arete avec des valeurs et bilateral
+	"""
 
+	def __init__(self) :
+		self.nodes = {}      # {'A':node Object,'B':node Object}
 
-def taille(root) :
-	n = 0 
-	nodes = []
-	nodes.append(root)
-	while len(nodes) > 0 :
-		explore = nodes[len(nodes)-1]
-		nodes.pop()
+	def add(self,node1,node2,distance) :
+		"""
+		
 
-		n += 1
+		"""
 
-		if explore.left is not None :
-			nodes.append(explore.left)
-		if explore.right is not None :
-			nodes.append(explore.right)
+		if node1 not in self.nodes :
+			self.nodes[node1] = Node(node1)
 
-	return n
+		if node2 not in self.nodes :
+			self.nodes[node2] = Node(node2)
 
-
-def tracer(root) :
-
-	graphe=Digraph(filename='arbre',format='png')
-
-	nodes = []
-	nodes.append(root)
-	while(len(nodes) > 0) :
-		explore = nodes[0]
-		nodes.pop(0)
-
-		if explore.left is not None :
-			graphe.edge(str(explore.value),str(explore.left.value))
-			nodes.append(explore.left)
-
-		if explore.right is not None :
-			graphe.edge(str(explore.value),str(explore.right.value))
-			nodes.append(explore.right)
-
-	return graphe.view()
+		self.nodes[node1].add_connexion(node2,distance)
+		self.nodes[node2].add_connexion(node1,distance)
 
 
 
 
-f = new_node("f")
-g = new_node("g")
-e = new_node("e",f,g)
-d = new_node("d")
-b = new_node("b",d,e)
-h = new_node("h")
-i = new_node("i")
-c = new_node("c",h,i)
-arbre = new_node("a",b,c)
+	def chemin_plus_court(self,depart,arrive) :
+		"""
+		tab : tableau 								# (CASE , DISTANCE)
+		depart et arrive : 'A' 'B' 'C'
+		"""
 
-print(taille(arbre))
-tracer(arbre)
+		tab = []
+		prev = depart
+
+		for i in len(self.nodes)-1 :   # ETAPE DE L ALGO  --> ligne du tableau theorique
+
+			for o in self.nodes : 			# o : clé de la liste des nodes du graph ,colonne du tableau theorique
+
+				for p in self.nodes[o].connexion : 		# p : clé de la liste des connexions
+
+					tab.append()
+
+											
+
+
+
+	def aff(self) :
+		"""
+		Affiche le graphique
+		"""
+
+		ban = []
+
+		g = Graph('g')
+
+		for i in self.nodes :  # 'A' , 'B'  > les clé du dico
+
+			ban.append(i)
+
+			for o in self.nodes[i].connexion : 		# les clé du dico connexion de chaque node object de i
+
+				if o in ban :
+					continue
+
+				g.edge(i,o,label=str(self.nodes[i].connexion[o]))
+
+		g.view()		
+
+
+
+
+gr = Graphique()
+
+gr.add('B','H',12)
+gr.add('B','G',13)
+gr.add('G','C',7)
+gr.add('G','F',5)
+gr.add('G','E',9)
+gr.add('E','F',3)
+gr.add('F','C',11)
+gr.add('F','D',21)
+gr.add('C','D',8)
+gr.add('C','H',20)
+gr.add('D','H',9)
+
+
+gr.aff()
+
+print(gr.nodes)
+
+"""
+g = Graph('g')
+
+
+
+
+g.attr('node',color='#000000')			# GRAPHVIZ PART
+g.edge('a','b')
+
+g.node('a',color='#0000ff')
+
+
+
+g.view()
+
 
 
 """
+
+
+
+
+
+"""
+from pandac import PandaModules as P
+import direct.directbase.DirectStart
+from direct.showbase.DirectObject import DirectObject
+from direct.actor import Actor
+#window-type none is in my Config.prc (the only change).
+base.openMainWindow(type = 'onscreen')#you may not need this
+
+base.cTrav = P.CollisionTraverser()#traverser
+base.cTrav.setRespectPrevTransform(1)
+class World(DirectObject):
+	def __init__(self):
+		#load ralph
+		self.ralph = Actor.Actor("models/ralph",
+			{"run":"models/ralph-run",#animations are not used yet
+			"walk":"models/ralph-walk"})
+		self.ralph.reparentTo(render)
+		self.ralph.setScale(.2)
+		self.ralph.setCollideMask(P.BitMask32.allOff())
+		#set up ralph's collision ray
+		self.ray = P.CollisionRay(0, 0, 2, 0, 0, -1)#from head & point down?
+		self.ralphRay = self.ralph.attachNewNode(P.CollisionNode('ray'))
+		self.ralphRay.node().addSolid(self.ray)
+		self.ralphRay.show()
+		#load environ
+		self.environ = loader.loadModel("models/world")
+		self.environ.reparentTo(render)
+		self.environ.setCollideMask(P.BitMask32.allOn())
+		self.environ.setH(180)
+		self.environ.setPos(0,0,-5)
+		#the floor handler keeps ralph grounded
+		self.floor = P.CollisionHandlerFloor()
+		self.floor.setMaxVelocity(2)#if set higher or to 0 ralph goes under.
+##        self.floor.setOffset(.2) #I haven't figured this out yet
+		base.cTrav.addCollider(self.ralphRay,self.floor)
+		self.floor.addCollider(self.ralphRay,self.ralph)
+		#shows the collision solids
+		base.cTrav.showCollisions(render)
+		#setup keyboard
+		for k,v in {'arrow_up':'up','arrow_down':'dn','arrow_left':'lf',
+			'arrow_right':'rt'}.items():
+			self.accept(k,self.move,[v])
+	def move(self,direction):
+		if direction == 'up':
+			self.ralph.setFluidY(self.ralph.getY()+.1)
+		if direction == 'dn':
+			self.ralph.setFluidY(self.ralph.getY()-.1)
+		if direction == 'lf':
+			self.ralph.setFluidX(self.ralph.getX()-.1)
+		if direction == 'rt':
+			self.ralph.setFluidX(self.ralph.getX()+.1)
+World()
+run()"""
