@@ -34,7 +34,7 @@ class MyApp(ShowBase):
 
 		self.pandaActor.reparentTo(self.render)
 		self.pandaActor.setScale(0.005, 0.005, 0.005)
-		self.pandaActor.setZ(2)
+		self.pandaActor.setZ(10)
 
 
 		self.pandaActor.loop("walk")
@@ -46,16 +46,21 @@ class MyApp(ShowBase):
 
 		# COLLISION ----------------------------------
 
+		self.scene.setCollideMask(BitMask32.allOn()) 				# IMPORTANT
+		self.pandaActor.setCollideMask(BitMask32.allOff())
+
 		base.cTrav = CollisionTraverser()
 
-		self.footRay = CollisionRay(0, 0, 0, 0, 0, -1)
+		self.footRay = CollisionRay(0, 0, 1, 0, 0, -1)
 		self.playerFootRay = self.pandaActor.attachNewNode(CollisionNode("playerFootCollision"))
 		self.playerFootRay.node().addSolid(self.footRay)
 		self.playerFootRay.node().setIntoCollideMask(0)
+		self.playerFootRay.show()
+
 		self.lifter = CollisionHandlerFloor()
 		self.lifter.addCollider(self.playerFootRay, self.pandaActor)
-		self.lifter.setMaxVelocity(5)
-		self.lifter.
+		self.lifter.setMaxVelocity(1)
+
 		base.cTrav.addCollider(self.playerFootRay, self.lifter)
 
 
@@ -92,6 +97,9 @@ class MyApp(ShowBase):
 		if is_down('d') :
 			self.pandaActor.setX(   self.pandaActor.getX()-( cos(radians(self.pandaActor.getH()))*speed  )  )
 			self.pandaActor.setY(   self.pandaActor.getY()-( sin(radians(self.pandaActor.getH()))*speed  )  )
+
+		if is_down('j') :
+			self.pandaActor.setZ(10)
 
 		x,y = 0,0
 		if base.mouseWatcherNode.hasMouse():

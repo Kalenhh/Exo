@@ -51,16 +51,43 @@ class Graphique() :
 		depart et arrive : 'A' 'B' 'C'
 		"""
 
-		tab = []
-		prev = depart
+		tab = []     	# liste de tuple : ('A','B',distance) A = source , B = node , distance = somme distance depuis depart
+		ban = []   		# liste du nom de node bannis
+		current = (depart,depart,'0')  	# tuple de l'iteration actuelle
 
-		for i in len(self.nodes)-1 :   # ETAPE DE L ALGO  --> ligne du tableau theorique
+		for i in range(len(self.nodes)-1) :
 
-			for o in self.nodes : 			# o : clé de la liste des nodes du graph ,colonne du tableau theorique
+			for o in self.nodes[current[1]].connexion :
 
-				for p in self.nodes[o].connexion : 		# p : clé de la liste des connexions
+				if self.nodes[current[1]].connexion[o] in ban :
+					continue
 
-					tab.append()
+
+				tab.append((current[1],o,int(self.nodes[current[1]].connexion[o])+int(current[2])))
+
+
+			ban.append(current[1])
+
+			current = tab[0]
+			for o in tab :
+				if o[2] < current[2] :
+					current = o
+
+				if o[1] in ban :
+					tab.remove(o)
+
+			print(tab,ban,'\n')
+
+
+
+
+
+
+
+
+
+
+
 
 											
 
@@ -106,9 +133,7 @@ gr.add('C','H',20)
 gr.add('D','H',9)
 
 
-gr.aff()
-
-print(gr.nodes)
+gr.chemin_plus_court('B','F')
 
 """
 g = Graph('g')
