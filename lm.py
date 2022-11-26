@@ -28,16 +28,20 @@ class MyApp(ShowBase):
 		self.scene.setScale(0.25, 0.25, 0.25)
 		self.scene.setPos(-8, 42, 0)
 
+		self.pandaActor = NodePath('pandaActor')
 
-		self.pandaActor = Actor("models/panda-model",
+		self.panda = Actor("models/panda-model",
 								{"walk": "models/panda-walk4"})
 
+		self.panda.setScale(0.005, 0.005, 0.005)
+		self.panda.reparentTo(self.pandaActor)
+
 		self.pandaActor.reparentTo(self.render)
-		self.pandaActor.setScale(0.005, 0.005, 0.005)
+		
 		self.pandaActor.setZ(10)
 
 
-		self.pandaActor.loop("walk")
+		self.panda.loop("walk")
 
 		self.taskMgr.add(self.move,'move')
 		self.taskMgr.add(self.pause_menu,'pause_menu')
@@ -50,16 +54,20 @@ class MyApp(ShowBase):
 		self.pandaActor.setCollideMask(BitMask32.allOff())
 
 		base.cTrav = CollisionTraverser()
+		base.cTrav.setRespectPrevTransform(1)
+
 
 		self.footRay = CollisionRay(0, 0, 1, 0, 0, -1)
 		self.playerFootRay = self.pandaActor.attachNewNode(CollisionNode("playerFootCollision"))
 		self.playerFootRay.node().addSolid(self.footRay)
 		self.playerFootRay.node().setIntoCollideMask(0)
-		self.playerFootRay.show()
 
 		self.lifter = CollisionHandlerFloor()
 		self.lifter.addCollider(self.playerFootRay, self.pandaActor)
-		self.lifter.setMaxVelocity(1)
+		self.lifter.setOffset(1.0)
+		self.lifter.setMaxVelocity(5.0)
+		self.lifter.setReach(1.0)
+
 
 		base.cTrav.addCollider(self.playerFootRay, self.lifter)
 
@@ -74,6 +82,9 @@ class MyApp(ShowBase):
 
 
 	def move(self,task) :
+
+		print(self.pandaActor.getZ(),self.panda.getZ())
+
 		speed = 0.3
 		camera_sensi = 25
 		jump = 2
