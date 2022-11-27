@@ -45,7 +45,7 @@ class Graphique() :
 
 
 
-	def chemin_plus_court(self,depart,arrive) :
+	def chemin_plus_court(self,depart,arrive) :   # ALGO DE DJIKSTRA MAIS PAS FAIT AVEC UNE MATRICE
 		"""
 		tab : tableau 								# (CASE , DISTANCE)
 		depart et arrive : 'A' 'B' 'C'
