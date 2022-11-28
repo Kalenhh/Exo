@@ -53,30 +53,78 @@ class Graphique() :
 
 		tab = []     	# liste de tuple : ('A','B',distance) A = source , B = node , distance = somme distance depuis depart
 		ban = []   		# liste du nom de node bannis
-		current = (depart,depart,'0')  	# tuple de l'iteration actuelle
+		current = (depart,depart,0)  	# tuple de l'iteration actuelle
+		removed = []
 
-		for i in range(len(self.nodes)-1) :
+		tab.append(current)
+
+		while True :
 
 			for o in self.nodes[current[1]].connexion :
 
-				if self.nodes[current[1]].connexion[o] in ban :
+				if o in ban :
 					continue
 
-
-				tab.append((current[1],o,int(self.nodes[current[1]].connexion[o])+int(current[2])))
-
+				if (current[1],o,int(self.nodes[current[1]].connexion[o])+int(current[2])) not in tab :
+					tab.append((current[1],o,int(self.nodes[current[1]].connexion[o])+int(current[2])))
 
 			ban.append(current[1])
+			print(tab,current)
+			if current in tab :
+
+				tab.remove(current)
+			
+			removed.append(current)
 
 			current = tab[0]
 			for o in tab :
+				if o[1] in ban :
+					tab.remove(o)
+					removed.append(o)
+					continue			
+
 				if o[2] < current[2] :
 					current = o
 
-				if o[1] in ban :
-					tab.remove(o)
 
-			print(tab,ban,'\n')
+
+			print(removed,'\n',ban,'\n',current,'\n')
+
+			if current[1] == arrive :
+
+				liste = list()
+				liste = removed + tab 
+				liste.append(current) 
+
+				resul = [current]
+
+				mid = []
+
+				while current[0] != current[1] :
+
+					for i in liste :
+
+						if i[1] == current[0] :
+
+							mid.append(i)
+
+
+					current = mid[0]
+					for i in mid :
+
+						if i[2] < current[2] :
+
+							current = i 
+
+					resul.append(current)
+
+					break
+
+
+				print(resul)
+				return resul
+
+
 
 
 
@@ -133,7 +181,8 @@ gr.add('C','H',20)
 gr.add('D','H',9)
 
 
-gr.chemin_plus_court('B','F')
+gr.chemin_plus_court('H','F')
+gr.aff()
 
 """
 g = Graph('g')
