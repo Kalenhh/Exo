@@ -1,5 +1,6 @@
-#lm.py
 #coding:utf-8
+
+# Calculette pour faire des calculs au lieu d'aller sur google
 
 from tkinter import*
 from math import*

@@ -20,6 +20,7 @@ Servo main_servo ;              //
 
 void setup(){
   main_servo.attach(entry_servo);
+  
   pinMode(entry_capteur,INPUT);
   pinMode(entry_joystick,INPUT);
 

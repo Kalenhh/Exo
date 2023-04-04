@@ -40,7 +40,7 @@ while Lock == True :   #Boucle principal
 
 			if Valeur[0] == "-" :			#----------------------------------
 				if Valeur[1:].isdigit() == False  :
-					print("Entrez une valeur numérique ! aaaaaaaaaa")
+					print("Entrez une valeur numérique!")
 					continue											#Vérifie que l'utilisateur a entrer une valeur valide : entier positif/négatif 
 			if Valeur[0] != "-" :	
 				if Valeur.isdigit() == False  :

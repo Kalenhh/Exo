@@ -1,6 +1,8 @@
 #visualisation
 #coding:utf-8
 
+# Visualisation de tri par selection et insertion
+
 # Import :--------------------------------------------------------------------------------------------
 
 from tkinter import*
