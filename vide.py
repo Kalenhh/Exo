@@ -1,40 +1,37 @@
 #coding:utf-8
 
-# Exercice 1
 
-from turtle import *
 
-def yin(radius, color1, color2):
-    width(3)
-    color("black", color1)
-    begin_fill()
-    circle(radius/2., 180)
-    circle(radius, 180)
-    left(180)
-    circle(-radius/2., 180)
-    end_fill()
-    left(90)
-    up()
-    forward(radius*0.35)
-    right(90)
-    down()
-    color(color1, color2)
-    begin_fill()
-    circle(radius*0.15)
-    end_fill()
-    left(90)
-    up()
-    backward(radius*0.35)
-    down()
-    left(90)
 
-def main():
-    reset()
-    yin(200, "black", "white")
-    yin(200, "white", "black")
-    ht()
-    return "Done!"
 
-if __name__ == '__main__':
-    main()
-    mainloop()
+import turtle 
+from math import sin , cos , pi
+from time import*
+
+turtle.tracer(False)
+
+def draw(modulo,taille) :
+
+    
+    for o in range(5001) :
+        print(f"table : {o/100}")
+        turtle.reset()
+
+        for i in range(1,modulo) :
+
+            
+            turtle.goto(cos( -(2*pi/modulo)*i +pi/2)*taille,sin( -(2*pi/modulo)*i+pi/2)*taille )
+
+            turtle.pendown()
+
+            turtle.goto(cos( -(2*pi/modulo)*((i*o/100)%modulo) +pi/2)*taille,sin( -(2*pi/modulo)*((i*o/100)%modulo) +pi/2)*taille )
+
+            turtle.penup()
+
+        
+        turtle.update()
+
+    turtle.mainloop()
+
+
+draw(200,400)
