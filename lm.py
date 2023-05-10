@@ -1,119 +1,121 @@
 #coding:utf-8
 
+with open('livre.txt','r',encoding='utf-8') as root :
+	texte = root.read()
 
-class Graph :
+def naive(texte,motif) :
 
-	def __init__(self) :
-		self.graphe = self.graphe={	"Bar Le Duc":	{"Nancy":83,"Metz":101},
-									"Nancy":		{"Metz":55,"Bar Le Duc":83,"Lunéville":36},
-									"Metz":			{"Nancy":55,"Bar Le Duc":101,"Thionville":30,"Sarrebourg":96},
-									"Lunéville":	{"Nancy":36,"Sarrebourg":54,"Saint-Die":52},
-									"Sarrebourg":	{"Lunéville":54,"Metz":96,"Saint-Die":71},
-									"Thionville":	{"Metz":30},
-									"Saint-Die":	{"Lunéville":52,"Sarrebourg":71}
-									}
+	n = len(texte)
+	p = len(motif)
+	i, j = 0, 0 
 
-	def profondeur(self,depart) :
+	occurence = bool(True)
+	position = list([])
 
-		sommet = ""
-		pile = []
-		decouvert = []
-		sommet_suivant = ""
+	for i in range(n-p) :
+		occurence = True 
+		j = 0
 
-		pile.insert(0,depart)
+		while occurence == True and j < p :
+			if motif[j] != texte[i+j] :
+				occurence = False
 
-		while len(pile)> 0 :
-			sommet = pile.pop(0)
+			j += 1
 
-			if sommet not in decouvert :
-				decouvert.append(sommet)
+		if occurence == True :
+			position.append(i)
 
-			for i in self.graphe[sommet] :
-				if i not in decouvert :
-					pile.insert(0,i)
+	return position
 
-		return decouvert
 
-	def largeur(self,depart) :
+def horse(texte,motif) :
 
-		sommet = ""
-		file = []
-		decouvert = []
-		sommet_suivant = ""
+	n = len(texte)
+	p = len(motif)
 
-		file.insert(0,depart)
+	i, j = 0, 0
 
-		while len(file)> 0 :
-			sommet = file.pop(len(file)-1)
+	occurence = True 
+	position = []
 
-			if sommet not in decouvert :
-				decouvert.append(sommet)
+	while i <= n-p :
+		occurence = True 
+		j = p-1
 
-			for i in self.graphe[sommet] :
-				if i not in decouvert :
-					file.insert(0,i)
+		while occurence == True and j >= 0 :
 
-		return decouvert
+			if motif[j] != texte[i+j] :
+				occurence = False
+				if texte[i+j] not in motif :
+					i = i+j+1
 
-	def cycle(self,depart) :
-
-		pile = []
-		decouvert = []
-
-		pile.insert(0,depart)
-
-		while len(pile)>0 :
-			sommet = pile.pop(0)
-
-			if sommet not in decouvert :
-				decouvert.append(sommet)
+				else :
+					i = i+p-j
 
 			else :
-				return True
+				j = j-1
 
-			for i in self.graphe[sommet] :
-				if i not in decouvert :
-					pile.insert(0,i)
+		if occurence == True :
+			position.append(i)
+			i = i + p 
 
-		return False
-
-
-	def existence_chemin(self,sommet1,sommet2) :
-
-		if sommet2 in self.largeur(sommet1) :
-			return True
-		else :
-			return False
-
-	def chemin(self,depart,sommet2) :
-
-		sommet = ""
-		file = []
-		decouvert = []
-		sommet_suivant = ""
-		chemin = []
-
-		
-
-		file.insert(0,depart)
-
-		while len(file)> 0 :
-			sommet = file.pop(len(file)-1)
-
-			chemin.append(sommet)
-
-			if sommet == sommet2 :
-				return chemin
-
-			if sommet not in decouvert :
-				decouvert.append(sommet)
-
-			for i in self.graphe[sommet] :
-				if i not in decouvert :
-					file.insert(0,i)
-
-		return False
+	return position
 
 
-a = Graph()
-print(a.chemin("Nancy","Thionville"))
+def boyer(texte,motif):
+
+	n = len(texte)
+	p = len(motif)
+	positions = []
+	position_adroite = {}
+
+	for k in range(len(motif)):
+		position_adroite[motif[k]]=k
+	i=0
+	
+	while i<n-p:
+		occurrence=True
+		# parcours fenêtre texte de droite à gauche
+		j=p-1
+		while occurrence==True and j>=0:
+			if motif[j]!=texte[i+j]:	# si texte différent de motif
+				occurrence=False
+				if texte[i+j] not in motif:	# si caractère pas dans motif
+					i=i+j+1	# optimisation
+				else:
+					if j-position_adroite[texte[i+j]]>0:
+						i=i+j-position_adroite[texte[i+j]]	# optimisation du décalage
+					else:
+						i=i+p-j		# début optimisation
+			else:
+				j=j-1	# on recule d'une position dans la fenêtre texte
+		if occurrence==True:	# si motif dans texte
+			positions.append(i)
+			i=i+p
+
+	return positions
+
+
+from time import time
+
+def temps(texte,motif) :
+	t1 = time()
+	naive(texte,motif)
+	t2 = time()
+	print(t2 - t1)
+
+	t1 = time()
+	horse(texte,motif)
+	t2 = time()
+	print(t2 - t1)
+
+	t1 = time()
+	boyer(texte,motif)
+	t2 = time()
+	print(t2 - t1)
+
+temps(texte,"Julien trembla")
+
+
+
+
