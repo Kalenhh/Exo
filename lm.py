@@ -114,8 +114,7 @@ def temps(texte,motif) :
 	t2 = time()
 	print(t2 - t1)
 
-temps(texte,"Julien trembla")
 
-
-
-
+dicte = {i:2 for i in range(10) }
+for i in dicte :
+	print(i)
