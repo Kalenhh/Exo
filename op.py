@@ -13,13 +13,23 @@ class Cell() :
 		top , bottom , left , right : 	"w" --> wall , 
 										"r" --> road ,
 										"l" --> locked
+
+
+		directions --->       0
+							3 c 1
+							  2
 		"""
+
+		self.adj = {0:(0,1,2),
+					1:(1,0,3),
+					2:(0,-1,0),
+					3:(-1,0,1)}
 
 
 		self.cluster = pos[0] + pos[1]*maze_size[0]
 		self.pos = pos
 
-	# -------------------------------
+	# Init wall -------------------------------
 		# Si les cellules sont sur les bords les murs sont "locked"
 
 		if pos[1] == maze_size[1] -1 : self.top = "l"			
@@ -38,60 +48,104 @@ class Cell() :
 
 	# -----------------------------------
 
+	def voisine(self,direction,maze_dict) :
+
+		voisine = maze_dict[ ( self.pos[0]+self.adj[direction][0] , self.pos[1]+self.adj[direction][1] ) ]
+
+		return voisine
+
+	def open_wall(self,direction,reverse = False) :
+
+		if reverse == False :
+			self.wall[direction] = "r"
+		else :
+			self.wall[self.adj[direction][2]] = "r"
+
+	def lock_wall(self,direction,reverse = False) :
+
+		if reverse == False :
+			self.wall[direction] = "l"
+		else :
+			self.wall[self.adj[direction][2]] = "l"
+
+	def wall_dispo(self) :
+		"""
+		Retourne la direction dans laquel un mur est dispo pour destruction
+	
+		"""
+		if "w" not in self.wall :
+			return None
+
+		while True :
+			direction = randint(0,3)
+			if self.wall[direction] == "w" :
+				return direction
+
 
 def generate_maze(width,eight,can) :
 
-	t1 = time()
+
 	cell_dict = {(x,y) : Cell(  (x,y),(width,eight)   ) for x in range(width) for y in range(eight)} 
+	cell_ind = [ o for o in cell_dict ]
 
-	adj = {	0:(0,1,2),
-			1:(1,0,3),
-			2:(0,-1,0),
-			3:(-1,0,1)}
+	p = 0
+	while len(cell_ind)>1 :
+		p += 1
+		print(p,"/",width*eight," ",len(cell_ind))
 
-	print(time()-t1)
-	t1 = time()
-
-	cluster_numbers = width * eight 
-	while cluster_numbers > 1 :
-
-		cell = cell_dict[ (randint(0,width-1),randint(0,eight-1)) ]    # Choisir une cellule
-
-		direction = randint(0,3)					#   0                Choisir une direction pour le mur
-						 							# 3   1
-													#   2
-
-		wall = cell.wall[ direction ] 					# Le meme mur
-
-		if wall == "w" :
-
-			voisine_cell = cell_dict[ ( cell.pos[0]+adj[direction][0] , cell.pos[1]+adj[direction][1] ) ]   # cellule voisine
-
-			voisine_wall = voisine_cell.wall[adj[direction][2]]		# Le meme mur mais link a la cellule voisine
-			cluster_to_change = voisine_cell.cluster
+		cell = cell_dict[cell_ind[randint(0,len(cell_ind)-1)]]  # On prend une cellule dispo
+	
+		direction = cell.wall_dispo()	# On prend une direction dispo
+		cell_voisine = cell.voisine(direction,cell_dict) # On prend la voisine
 
 
-			if cell.cluster != voisine_cell.cluster :
+		cell.open_wall(direction)
+		cell_voisine.open_wall(direction,reverse=True)		# ON OUVRE LE WALL
 
-				cell.wall[direction] = "r"
-				voisine_cell.wall[adj[direction][2]] = "r"
+		cluster_to_stay = cell.cluster 
+		cluster_to_change = cell_voisine.cluster 
 
-				for i in cell_dict :
-					if cell_dict[i].cluster == cluster_to_change :
-						cell_dict[i].cluster = cell.cluster
+		for i in cell_dict :
+			curr = cell_dict[i].cluster
+
+			if curr == cluster_to_change :		# CHANGER LES CLUSTER
+				curr = cluster_to_stay
+
+		for i in cell_dict :
+			curr = cell_dict[i]
+
+			for o in range(len(curr.wall)) :	# LOCK LES PAROI ENTRE 2 MEME CLUSTER
+
+				if curr.wall[o] == "w" :
+					if curr.cluster == curr.voisine(o,cell_dict).cluster :
+						curr.lock_wall(o)
+						curr.voisine(o,cell_dict).lock_wall(o,reverse = True)
 
 
-				cluster_numbers -= 1
-
-			else :
-				cell.wall[direction] = "l"
-				voisine_cell.wall[adj[direction][2]] = "l"
 
 
-	print(time()-t1)
-	# Montrer le maze
+		for i in cell_dict :
+			curr = cell_dict[i]					# ENLEVER LES CELLULES TERMINEES
 
-	t1 = time()
+			if curr.wall_dispo() == None and curr.pos in cell_ind :
+				cell_ind.remove(curr.pos)
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+	# Draw the maze
+
 	pad = 50
 	for i in cell_dict : 	
 
@@ -104,22 +158,28 @@ def generate_maze(width,eight,can) :
 		cell = cell_dict[i]
 		cell_wall = cell.wall 
 
+		color = []
+		for o in cell_wall :
+			if o == "l" :
+				color.append("black")
+			else : 
+				color.append("red")
 
-	# --------------------------------
+
 		if cell_wall[0] != 'r' :  	# VERS LE HAUT
-			can.create_line( top_left[0],top_left[1],top_right[0],top_right[1], fill="black",width=2)
+			can.create_line( top_left[0],top_left[1],top_right[0],top_right[1], fill=color[0],width=2)
 
 		if cell_wall[1] != 'r' :	# VERS LA DROITE
-			can.create_line( top_right[0],top_right[1],bottom_right[0],bottom_right[1] , fill="black",width=2)
+			can.create_line( top_right[0],top_right[1],bottom_right[0],bottom_right[1] , fill=color[1],width=2)
 
 		if cell_wall[2] != 'r' :	# VERS LE BAS
-			can.create_line( bottom_left[0],bottom_left[1],bottom_right[0],bottom_right[1] , fill="black",width=2)
+			can.create_line( bottom_left[0],bottom_left[1],bottom_right[0],bottom_right[1] , fill=color[2],width=2)
 
 		if cell_wall[3] != 'r' :	# VERS LA GAUCHE
-			can.create_line( top_left[0],top_left[1],bottom_left[0],bottom_left[1] , fill="black",width=2)
+			can.create_line( top_left[0],top_left[1],bottom_left[0],bottom_left[1] , fill=color[3],width=2)
 	# ---------------------------------
 
-	print(time()-t1)
+
 
 
 
@@ -132,6 +192,6 @@ c = tk.Canvas(app,width=1000,height=1000)
 c.configure(bg="white")
 c.pack()
 
-generate_maze(80,80,c)
+generate_maze(40,40,c)
 
 app.mainloop()
