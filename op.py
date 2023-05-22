@@ -19,12 +19,12 @@ class Cell() :
 							3 c 1
 							  2
 		"""
+		self.state = "dispo"
 
 		self.adj = {0:(0,1,2),
 					1:(1,0,3),
 					2:(0,-1,0),
 					3:(-1,0,1)}
-
 
 		self.cluster = pos[0] + pos[1]*maze_size[0]
 		self.pos = pos
@@ -84,6 +84,7 @@ class Cell() :
 
 def generate_maze(width,eight,can) :
 
+	total_time = time()
 
 	cell_dict = {(x,y) : Cell(  (x,y),(width,eight)   ) for x in range(width) for y in range(eight)} 
 	cell_ind = [ o for o in cell_dict ]
@@ -105,11 +106,13 @@ def generate_maze(width,eight,can) :
 		cluster_to_stay = cell.cluster 
 		cluster_to_change = cell_voisine.cluster 
 
+		
 		for i in cell_dict :
 			curr = cell_dict[i]
 
 			if curr.cluster == cluster_to_change :		# CHANGER LES CLUSTER
 				curr.cluster = cluster_to_stay
+	
 
 		for i in cell_dict :
 			curr = cell_dict[i]
@@ -120,17 +123,19 @@ def generate_maze(width,eight,can) :
 					if curr.cluster == curr.voisine(o,cell_dict).cluster :
 						curr.lock_wall(o)
 						curr.voisine(o,cell_dict).lock_wall(o,reverse = True)
-
+	
 
 
 
 		for i in cell_dict :
 			curr = cell_dict[i]					# ENLEVER LES CELLULES TERMINEES
 
-			if curr.wall_dispo() == None and curr.pos in cell_ind :
+			if curr.wall_dispo() == None and curr.state == "dispo" :
 				cell_ind.remove(curr.pos)
+				curr.state = "full"
 
-
+	
+		
 
 
 
@@ -183,7 +188,7 @@ def generate_maze(width,eight,can) :
 
 
 
-
+	print(f"total time : {time()-total_time}")
 
 
 app = tk.Tk()
