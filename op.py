@@ -106,10 +106,10 @@ def generate_maze(width,eight,can) :
 		cluster_to_change = cell_voisine.cluster 
 
 		for i in cell_dict :
-			curr = cell_dict[i].cluster
+			curr = cell_dict[i]
 
-			if curr == cluster_to_change :		# CHANGER LES CLUSTER
-				curr = cluster_to_stay
+			if curr.cluster == cluster_to_change :		# CHANGER LES CLUSTER
+				curr.cluster = cluster_to_stay
 
 		for i in cell_dict :
 			curr = cell_dict[i]
