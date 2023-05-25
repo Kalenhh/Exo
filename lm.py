@@ -115,6 +115,4 @@ def temps(texte,motif) :
 	print(t2 - t1)
 
 
-dicte = {i:2 for i in range(10) }
-for i in dicte :
-	print(i)
+print([1,2]+[3,6])
